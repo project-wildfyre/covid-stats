@@ -15,6 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -81,9 +83,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         ProcessDeprivation();
 
-        PopulateNHS();
         // Population
-/*
+
         log.info("Processing Locations");
         ProcessPopulationsFile("UK.csv");
         ProcessPopulationsFile("EnglandRegions.csv");
@@ -98,22 +99,26 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E08_MD.csv","MD");
         ProcessLocationsFile("E07_NMD.csv","NMD");
         ProcessLocationsFile("E06_UA.csv","UA");
+     // Not required   ProcessLocationsFile("E05_WD.csv","WD");
 
+/*
         ProcessLocationsFile("E40_NHSER.csv","NHSER");
         ProcessLocationsFile("E39_NHSRLO.csv","NHSRLO");
         ProcessLocationsFile("E38_CCG.csv","CCG");
-
-     // Not required   ProcessLocationsFile("E05_WD.csv","WD");
-
-
+        PopulateNHS();
+*/
   //      Disable for now, can use to correct past results.
-  //      ProcessHistoric();
-
+        log.info("Processing Past Data");
+        ProcessHistoric();
+/*
         // Process Daily UA File
         reports = new ArrayList<>();
         ProcessDailyUAFile(today);
+
+ */
+        log.info("Calculating Regions");
         CalculateRegions(dateStamp.format(today));
-*/
+
     }
 
     private void PopulateNHS() throws Exception {
@@ -123,17 +128,104 @@ public class UKCovidExtractApp implements CommandLineRunner {
         GetNHSOnlineData("https://files.digital.nhs.uk/EA/075299/111%20Online%20Covid-19%20data_2020-03-31.csv");
 
         for (Map.Entry<String, Map<Date, MeasureReport>> en : nhs.entrySet()) {
-            System.out.println("Key = " + en.getKey());
+           // System.out.println("Key = " + en.getKey());
+            processNHSReport(en);
+        }
 
-            Map<Date,MeasureReport> treeMap = new TreeMap(en.getValue());
+        Bundle bundle = null;
 
-            for ( Map.Entry<Date, MeasureReport> dateentry : treeMap.entrySet()) {
-                System.out.println("Key = " + dateentry.getKey());
+        int count = 0;
+        int fileCnt=0;
+
+        for (Map.Entry<String, Map<Date, MeasureReport>> en : nhs.entrySet()) {
+            for (Map.Entry<Date, MeasureReport> repMap : en.getValue().entrySet()) {
+                MeasureReport measureReport = repMap.getValue();
+                if ((count % batchSize) == 0) {
+
+                    if (bundle != null) processMeasures(bundle, fileCnt);
+                    bundle = new Bundle();
+                    bundle.getIdentifier().setSystem("https://fhir.mayfield-is.co.uk/Id/")
+                            .setValue(UUID.randomUUID().toString());
+                    bundle.setType(Bundle.BundleType.TRANSACTION);
+                    fileCnt++;
+                }
+                Bundle.BundleEntryComponent entry = bundle.addEntry()
+                        .setFullUrl(UUID_Prefix + UUID.randomUUID().toString())
+                        .setResource(measureReport);
+                String conditionalUrl = getConditional(measureReport.getIdentifierFirstRep());
+                entry.getRequest()
+                        .setMethod(Bundle.HTTPVerb.PUT)
+                        .setUrl(entry.getResource().getClass().getSimpleName() + "?" + conditionalUrl);
+                count++;
+            }
+            if (bundle != null && bundle.getEntry().size() > 0) {
+                processMeasures(bundle, fileCnt);
             }
         }
+
     }
 
+private void processNHSReport(Map.Entry<String, Map<Date, MeasureReport>> en) {
+    Map<Date,MeasureReport> treeMap = new TreeMap(en.getValue());
 
+    int maleTot = 0;
+    int femaleTot = 0;
+
+    for ( Map.Entry<Date, MeasureReport> dateentry : treeMap.entrySet()) {
+        // System.out.println("Key = " + dateentry.getKey());
+
+        MeasureReport report = dateentry.getValue();
+        int nhs111 = 0;
+        int nhs999 = 0;
+        int nhsOnline = 0;
+        int male = 0;
+        int female = 0;
+
+        for (MeasureReport.MeasureReportGroupComponent group : report.getGroup()) {
+            if (group.getCode().getCodingFirstRep().getCode().startsWith("nhs111online")) {
+                nhsOnline += group.getMeasureScore().getValue().intValue();
+            }
+            if (group.getCode().getCodingFirstRep().getCode().startsWith("111")) {
+                nhs111 += group.getMeasureScore().getValue().intValue();
+            }
+            if (group.getCode().getCodingFirstRep().getCode().startsWith("999")) {
+                nhs999 += group.getMeasureScore().getValue().intValue();
+            }
+            if (group.getCode().getCodingFirstRep().getCode().contains("Female")) {
+                female += group.getMeasureScore().getValue().intValue();
+            } else {
+                male += group.getMeasureScore().getValue().intValue();
+            }
+        }
+        maleTot += male;
+        femaleTot += female;
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-online","NHS 111 Online", nhsOnline);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-111","NHS 111", nhs111);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-999","NHS 999", nhs999);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","male","UEC Male", male);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female","UEC Female", female);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","daily-total","UEC Daily Total", female+male);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","male-total","UEC Male Total", maleTot);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female-total","UEC Female Total", maleTot);
+        addGroup(report,"http://snomed.info/sct","840544004","Suspected disease caused by severe acute respiratory coronavirus 2 (situation)", female + maleTot);
+        log.info("{} count {} {}", report.getIdentifierFirstRep().getValue(), female + male, femaleTot + maleTot);
+    }
+}
+private void addGroup(MeasureReport report, String system, String code, String display, int qtyValue ) {
+    MeasureReport.MeasureReportGroupComponent group = report.addGroup();
+    Quantity qty = new Quantity();
+    BigDecimal value= new BigDecimal(qtyValue);
+    qty.setValue(value);
+    group.setMeasureScore(qty);
+
+    group.setCode(new CodeableConcept().addCoding(
+            new Coding().setSystem(system)
+                    .setCode(code)
+            .setDisplay(display)
+    ));
+//"http://fhir.mayfield-is.co.uk"
+
+}
 
     private void GetNHSData(String fileUrl) throws Exception {
         BufferedInputStream zis = new BufferedInputStream(new URL(fileUrl).openStream());
@@ -149,7 +241,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
                     header = it.next();
                 } else {
                     String[] nextLine = it.next();
-                    //log.info("{} cnt = {} {}",nextLine[0],nextLine[1], nextLine[2]);
                     Map<Date, MeasureReport> ccg = nhs.get(nextLine[4]);
                     if (ccg == null) {
                         ccg = new HashMap<>();
@@ -170,7 +261,13 @@ public class UKCovidExtractApp implements CommandLineRunner {
                         report.setType(MeasureReport.MeasureReportType.SUMMARY);
                         report.setReporter(new Reference().setDisplay(nextLine[5]).setIdentifier(new Identifier().setSystem(ONSSystem).setValue(nextLine[4])));
                         report.setMeasure("https://fhir.mayfield-is.co.uk/Measure/NHS111");
-                        ccg.put(reportDate,report);
+
+                        Location location = locations.get(nextLine[4]);
+                        if (location != null) {
+                            report.getSubject().setReference(location.getId());
+                            report.getReporter().setReference(location.getId());
+                            ccg.put(reportDate,report);
+                        }
                     }
                     MeasureReport.MeasureReportGroupComponent group = report.addGroup();
                     Quantity qty = new Quantity();
@@ -211,7 +308,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
                     header = it.next();
                 } else {
                     String[] nextLine = it.next();
-                    //log.info("{} cnt = {} {}",nextLine[0],nextLine[1], nextLine[2]);
                     Map<Date, MeasureReport> ccg = nhs.get(nextLine[3]);
                     if (ccg == null) {
                         ccg = new HashMap<>();
@@ -232,7 +328,13 @@ public class UKCovidExtractApp implements CommandLineRunner {
                         report.setType(MeasureReport.MeasureReportType.SUMMARY);
                         report.setReporter(new Reference().setDisplay(nextLine[4]).setIdentifier(new Identifier().setSystem(ONSSystem).setValue(nextLine[3])));
                         report.setMeasure("https://fhir.mayfield-is.co.uk/Measure/NHS111");
-                        ccg.put(reportDate,report);
+
+                        Location location = locations.get(nextLine[3]);
+                        if (location != null) {
+                            report.getSubject().setReference(location.getId());
+                            report.getReporter().setReference(location.getId());
+                            ccg.put(reportDate,report);
+                        }
                     }
                     MeasureReport.MeasureReportGroupComponent group = report.addGroup();
                     Quantity qty = new Quantity();
@@ -273,7 +375,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
                     header = it.next();
                 } else {
                     String[] nextLine = it.next();
-               //     log.info("{} cnt = {} {}",nextLine[0],nextLine[1], nextLine[2]);
                     hi.put(nextLine[0],new BigDecimal(nextLine[1]));
                     mdi.put(nextLine[0],new BigDecimal(nextLine[2]));
                 }
@@ -297,6 +398,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
                 if (count==0) {
                     header=it.next();
+                    log.debug("{} Historic", header[0]);
                 } else  {
                     String[] nextLine = it.next();
                     Bundle bundle = new Bundle();
@@ -304,17 +406,21 @@ public class UKCovidExtractApp implements CommandLineRunner {
                             .setValue(UUID.randomUUID().toString());
                     bundle.setType(Bundle.BundleType.TRANSACTION);
                     for (int i = 2; i < nextLine.length; i++) {
-                        log.info("{} {} count {}", nextLine[0], header[i], nextLine[i]);
-                        MeasureReport report = getMeasureReport(hisFormat.parse(header[i]) ,Integer.parseInt(nextLine[i].trim()),nextLine[0]);
-                        if (report != null) {
+                        log.debug("{} {} Historic count {}", nextLine[0], header[i], nextLine[i]);
+                        try {
+                            MeasureReport report = getMeasureReport(hisFormat.parse(header[i]), Integer.parseInt(nextLine[i].replace(",","").trim()), nextLine[0]);
+                            if (report != null) {
 
-                            Bundle.BundleEntryComponent entry = bundle.addEntry()
-                                    .setFullUrl(UUID_Prefix + UUID.randomUUID().toString())
-                                    .setResource(report);
-                            String conditionalUrl = getConditional(report.getIdentifierFirstRep());
-                            entry.getRequest()
-                                    .setMethod(Bundle.HTTPVerb.PUT)
-                                    .setUrl(entry.getResource().getClass().getSimpleName() + "?" + conditionalUrl);
+                                Bundle.BundleEntryComponent entry = bundle.addEntry()
+                                        .setFullUrl(UUID_Prefix + UUID.randomUUID().toString())
+                                        .setResource(report);
+                                String conditionalUrl = getConditional(report.getIdentifierFirstRep());
+                                entry.getRequest()
+                                        .setMethod(Bundle.HTTPVerb.PUT)
+                                        .setUrl(entry.getResource().getClass().getSimpleName() + "?" + conditionalUrl);
+                            }
+                        } catch (Exception ex) {
+                            log.error("Not processed {} {} due to {}",nextLine[0],header[i], ex.getMessage());
                         }
                     }
                    // log.info(ctxFHIR.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle));
@@ -323,7 +429,10 @@ public class UKCovidExtractApp implements CommandLineRunner {
                 count++;
             }
             for (int i = 2; i < header.length; i++) {
-                CalculateRegions(dateStamp.format(hisFormat.parse(header[i])));
+                String date = header[i].replace("\"","");
+                if (!date.isEmpty() ) {
+                    CalculateRegions(dateStamp.format(hisFormat.parse(date)));
+                }
             }
 
 
@@ -348,21 +457,27 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
             for (CSVIterator it = iterator; it.hasNext(); ) {
                 String[] nextLine = it.next();
-
-                Bundle results = client.search().byUrl("MeasureReport?reporter.partof.identifier="+nextLine[0]+"&date=ge"+date+"T00:00&date=le"+date+"T23:59&_count=50").returnBundle(Bundle.class).execute();
-                //log.info(ctxFHIR.newXmlParser().setPrettyPrint(true).encodeResourceToString(results));
+                Date startDate = dateStamp.parse(date);
+                LocalDateTime ldt = LocalDateTime.ofInstant(startDate.toInstant(), ZoneId.systemDefault());
+                // Set to date before
+                ldt = ldt.plusDays(1);
+                Date endDate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+                String url = "MeasureReport?identifier=https://www.arcgis.com/fhir/CountyUAs_cases|&reporter.partof.identifier="+nextLine[0]+"&date=ge"+date+"&date=lt"+dateStamp.format(endDate)+"&_count=50";
+                log.info(url);
+                Bundle results = client.search().byUrl(url).returnBundle(Bundle.class).execute();
                 int cases =0;
                 for(Bundle.BundleEntryComponent entryComponent : results.getEntry()) {
                     if (entryComponent.getResource() instanceof MeasureReport) {
                         cases +=  ((MeasureReport) entryComponent.getResource()).getGroupFirstRep().getMeasureScore().getValue().intValue();
                     }
                 }
-                log.info("{} Cases Count = {}",nextLine[0], cases);
+                log.info("{} Regional Cases Count = {}",nextLine[0], cases);
 
                 Date reportDate = null;
                 try {
                     reportDate = dateStamp.parse(date);
                 } catch (Exception ex) {
+                    log.error("Invalid date {}",date);
                     log.error(ex.getMessage());
                 }
                 MeasureReport report = getMeasureReport(reportDate,cases,nextLine[0]);
@@ -381,9 +496,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
 
             }
-         //   log.info(ctxFHIR.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle));
-            Bundle resp = client.transaction().withBundle(bundle).execute();
+           Bundle resp = client.transaction().withBundle(bundle).execute();
         } catch (IOException e) {
+            throw new InternalErrorException(e);
+        }
+        catch (Exception e) {
             throw new InternalErrorException(e);
         }
     }
@@ -434,6 +551,55 @@ public class UKCovidExtractApp implements CommandLineRunner {
             qtyadj.setValue(num);
             group.setMeasureScore(qtyadj);
 
+            Extension hi = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/HI");
+            if (hi != null) {
+                group = report.addGroup();
+                group.setCode(
+                        new CodeableConcept().addCoding(
+                                new Coding().setSystem("http://fhir.mayfield-is.co.uk")
+                                        .setCode("HI")
+                                        .setDisplay("Health Index")
+                        )
+                )
+                        .addPopulation().setCount(32845);
+
+                group.setMeasureScore((Quantity) hi.getValue());
+            }
+            Extension mdi = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/MDI");
+
+            if (mdi != null) {
+                group = report.addGroup();
+                group.setCode(
+                        new CodeableConcept().addCoding(
+                                new Coding().setSystem("http://fhir.mayfield-is.co.uk")
+                                        .setCode("MDI")
+                                        .setDisplay("Multiple Depravity Index")
+                        )
+                )
+                        .addPopulation().setCount(32845);
+
+                group.setMeasureScore((Quantity) mdi.getValue());
+            }
+
+            Extension hect = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/AREAEHECT");
+
+            if (hect != null) {
+                group = report.addGroup();
+                group.setCode(
+                        new CodeableConcept().addCoding(
+                                new Coding().setSystem("http://fhir.mayfield-is.co.uk")
+                                        .setCode("PERHECT")
+                                        .setDisplay("Cases Per Hectare")
+                        )
+                )
+                        .addPopulation().setCount(((Quantity) hect.getValue()).getValue().intValue());
+
+                Quantity perhect = new Quantity();
+                Double numPerHect = (qty.getValue().doubleValue() / ((Quantity) hect.getValue()).getValue().doubleValue()) ;
+                perhect.setValue(numPerHect);
+                group.setMeasureScore(perhect);
+            }
+
             report.getSubject()
                     .setDisplay(location.getName())
                     .setReference(location.getId());
@@ -447,7 +613,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
     private void ProcessLocationsFile(String fileName, String type) throws Exception {
 
         InputStream zis = classLoader.getResourceAsStream(fileName);
-
+        log.info("Processing Locations "+ type);
         LAHandler laHandler = new LAHandler(type);
         Process(zis, laHandler);
 
@@ -501,7 +667,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
                     it.next();
                 } else {
                     String[] nextLine = it.next();
-                    log.info("{} cnt = {}",nextLine[0],nextLine[4]);
                     population.put(nextLine[0],new BigDecimal(nextLine[4]));
                 }
                 count++;
@@ -516,7 +681,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
     private void processLocations(Bundle bundle, int fileCount) throws Exception {
         //Path path = Paths.get("Locations-"+fileCount+".json");
         //Files.write(path,ctxFHIR.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle).getBytes() );
-        log.info("Processing Locations "+ fileCount);
+
         try {
 
             Bundle resp = client.transaction().withBundle(bundle).execute();
