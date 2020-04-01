@@ -44,6 +44,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
     private Map<String, BigDecimal> mdi = new HashMap<>();
     private Map<String, BigDecimal> population = new HashMap<>();
 
+    private Map<String, Map<Date, MeasureReport>> nhs = new HashMap<>();
+
   //  private Map<String,MeasureReport> pastMeasures = new HashMap<>();
 
     ClassLoader classLoader = getClass().getClassLoader();
@@ -79,8 +81,9 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         ProcessDeprivation();
 
+        PopulateNHS();
         // Population
-
+/*
         log.info("Processing Locations");
         ProcessPopulationsFile("UK.csv");
         ProcessPopulationsFile("EnglandRegions.csv");
@@ -110,6 +113,149 @@ public class UKCovidExtractApp implements CommandLineRunner {
         reports = new ArrayList<>();
         ProcessDailyUAFile(today);
         CalculateRegions(dateStamp.format(today));
+*/
+    }
+
+    private void PopulateNHS() throws Exception {
+
+        // https://digital.nhs.uk/data-and-information/publications/statistical/mi-potential-covid-19-symptoms-reported-through-nhs-pathways-and-111-online/latest
+        GetNHSData("https://files.digital.nhs.uk/AE/AB9ABB/NHS%20Pathways%20Covid-19%20data%202020-03-31.csv");
+        GetNHSOnlineData("https://files.digital.nhs.uk/EA/075299/111%20Online%20Covid-19%20data_2020-03-31.csv");
+
+        for (Map.Entry<String, Map<Date, MeasureReport>> en : nhs.entrySet()) {
+            System.out.println("Key = " + en.getKey());
+
+            Map<Date,MeasureReport> treeMap = new TreeMap(en.getValue());
+
+            for ( Map.Entry<Date, MeasureReport> dateentry : treeMap.entrySet()) {
+                System.out.println("Key = " + dateentry.getKey());
+            }
+        }
+    }
+
+
+
+    private void GetNHSData(String fileUrl) throws Exception {
+        BufferedInputStream zis = new BufferedInputStream(new URL(fileUrl).openStream());
+        try {
+            Reader reader = new InputStreamReader(zis, Charsets.UTF_8);
+
+            CSVIterator iterator = new CSVIterator(new CSVReader(reader, ',', '\"', 0));
+            String[] header = null;
+            int count = 0;
+            for (CSVIterator it = iterator; it.hasNext(); ) {
+
+                if (count == 0) {
+                    header = it.next();
+                } else {
+                    String[] nextLine = it.next();
+                    //log.info("{} cnt = {} {}",nextLine[0],nextLine[1], nextLine[2]);
+                    Map<Date, MeasureReport> ccg = nhs.get(nextLine[4]);
+                    if (ccg == null) {
+                        ccg = new HashMap<>();
+                        nhs.put(nextLine[4],ccg);
+                    }
+
+                    Date reportDate = hisFormat.parse(nextLine[1]);
+                    MeasureReport report = ccg.get(reportDate);
+                    if (report == null) {
+                        report = new MeasureReport();
+                        report.addIdentifier()
+                                .setSystem("https://fhir.mayfield-is.co.uk/Measure/NHS111")
+                                .setValue(nextLine[4] + "-" + stamp.format(reportDate));
+
+                        report.setDate(reportDate);
+                        report.setPeriod(new Period().setStart(reportDate));
+                        report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
+                        report.setType(MeasureReport.MeasureReportType.SUMMARY);
+                        report.setReporter(new Reference().setDisplay(nextLine[5]).setIdentifier(new Identifier().setSystem(ONSSystem).setValue(nextLine[4])));
+                        report.setMeasure("https://fhir.mayfield-is.co.uk/Measure/NHS111");
+                        ccg.put(reportDate,report);
+                    }
+                    MeasureReport.MeasureReportGroupComponent group = report.addGroup();
+                    Quantity qty = new Quantity();
+                    BigDecimal value= new BigDecimal(Integer.parseInt(nextLine[6]));
+                    qty.setValue(value);
+                    group.setMeasureScore(qty);
+                    String code = nextLine[3].trim().replace(" ", "");
+                    if (code.isEmpty()) {
+                        code="unknown";
+                    }
+                    code = nextLine[0] + "-" + nextLine[2].trim().replace(" ", "")+ "-"+ code;
+                    group.setCode(new CodeableConcept().addCoding(
+                            new Coding().setSystem("http://fhir.mayfield-is.co.uk")
+                                    .setCode(code)
+
+                    ));
+
+                }
+                count++;
+            }
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+        }
+
+    }
+
+    private void GetNHSOnlineData(String fileUrl) throws Exception {
+        BufferedInputStream zis = new BufferedInputStream(new URL(fileUrl).openStream());
+        try {
+            Reader reader = new InputStreamReader(zis, Charsets.UTF_8);
+
+            CSVIterator iterator = new CSVIterator(new CSVReader(reader, ',', '\"', 0));
+            String[] header = null;
+            int count = 0;
+            for (CSVIterator it = iterator; it.hasNext(); ) {
+
+                if (count == 0) {
+                    header = it.next();
+                } else {
+                    String[] nextLine = it.next();
+                    //log.info("{} cnt = {} {}",nextLine[0],nextLine[1], nextLine[2]);
+                    Map<Date, MeasureReport> ccg = nhs.get(nextLine[3]);
+                    if (ccg == null) {
+                        ccg = new HashMap<>();
+                        nhs.put(nextLine[3],ccg);
+                    }
+                    Date reportDate = hisFormat.parse(nextLine[0]);
+                    MeasureReport report = ccg.get(reportDate);
+                    if (report == null) {
+                        report = new MeasureReport();
+
+                        report.addIdentifier()
+                                .setSystem("https://fhir.mayfield-is.co.uk/Measure/NHS111")
+                                .setValue(nextLine[3] + "-" + stamp.format(reportDate));
+
+                        report.setDate(reportDate);
+                        report.setPeriod(new Period().setStart(reportDate));
+                        report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
+                        report.setType(MeasureReport.MeasureReportType.SUMMARY);
+                        report.setReporter(new Reference().setDisplay(nextLine[4]).setIdentifier(new Identifier().setSystem(ONSSystem).setValue(nextLine[3])));
+                        report.setMeasure("https://fhir.mayfield-is.co.uk/Measure/NHS111");
+                        ccg.put(reportDate,report);
+                    }
+                    MeasureReport.MeasureReportGroupComponent group = report.addGroup();
+                    Quantity qty = new Quantity();
+                    BigDecimal value= new BigDecimal(Integer.parseInt(nextLine[5]));
+                    qty.setValue(value);
+                    group.setMeasureScore(qty);
+                    String code = nextLine[2].trim().replace(" ", "");
+                    if (code.isEmpty()) {
+                        code="unknown";
+                    }
+                    code = "nhs111online" + "-" + nextLine[1].trim().replace(" ", "")+ "-"+ code;
+                    group.setCode(new CodeableConcept().addCoding(
+                            new Coding().setSystem("http://fhir.mayfield-is.co.uk")
+                                    .setCode(code)
+
+                    ));
+
+                }
+                count++;
+            }
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+        }
 
     }
 
