@@ -87,8 +87,16 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessPopulationsFile("LocalAuthority.csv");
 
         // Locations
-        ProcessLocationsFile("E12_RGN");
-        /*
+        ProcessLocationsFile("E92_CTRY.csv","CTRY");
+        ProcessLocationsFile("E12_RGN.csv","RGN");
+        ProcessLocationsFile("E11_MCTY.csv","MCTY");
+        ProcessLocationsFile("E10_CTY.csv","CTY");
+        ProcessLocationsFile("E09_LONB.csv","LONB");
+        ProcessLocationsFile("E08_MD.csv","MD");
+        ProcessLocationsFile("E07_NMD.csv","NMD");
+        ProcessLocationsFile("E06_UA.csv","UA");
+     // Not required   ProcessLocationsFile("E05_WD.csv","WD");
+
 
   //      Disable for now, can use to correct past results.
   //      ProcessHistoric();
@@ -97,7 +105,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
         reports = new ArrayList<>();
         ProcessDailyUAFile(today);
         CalculateRegions(dateStamp.format(today));
-*/
+
     }
 
     private void ProcessDeprivation() {
@@ -285,11 +293,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
         }
     }
 
-    private void ProcessLocationsFile(String fileName) throws Exception {
+    private void ProcessLocationsFile(String fileName, String type) throws Exception {
 
         InputStream zis = classLoader.getResourceAsStream(fileName);
 
-        LAHandler laHandler = new LAHandler();
+        LAHandler laHandler = new LAHandler(type);
         Process(zis, laHandler);
 
         Bundle bundle = null;
@@ -300,7 +308,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
             if ((count % batchSize) == 0 ) {
 
-               // if (bundle != null) processLocations(bundle, fileCnt);
+               if (bundle != null) processLocations(bundle, fileCnt);
                 bundle = new Bundle();
                 bundle.getIdentifier().setSystem("https://fhir.mayfield-is.co.uk/Id/")
                         .setValue(UUID.randomUUID().toString());
@@ -318,7 +326,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
             count++;
         }
         if (bundle != null && bundle.getEntry().size() > 0) {
-        // TODO    processLocations(bundle,fileCnt);
+            processLocations(bundle,fileCnt);
         }
 
 
@@ -511,10 +519,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
     {
 
 
-        LAHandler() {
-
+        LAHandler(String type) {
+            this.type = type;
         }
 
+        String type;
 
         @Override
         public void accept(String[] theRecord) {
@@ -527,15 +536,18 @@ public class UKCovidExtractApp implements CommandLineRunner {
                 location.getPartOf()
                         .setReference(parent.getId());
             }
-
-            location.getPartOf()
-                    .getIdentifier()
-                    .setSystem(ONSSystem).setValue(theRecord[7]);
+            if (theRecord[7] != null && !theRecord[7].isEmpty()) {
+                location.getPartOf()
+                        .getIdentifier()
+                        .setSystem(ONSSystem).setValue(theRecord[7]);
+            }
 
             BigDecimal pop = population.get(theRecord[0]);
-            Extension extensionpop = location.addExtension();
-            extensionpop.setUrl("https://fhir.mayfield-is.co.uk/Population");
-            extensionpop.setValue(new IntegerType().setValue(pop.intValue()));
+            if (pop != null) {
+                Extension extensionpop = location.addExtension();
+                extensionpop.setUrl("https://fhir.mayfield-is.co.uk/Population");
+                extensionpop.setValue(new IntegerType().setValue(pop.intValue()));
+            }
 
             BigDecimal hibd = hi.get(theRecord[0]);
             if (hibd != null) {
@@ -549,6 +561,14 @@ public class UKCovidExtractApp implements CommandLineRunner {
                 extension.setUrl("https://fhir.mayfield-is.co.uk/MDI");
                 extension.setValue(new Quantity().setValue(mdibd));
             }
+            // Area
+            if (theRecord[11] != null && !theRecord[11].isEmpty()) {
+                Extension extension = location.addExtension();
+                extension.setUrl("https://fhir.mayfield-is.co.uk/AREAEHECT");
+                extension.setValue(new Quantity().setValue(Float.parseFloat(theRecord[11])));
+            }
+            location.addType().addCoding().setSystem("https://fhir.mayfield-is.co.uk/TYPE").setCode(type);
+
             locations.put(theRecord[0],location);
         }
 
@@ -643,6 +663,25 @@ public class UKCovidExtractApp implements CommandLineRunner {
                             .addPopulation().setCount(32845);
 
                     group.setMeasureScore((Quantity) mdi.getValue());
+                }
+
+                Extension hect = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/AREAEHECT");
+
+                if (hect != null) {
+                    group = report.addGroup();
+                    group.setCode(
+                            new CodeableConcept().addCoding(
+                                    new Coding().setSystem("http://fhir.mayfield-is.co.uk")
+                                            .setCode("PERHECT")
+                                            .setDisplay("Cases Per Hectare")
+                            )
+                    )
+                            .addPopulation().setCount(((Quantity) hect.getValue()).getValue().intValue());
+
+                    Quantity perhect = new Quantity();
+                    Double numPerHect = (qty.getValue().doubleValue() / ((Quantity) hect.getValue()).getValue().doubleValue()) ;
+                    perhect.setValue(numPerHect);
+                    group.setMeasureScore(perhect);
                 }
 
                 reports.add(report);
