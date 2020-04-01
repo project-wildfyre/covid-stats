@@ -1,0 +1,746 @@
+﻿GEOGCD,GEOGNM,GEOGNMW,SI_ID,SI_TITLE,OPER_DATE,TERM_DATE,PARENTCD,ENTITYCD,OWNER,STATUS,AREAEHECT,AREACHECT,AREAIHECT,AREALHECT
+E38000001,"NHS Airedale, Wharfedale and Craven CCG",,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,122063.3,122063.3,141.92,121921.38
+E38000001,"NHS Airedale, Wharfedale and Craven",,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000009,E38,ODS,terminated,122063.3,122063.3,141.92,121921.38
+E38000001,"NHS Airedale, Wharfedale and Craven",,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,122063.3,122063.3,141.92,121921.38
+E38000001,"NHS Airedale, Wharfedale and Craven CCG",,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000002,NHS Ashford,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000022,E38,ODS,terminated,58061.72,58061.72,0,58061.72
+E38000002,NHS Ashford CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,58061.72,58061.72,0,58061.72
+E38000002,NHS Ashford,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,58061.72,58061.72,0,58061.72
+E38000002,NHS Ashford CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,58061.72,58061.72,0,58061.72
+E38000003,NHS Aylesbury Vale,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000024,E38,ODS,terminated,97902.81,97902.81,0,97902.81
+E38000003,NHS Aylesbury Vale CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,97902.82,97902.82,0,97902.82
+E38000003,NHS Aylesbury Vale,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,97902.81,97902.81,0,97902.81
+E38000004,NHS Barking & Dagenham,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,3778.07,3609.1,0,3609.1
+E38000004,NHS Barking and Dagenham CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,3778.07,3609.1,0,3609.1
+E38000005,NHS Barnet CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,8673.64,8673.64,0,8673.64
+E38000005,NHS Barnet,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,8673.64,8673.64,0,8673.64
+E38000006,NHS Barnsley,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,32905.21,32905.21,0,32905.21
+E38000006,NHS Barnsley CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000006,NHS Barnsley CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,32905.21,32905.21,0,32905.21
+E38000006,NHS Barnsley,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000008,E38,ODS,terminated,32905.21,32905.21,0,32905.21
+E38000007,NHS Basildon and Brentwood,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,26356.31,26314.25,0,26314.25
+E38000007,NHS Basildon and Brentwood,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000014,E38,ODS,terminated,26356.31,26314.25,0,26314.25
+E38000007,NHS Basildon and Brentwood CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000007,NHS Basildon and Brentwood CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,26356.31,26314.25,0,26314.25
+E38000008,NHS Bassetlaw,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000008,E38,ODS,terminated,63955.64,63787.06,0,63787.06
+E38000008,NHS Bassetlaw CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000008,NHS Bassetlaw,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,63955.64,63787.06,0,63787.06
+E38000008,NHS Bassetlaw CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,63955.64,63787.06,0,63787.06
+E38000009,NHS Bath and North East Somerset CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,35112.29,35112.29,524.48,34587.81
+E38000009,NHS Bath and North East Somerset,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000019,E38,ODS,terminated,35112.29,35112.29,524.48,34587.81
+E38000009,NHS Bath and North East Somerset CCG,,,Changes to Parent geography,01/04/2018,,E39000043,E38,ODS,live,35112.29,35112.29,524.48,34587.81
+E38000009,NHS Bath and North East Somerset,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,35112.29,35112.29,524.48,34587.81
+E38000010,NHS Bedfordshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,119207.63,119207.63,0,119207.63
+E38000010,NHS Bedfordshire CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000010,NHS Bedfordshire CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,119207.63,119207.63,0,119207.63
+E38000010,NHS Bedfordshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000015,E38,ODS,terminated,119207.63,119207.63,0,119207.63
+E38000011,NHS Bexley,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,6426.6,6056.13,0,6056.13
+E38000011,NHS Bexley CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,6426.6,6056.13,0,6056.13
+E38000012,NHS Birmingham CrossCity,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,19665.14,19665.14,0,19665.14
+E38000012,NHS Birmingham CrossCity,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000011,E38,ODS,terminated,19665.14,19665.14,0,19665.14
+E38000012,NHS Birmingham CrossCity CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000033,E38,ODS,terminated,19665.14,19665.14,0,19665.14
+E38000013,NHS Birmingham South and Central,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,3819.88,3819.88,0,3819.88
+E38000013,NHS Birmingham South and Central CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000033,E38,ODS,terminated,3819.88,3819.88,0,3819.88
+E38000013,NHS Birmingham South and Central,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000011,E38,ODS,terminated,3819.88,3819.88,0,3819.88
+E38000014,NHS Blackburn with Darwen,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000004,E38,ODS,terminated,13701.26,13701.26,0,13701.26
+E38000014,NHS Blackburn with Darwen CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,,E39000040,E38,ODS,live,13701.26,13701.26,0,13701.26
+E38000014,NHS Blackburn with Darwen CCG,,,Change to Parent Geography,01/04/2016,31/03/2017,E39000038,E38,ODS,terminated,13701.26,13701.26,0,13701.26
+E38000014,NHS Blackburn with Darwen,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,13701.26,13701.26,0,13701.26
+E38000014,NHS Blackburn with Darwen CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,13701.26,13701.26,0,13701.26
+E38000015,NHS Blackpool CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,4318.47,3488.18,0,3488.18
+E38000015,NHS Blackpool,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000004,E38,ODS,terminated,4318.47,3488.18,0,3488.18
+E38000015,NHS Blackpool CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,,E39000040,E38,ODS,live,4318.47,3488.18,0,3488.18
+E38000015,NHS Blackpool CCG,,,Change to Parent Geography,01/04/2016,31/03/2017,E39000038,E38,ODS,terminated,4318.47,3488.18,0,3488.18
+E38000015,NHS Blackpool,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,4318.47,3488.18,0,3488.18
+E38000016,NHS Bolton,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,13980.25,13980.25,0,13980.25
+E38000016,NHS Bolton CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,13980.25,13980.25,0,13980.25
+E38000016,NHS Bolton CCG,,,Change to Parent Geography,01/04/2016,,E39000037,E38,ODS,live,13980.25,13980.25,0,13980.25
+E38000016,NHS Bolton,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,13980.25,13980.25,0,13980.25
+E38000017,NHS Bracknell and Ascot,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000024,E38,ODS,terminated,12869.34,12869.34,0,12869.34
+E38000017,NHS Bracknell and Ascot CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,12869.33,12869.33,0,12869.33
+E38000017,NHS Bracknell and Ascot,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,12869.34,12869.34,0,12869.34
+E38000018,NHS Bradford City,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,1648.58,1648.58,0,1648.58
+E38000018,NHS Bradford City,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000009,E38,ODS,terminated,1648.58,1648.58,0,1648.58
+E38000018,NHS Bradford City CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,1648.58,1648.58,0,1648.58
+E38000018,NHS Bradford City CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000019,NHS Bradford Districts,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000009,E38,ODS,terminated,16957.49,16957.49,0,16957.49
+E38000019,NHS Bradford Districts CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,16957.49,16957.49,0,16957.49
+E38000019,NHS Bradford Districts,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,16957.49,16957.49,0,16957.49
+E38000019,NHS Bradford Districts CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000020,NHS Brent,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,4323.53,4323.53,0,4323.53
+E38000020,NHS Brent CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,4323.53,4323.53,0,4323.53
+E38000021,NHS Brighton & Hove,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,8537.66,8266.76,0,8266.76
+E38000021,NHS Brighton and Hove CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,8537.66,8266.76,0,8266.76
+E38000021,NHS Brighton & Hove,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,8537.66,8266.76,0,8266.76
+E38000021,NHS Brighton and Hove CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,8537.66,8266.76,0,8266.76
+E38000022,NHS Bristol,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000036,E38,ODS,terminated,23533.94,10960.7,0,10960.7
+E38000022,NHS Bristol CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000036,E38,ODS,terminated,23533.94,10960.7,0,10960.7
+E38000022,NHS Bristol,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000020,E38,ODS,terminated,23533.94,10960.7,0,10960.7
+E38000023,NHS Bromley,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,15015.38,15015.38,0,15015.38
+E38000023,NHS Bromley CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,15015.38,15015.38,0,15015.38
+E38000024,NHS Bury CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,9948.38,9948.38,0,9948.38
+E38000024,NHS Bury,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,9948.38,9948.38,0,9948.38
+E38000024,NHS Bury,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,9948.38,9948.38,0,9948.38
+E38000024,NHS Bury CCG,,,Change to Parent Geography,01/04/2016,,E39000037,E38,ODS,live,9948.38,9948.38,0,9948.38
+E38000025,NHS Calderdale,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000009,E38,ODS,terminated,36392.28,36392.28,0,36392.28
+E38000025,NHS Calderdale CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,36392.28,36392.28,0,36392.28
+E38000025,NHS Calderdale,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,36392.28,36392.28,0,36392.28
+E38000025,NHS Calderdale CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000026,NHS Cambridgeshire and Peterborough CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000026,NHS Cambridgeshire and Peterborough,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,375540.25,375386.03,627.95,374758.08
+E38000026,NHS Cambridgeshire and Peterborough,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000013,E38,ODS,terminated,375540.25,375386.03,627.95,374758.08
+E38000026,NHS Cambridgeshire and Peterborough CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,375540.25,375386.03,627.95,374758.08
+E38000027,NHS Camden,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,2179.61,2179.61,0,2179.61
+E38000027,NHS Camden CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,2179.61,2179.61,0,2179.61
+E38000028,NHS Cannock Chase,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,13372.17,13372.17,0,13372.17
+E38000028,NHS Cannock Chase CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,13372.17,13372.17,0,13372.17
+E38000028,NHS Cannock Chase,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000017,E38,ODS,terminated,13372.17,13372.17,0,13372.17
+E38000029,NHS Canterbury and Coastal CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,62708.86,60494.86,0,60494.86
+E38000029,NHS Canterbury and Coastal,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,62708.86,60494.86,0,60494.86
+E38000029,NHS Canterbury and Coastal,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000022,E38,ODS,terminated,62708.86,60494.86,0,60494.86
+E38000029,NHS Canterbury and Coastal CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,62708.86,60494.86,0,60494.86
+E38000030,"NHS Castle Point, Rayleigh and Rochford",,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000014,E38,ODS,terminated,32658.68,21456.74,0,21456.74
+E38000030,NHS Castle Point and Rochford CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,32658.68,21456.74,0,21456.74
+E38000030,"NHS Castle Point, Rayleigh and Rochford",,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,32658.68,21456.74,0,21456.74
+E38000030,NHS Castle Point and Rochford CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000031,NHS Central London (Westminster),,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,1882.35,1827.27,0,1827.27
+E38000031,NHS Central London (Westminster) CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,1882.35,1827.27,0,1827.27
+E38000032,NHS Central Manchester,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,2820.56,2820.56,0,2820.56
+E38000032,NHS Central Manchester CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,2820.56,2820.56,0,2820.56
+E38000032,NHS Central Manchester,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,2820.56,2820.56,0,2820.56
+E38000032,NHS Central Manchester CCG,,,Change to Parent Geography,01/04/2016,31/03/2017,E39000037,E38,ODS,terminated,2820.56,2820.56,0,2820.56
+E38000033,NHS Chiltern,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000024,E38,ODS,terminated,57828.87,57828.87,0,57828.87
+E38000033,NHS Chiltern CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,57828.87,57828.87,0,57828.87
+E38000033,NHS Chiltern,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,57828.87,57828.87,0,57828.87
+E38000034,NHS Chorley and South Ribble CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,23646.87,23635.98,0,23635.98
+E38000034,NHS Chorley and South Ribble,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000004,E38,ODS,terminated,23646.87,23635.98,0,23635.98
+E38000034,NHS Chorley and South Ribble CCG,,,Change to Parent Geography,01/04/2016,31/03/2017,E39000038,E38,ODS,terminated,23646.87,23635.98,0,23635.98
+E38000034,NHS Chorley and South Ribble,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,23646.87,23635.98,0,23635.98
+E38000034,NHS Chorley and South Ribble CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,,E39000040,E38,ODS,live,23646.87,23635.98,0,23635.98
+E38000035,NHS City and Hackney,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,2221.56,2196.2,0,2196.2
+E38000035,NHS City and Hackney CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,2221.56,2196.2,0,2196.2
+E38000036,NHS Coastal West Sussex,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,133651.41,129680.24,0,129680.24
+E38000036,NHS Coastal West Sussex CCG,,,Name Amendment,01/07/2015,02/07/2015,E39000035,E38,ODS,terminated,133651.41,129680.24,0,129680.24
+E38000036,NHS Coastal West Sussex,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,133651.41,129680.24,0,129680.24
+E38000037,NHS Corby,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000015,E38,ODS,terminated,8028.3,8028.3,0,8028.3
+E38000037,NHS Corby CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000045,E38,ODS,live,,,,
+E38000037,NHS Corby CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,8028.3,8028.3,0,8028.3
+E38000037,NHS Corby,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,8028.3,8028.3,0,8028.3
+E38000038,NHS Coventry and Rugby CCG,,,Name Amendment,01/07/2015,,E39000033,E38,ODS,live,45220.88,45220.88,244.4,44976.48
+E38000038,NHS Coventry and Rugby,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000010,E38,ODS,terminated,45220.88,45220.88,244.4,44976.48
+E38000038,NHS Coventry and Rugby,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,45220.88,45220.88,244.4,44976.48
+E38000039,NHS Crawley,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,4497.1,4497.1,0,4497.1
+E38000039,NHS Crawley CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,4497.1,4497.1,0,4497.1
+E38000039,NHS Crawley,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,4497.1,4497.1,0,4497.1
+E38000039,NHS Crawley CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,4497.1,4497.1,0,4497.1
+E38000040,NHS Croydon,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,8651.92,8651.92,0,8651.92
+E38000040,NHS Croydon CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,8651.92,8651.92,0,8651.92
+E38000041,NHS Cumbria,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000006,E38,ODS,terminated,731765.51,696067.38,5559.24,690508.13
+E38000041,NHS Cumbria,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000027,E38,ODS,terminated,731765.51,696067.38,5559.24,690508.13
+E38000041,NHS Cumbria CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000027,E38,ODS,terminated,731765.51,696067.38,5559.24,690508.14
+E38000042,NHS Darlington CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,31/03/2019,E39000039,E38,ODS,terminated,19747.5,19747.5,0,19747.5
+E38000042,NHS Darlington,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000027,E38,ODS,terminated,19747.5,19747.5,0,19747.5
+E38000042,NHS Darlington CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000042,NHS Darlington,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000002,E38,ODS,terminated,19747.5,19747.5,0,19747.5
+E38000042,NHS Darlington CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000027,E38,ODS,terminated,19747.5,19747.5,0,19747.5
+E38000043,"NHS Dartford, Gravesham and Swanley CCG",,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,27752.21,26803.71,0,26803.71
+E38000043,"NHS Dartford, Gravesham and Swanley CCG",,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,27752.21,26803.71,0,26803.71
+E38000043,"NHS Dartford, Gravesham and Swanley",,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,27752.21,26803.71,0,26803.71
+E38000043,"NHS Dartford, Gravesham and Swanley",,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000022,E38,ODS,terminated,27752.21,26803.71,0,26803.71
+E38000044,NHS Doncaster CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000044,NHS Doncaster,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000008,E38,ODS,terminated,56852.03,56799.12,0,56799.12
+E38000044,NHS Doncaster CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,56852.03,56799.12,0,56799.12
+E38000044,NHS Doncaster,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,56852.03,56799.12,0,56799.12
+E38000045,NHS Dorset CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000025,E38,ODS,terminated,269477.66,265255.33,0,265255.33
+E38000045,NHS Dorset CCG,,,Changes to Parent geography,01/04/2018,,E39000044,E38,ODS,live,269477.66,265255.33,0,265255.33
+E38000045,NHS Dorset,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000025,E38,ODS,terminated,269477.66,265255.33,0,265255.33
+E38000046,NHS Dudley,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000011,E38,ODS,terminated,9795.75,9795.75,0,9795.75
+E38000046,NHS Dudley,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,9795.75,9795.75,0,9795.75
+E38000046,NHS Dudley CCG,,,Name Amendment,01/07/2015,,E39000033,E38,ODS,live,9795.75,9795.75,0,9795.75
+E38000047,"NHS Durham Dales, Easington and Sedgefield CCG",,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000047,"NHS Durham Dales, Easington and Sedgefield",,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000002,E38,ODS,terminated,170760.8,170652.88,557.7,170095.18
+E38000047,"NHS Durham Dales, Easington and Sedgefield",,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000027,E38,ODS,terminated,170760.8,170652.88,557.7,170095.18
+E38000047,"NHS Durham Dales, Easington and Sedgefield CCG",,,Name Amendment,01/07/2015,31/03/2017,E39000027,E38,ODS,terminated,170760.8,170652.88,557.7,170095.18
+E38000047,"NHS Durham Dales, Easington and Sedgefield CCG",,,To reflect change to NHSRLO Parent Code,01/04/2017,31/03/2019,E39000039,E38,ODS,terminated,170760.8,170652.88,557.7,170095.18
+E38000048,NHS Ealing,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,5552.57,5552.57,0,5552.57
+E38000048,NHS Ealing CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,5552.57,5552.57,0,5552.57
+E38000049,NHS East and North Hertfordshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,98552.82,98552.82,0,98552.82
+E38000049,NHS East and North Hertfordshire CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000049,NHS East and North Hertfordshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000015,E38,ODS,terminated,98552.82,98552.82,0,98552.82
+E38000049,NHS East and North Hertfordshire CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,98552.82,98552.82,0,98552.82
+E38000050,NHS East Lancashire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,91414.46,91414.46,111.99,91302.47
+E38000050,NHS East Lancashire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000004,E38,ODS,terminated,91414.46,91414.46,111.99,91302.47
+E38000050,NHS East Lancashire CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,91414.46,91414.46,111.99,91302.47
+E38000050,NHS East Lancashire CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,,E39000040,E38,ODS,live,91414.46,91414.46,111.99,91302.47
+E38000050,NHS East Lancashire CCG,,,Change to Parent Geography,01/04/2016,31/03/2017,E39000038,E38,ODS,terminated,91414.46,91414.46,111.99,91302.47
+E38000051,NHS East Leicestershire and Rutland,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000016,E38,ODS,terminated,159848.12,159848.12,1281.33,158566.79
+E38000051,NHS East Leicestershire and Rutland CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000045,E38,ODS,live,,,,
+E38000051,NHS East Leicestershire and Rutland CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,159848.12,159848.12,1281.33,158566.79
+E38000051,NHS East Leicestershire and Rutland,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,159848.12,159848.12,1281.33,158566.79
+E38000052,NHS East Riding of Yorkshire CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000052,NHS East Riding of Yorkshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000007,E38,ODS,terminated,223816.88,215006,116.96,214889.04
+E38000052,NHS East Riding of Yorkshire CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,223816.88,215006,116.96,214889.04
+E38000052,NHS East Riding of Yorkshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,223816.88,215006,116.96,214889.04
+E38000053,NHS East Staffordshire CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,47550.38,47550.38,302.78,47247.6
+E38000053,NHS East Staffordshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,47550.38,47550.38,302.78,47247.6
+E38000053,NHS East Staffordshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000017,E38,ODS,terminated,47550.38,47550.38,302.78,47247.6
+E38000054,NHS East Surrey,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,32398.96,32398.96,0,32398.96
+E38000054,NHS East Surrey CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,32398.96,32398.96,0,32398.96
+E38000054,NHS East Surrey,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,32398.96,32398.96,0,32398.96
+E38000054,NHS East Surrey CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,32398.96,32398.96,0,32398.96
+E38000055,"NHS Eastbourne, Hailsham and Seaford CCG",,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,31412.49,31083.8,0,31083.8
+E38000055,"NHS Eastbourne, Hailsham and Seaford CCG",,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,31412.49,31083.8,0,31083.8
+E38000055,"NHS Eastbourne, Hailsham and Seaford",,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,31412.49,31083.8,0,31083.8
+E38000055,"NHS Eastbourne, Hailsham and Seaford",,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,31412.49,31083.8,0,31083.8
+E38000056,NHS Eastern Cheshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000001,E38,ODS,terminated,62550.04,62550.04,0,62550.04
+E38000056,NHS Eastern Cheshire CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,62550.04,62550.04,0,62550.04
+E38000056,NHS Eastern Cheshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,62550.04,62550.04,0,62550.04
+E38000057,NHS Enfield,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,8219.92,8219.92,136.93,8082.99
+E38000057,NHS Enfield CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,8219.92,8219.92,136.93,8082.99
+E38000058,NHS Erewash,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000012,E38,ODS,terminated,6002.29,6002.29,0,6002.29
+E38000058,NHS Erewash CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000032,E38,ODS,terminated,6002.29,6002.29,0,6002.29
+E38000058,NHS Erewash,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,6002.29,6002.29,0,6002.29
+E38000059,NHS Fareham and Gosport CCG,,,Changes to Parent geography,01/04/2018,,E39000041,E38,ODS,live,10559.51,9955.45,0,9955.45
+E38000059,NHS Fareham and Gosport,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000025,E38,ODS,terminated,10559.51,9955.45,0,9955.45
+E38000059,NHS Fareham and Gosport CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000025,E38,ODS,terminated,10559.51,9955.45,0,9955.45
+E38000060,NHS Fylde & Wyre,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000004,E38,ODS,terminated,32841.47,26558.07,0,26558.07
+E38000060,NHS Fylde & Wyre CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,22/11/2017,E39000040,E38,ODS,terminated,,,,
+E38000060,NHS Fylde and Wyre CCG,,,Name Change,23/11/2017,31/03/2018,E39000040,E38,ODS,terminated,,,,
+E38000060,NHS Fylde & Wyre CCG,,,Change to Parent Geography,01/04/2016,31/03/2017,E39000038,E38,ODS,terminated,32841.47,26558.07,0,26558.07
+E38000060,NHS Fylde & Wyre,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,32841.47,26558.07,0,26558.07
+E38000060,NHS Fylde & Wyre CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,32841.47,26558.07,0,26558.07
+E38000061,NHS Gateshead,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000006,E38,ODS,terminated,14406.71,14234.73,0,14234.73
+E38000062,NHS Gloucestershire CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,270453.96,265324.8,0,265324.8
+E38000062,NHS Gloucestershire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,270453.96,265324.8,0,265324.8
+E38000062,NHS Gloucestershire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000019,E38,ODS,terminated,270453.96,265324.8,0,265324.8
+E38000062,NHS Gloucestershire CCG,,,Changes to Parent geography,01/04/2018,,E39000043,E38,ODS,live,270453.96,265324.8,0,265324.8
+E38000063,NHS Great Yarmouth and Waveney CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000063,NHS Great Yarmouth & Waveney,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,55795.11,54387.06,0,54387.06
+E38000063,NHS Great Yarmouth and Waveney CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,55795.11,54387.06,0,54387.06
+E38000063,NHS Great Yarmouth & Waveney,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000013,E38,ODS,terminated,55795.11,54387.06,0,54387.06
+E38000064,NHS Greater Huddersfield CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000064,NHS Greater Huddersfield,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000009,E38,ODS,terminated,31424.87,31424.87,0,31424.87
+E38000064,NHS Greater Huddersfield CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,31424.87,31424.87,0,31424.87
+E38000064,NHS Greater Huddersfield,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,31424.87,31424.87,0,31424.87
+E38000065,NHS Greater Preston CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,38542.45,38311.38,16.59,38294.79
+E38000065,NHS Greater Preston CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,31/03/2018,E39000040,E38,ODS,terminated,,,,
+E38000065,NHS Greater Preston CCG,,,Change to Parent Geography,01/04/2016,31/03/2017,E39000038,E38,ODS,terminated,38542.45,38311.38,16.59,38294.79
+E38000065,NHS Greater Preston,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000004,E38,ODS,terminated,38542.45,38311.38,16.59,38294.79
+E38000065,NHS Greater Preston,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,38542.45,38311.38,16.59,38294.79
+E38000066,NHS Greenwich,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,5037.79,4734.35,0,4734.35
+E38000066,NHS Greenwich CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,5037.79,4734.35,0,4734.35
+E38000067,NHS Guildford and Waverley,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,60474.06,60474.06,0,60474.06
+E38000067,NHS Guildford and Waverley,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,60474.06,60474.06,0,60474.06
+E38000067,NHS Guildford and Waverley CCG,,,Name Amendment,01/07/2015,02/07/2015,E39000035,E38,ODS,terminated,60474.06,60474.06,0,60474.06
+E38000068,NHS Halton,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000005,E38,ODS,terminated,9033.23,7909.49,0,7909.49
+E38000068,NHS Halton,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,9033.23,7909.49,0,7909.49
+E38000068,NHS Halton CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,9033.23,7909.49,0,7909.49
+E38000069,"NHS Hambleton, Richmondshire and Whitby",,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,284112.77,283644.9,0,283644.9
+E38000069,"NHS Hambleton, Richmondshire and Whitby CCG",,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000069,"NHS Hambleton, Richmondshire and Whitby",,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000007,E38,ODS,terminated,284112.77,283644.9,0,283644.9
+E38000069,"NHS Hambleton, Richmondshire and Whitby CCG",,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,284112.77,283644.9,0,283644.9
+E38000070,NHS Hammersmith and Fulham CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,1716.1,1640.42,0,1640.42
+E38000070,NHS Hammersmith and Fulham,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,1716.1,1640.42,0,1640.42
+E38000071,NHS Hardwick,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000012,E38,ODS,terminated,21721.46,21721.46,0,21721.46
+E38000071,NHS Hardwick CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000032,E38,ODS,terminated,21721.46,21721.46,0,21721.46
+E38000071,NHS Hardwick,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,21721.46,21721.46,0,21721.46
+E38000072,NHS Haringey,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,2958.91,2958.91,0,2958.91
+E38000072,NHS Haringey CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,2958.91,2958.91,0,2958.91
+E38000073,NHS Harrogate and Rural District CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000073,NHS Harrogate and Rural District CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,130912.62,130912.62,118.05,130794.57
+E38000073,NHS Harrogate and Rural District,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,130912.62,130912.62,118.05,130794.57
+E38000073,NHS Harrogate and Rural District,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000007,E38,ODS,terminated,130912.62,130912.62,118.05,130794.57
+E38000074,NHS Harrow CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,5046.96,5046.96,0,5046.96
+E38000074,NHS Harrow,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,5046.96,5046.96,0,5046.96
+E38000075,NHS Hartlepool and Stockton-on-Tees,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000027,E38,ODS,terminated,30817.87,29779.15,0,29779.15
+E38000075,NHS Hartlepool and Stockton-on-Tees CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000027,E38,ODS,terminated,30817.87,29779.15,0,29779.15
+E38000075,NHS Hartlepool and Stockton-on-Tees CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,31/03/2019,E39000039,E38,ODS,terminated,30817.87,29779.15,0,29779.15
+E38000075,NHS Hartlepool and Stockton-on-Tees,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000002,E38,ODS,terminated,30817.87,29779.15,0,29779.15
+E38000075,NHS Hartlepool and Stockton-on-Tees CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000076,NHS Hastings and Rother CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,54910.99,54146.97,231.26,53915.71
+E38000076,NHS Hastings & Rother,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,54910.99,54146.97,231.26,53915.71
+E38000076,NHS Hastings & Rother,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,54910.99,54146.97,231.26,53915.71
+E38000076,NHS Hastings and Rother CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,54910.99,54146.97,231.26,53915.71
+E38000077,NHS Havering CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,11446.89,11236.28,0,11236.28
+E38000077,NHS Havering,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,11446.89,11236.28,0,11236.28
+E38000078,NHS Herefordshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,217973.27,217973.27,0,217973.27
+E38000078,NHS Herefordshire CCG,,,Name Amendment,01/07/2015,,E39000033,E38,ODS,live,217973.27,217973.27,0,217973.27
+E38000078,NHS Herefordshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000010,E38,ODS,terminated,217973.27,217973.27,0,217973.27
+E38000079,NHS Herts Valleys,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,58505.15,58505.15,0,58505.15
+E38000079,NHS Herts Valley CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000079,NHS Herts Valleys,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000015,E38,ODS,terminated,58505.15,58505.15,0,58505.15
+E38000079,NHS Herts Valleys CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,58505.15,58505.15,0,58505.15
+E38000080,"NHS Heywood, Middleton and Rochdale CCG",,,Change to Parent Geography,01/04/2016,,E39000037,E38,ODS,live,15808.14,15808.14,0,15808.14
+E38000080,"NHS Heywood, Middleton & Rochdale",,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,15808.14,15808.14,0,15808.14
+E38000080,"NHS Heywood, Middleton and Rochdale CCG",,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,15808.14,15808.14,0,15808.14
+E38000080,"NHS Heywood, Middleton & Rochdale",,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,15808.14,15808.14,0,15808.14
+E38000081,NHS High Weald Lewes Havens,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,86209.45,86038.8,182.26,85856.54
+E38000081,NHS High Weald Lewes Havens CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,86209.45,86038.8,182.26,85856.54
+E38000081,NHS High Weald Lewes Havens CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,86209.45,86038.8,182.26,85856.54
+E38000081,NHS High Weald Lewes Havens,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,86209.45,86038.8,182.26,85856.54
+E38000082,NHS Hillingdon,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,11569.87,11569.87,0,11569.87
+E38000082,NHS Hillingdon CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,11569.87,11569.87,0,11569.87
+E38000083,NHS Horsham and Mid Sussex CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,58177.24,58173.2,0,58173.2
+E38000083,NHS Horsham and Mid Sussex,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,58177.24,58173.2,0,58173.2
+E38000083,NHS Horsham and Mid Sussex,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,58177.24,58173.2,0,58173.2
+E38000083,NHS Horsham and Mid Sussex CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,58177.24,58173.2,0,58173.2
+E38000084,NHS Hounslow,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,5659.46,5598.7,0,5598.7
+E38000084,NHS Hounslow CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,5659.46,5598.7,0,5598.7
+E38000085,NHS Hull,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000007,E38,ODS,terminated,8149.68,7144.91,0,7144.91
+E38000085,NHS Hull CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000085,NHS Hull,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,8149.68,7144.91,0,7144.91
+E38000085,NHS Hull CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,8149.68,7144.91,0,7144.91
+E38000086,NHS Ipswich and East Suffolk CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,225480.81,220770.17,139.25,220630.92
+E38000086,NHS Ipswich and East Suffolk,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000013,E38,ODS,terminated,225480.81,220770.17,139.25,220630.92
+E38000086,NHS Ipswich and East Suffolk CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000086,NHS Ipswich and East Suffolk,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,225480.81,220770.17,139.25,220630.92
+E38000087,NHS Isle of Wight CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000025,E38,ODS,terminated,39491.15,38016.14,0,38016.14
+E38000087,NHS Isle of Wight CCG,,,Changes to Parent geography,01/04/2018,,E39000041,E38,ODS,live,39491.15,38016.14,0,38016.14
+E38000087,NHS Isle of Wight,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000025,E38,ODS,terminated,39491.15,38016.14,0,38016.14
+E38000088,NHS Islington CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,1485.99,1485.99,0,1485.99
+E38000088,NHS Islington,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,1485.99,1485.99,0,1485.99
+E38000089,NHS Kernow,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000021,E38,ODS,terminated,363631.93,356609.12,350.55,356258.57
+E38000089,NHS Kernow CCG,,,Changes to Parent geography,01/04/2018,,E39000044,E38,ODS,live,363631.93,356609.12,350.55,356258.57
+E38000089,NHS Kernow,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000036,E38,ODS,terminated,363631.93,356609.12,350.55,356258.57
+E38000089,NHS Kernow CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000036,E38,ODS,terminated,363631.93,356609.12,350.55,356258.57
+E38000090,NHS Kingston CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,3724.74,3724.74,0,3724.74
+E38000090,NHS Kingston,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,3724.74,3724.74,0,3724.74
+E38000091,NHS Knowsley CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,8646.94,8646.94,0,8646.94
+E38000091,NHS Knowsley,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000005,E38,ODS,terminated,8646.94,8646.94,0,8646.94
+E38000091,NHS Knowsley,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,8646.94,8646.94,0,8646.94
+E38000092,NHS Lambeth CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,2725.29,2682.2,0,2682.2
+E38000092,NHS Lambeth,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,2725.29,2682.2,0,2682.2
+E38000093,NHS Lancashire North,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000004,E38,ODS,terminated,83789.4,75851.78,0,75851.78
+E38000093,NHS Lancashire North,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,83789.4,75851.78,0,75851.78
+E38000093,NHS Lancashire North CCG,,,Change to Parent Geography,01/04/2016,31/03/2017,E39000038,E38,ODS,terminated,83789.4,75851.78,0,75851.78
+E38000093,NHS Lancashire North CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,83789.4,75851.78,0,75851.78
+E38000094,NHS Leeds North,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000009,E38,ODS,terminated,26150.52,26150.52,0,26150.52
+E38000094,NHS Leeds North,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,26150.52,26150.52,0,26150.52
+E38000094,NHS Leeds North CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000029,E38,ODS,terminated,26150.53,26150.53,0,26150.53
+E38000095,NHS Leeds South and East,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,14747.67,14747.67,0,14747.67
+E38000095,NHS Leeds South and East,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000009,E38,ODS,terminated,14747.67,14747.67,0,14747.67
+E38000095,NHS Leeds South and East CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000029,E38,ODS,terminated,14747.67,14747.67,0,14747.67
+E38000096,NHS Leeds West,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,14274.3,14274.3,0,14274.3
+E38000096,NHS Leeds West CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000029,E38,ODS,terminated,14274.3,14274.3,0,14274.3
+E38000096,NHS Leeds West,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000009,E38,ODS,terminated,14274.3,14274.3,0,14274.3
+E38000097,NHS Leicester City CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,7331.39,7331.39,0,7331.39
+E38000097,NHS Leicester City,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000016,E38,ODS,terminated,7331.39,7331.39,0,7331.39
+E38000097,NHS Leicester City CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000045,E38,ODS,live,,,,
+E38000097,NHS Leicester City,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,7331.39,7331.39,0,7331.39
+E38000098,NHS Lewisham CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,3531.49,3514.65,0,3514.65
+E38000098,NHS Lewisham,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,3531.49,3514.65,0,3514.65
+E38000099,NHS Lincolnshire East,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,277725,262866.95,0,262866.95
+E38000099,NHS Lincolnshire East,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000016,E38,ODS,terminated,277725,262866.95,0,262866.95
+E38000099,NHS Lincolnshire East CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,277725,262866.95,0,262866.95
+E38000099,NHS Lincolnshire East CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000045,E38,ODS,live,,,,
+E38000100,NHS Lincolnshire West,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,116599.99,116407.65,0,116407.65
+E38000100,NHS Lincolnshire West,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000016,E38,ODS,terminated,116599.99,116407.65,0,116407.65
+E38000100,NHS Lincolnshire West CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000045,E38,ODS,live,,,,
+E38000100,NHS Lincolnshire West CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,116599.99,116407.65,0,116407.65
+E38000101,NHS Liverpool CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,13354.23,11184.41,0,11184.41
+E38000101,NHS Liverpool,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000005,E38,ODS,terminated,13354.23,11184.41,0,11184.41
+E38000101,NHS Liverpool,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,13354.23,11184.41,0,11184.41
+E38000102,NHS Luton,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000015,E38,ODS,terminated,4335.29,4335.29,0,4335.29
+E38000102,NHS Luton,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,4335.29,4335.29,0,4335.29
+E38000102,NHS Luton CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000102,NHS Luton CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,4335.29,4335.29,0,4335.29
+E38000103,NHS Mansfield & Ashfield,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000012,E38,ODS,terminated,17012.08,17012.08,0,17012.08
+E38000103,NHS Mansfield and Ashfield CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,17012.08,17012.08,0,17012.08
+E38000103,NHS Mansfield & Ashfield,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,17012.08,17012.08,0,17012.08
+E38000104,NHS Medway,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000022,E38,ODS,terminated,26885.71,19203.16,0,19203.16
+E38000104,NHS Medway CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,26885.71,19203.16,0,19203.16
+E38000104,NHS Medway CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,26885.71,19203.16,0,19203.16
+E38000104,NHS Medway,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,26885.71,19203.16,0,19203.16
+E38000105,NHS Merton,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,3760.92,3760.92,0,3760.92
+E38000105,NHS Merton CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,3760.92,3760.92,0,3760.92
+E38000106,NHS Mid Essex CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,138130.61,131272.17,346.93,130925.24
+E38000106,NHS Mid Essex,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,138130.61,131272.17,346.93,130925.24
+E38000106,NHS Mid Essex CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000106,NHS Mid Essex,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000014,E38,ODS,terminated,138130.61,131272.17,346.93,130925.24
+E38000107,NHS Milton Keynes CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,36849.17,36849.17,0,36849.17
+E38000107,NHS Milton Keynes,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,36849.17,36849.17,0,36849.17
+E38000107,NHS Milton Keynes,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000015,E38,ODS,terminated,36849.17,36849.17,0,36849.17
+E38000107,NHS Milton Keynes CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000108,NHS Nene CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000045,E38,ODS,live,,,,
+E38000108,NHS Nene CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,200123.63,200123.63,298.49,199825.14
+E38000108,NHS Nene,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000015,E38,ODS,terminated,200123.63,200123.63,298.49,199825.14
+E38000108,NHS Nene,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,200123.63,200123.63,298.49,199825.14
+E38000109,NHS Newark & Sherwood CCG,,,Name Amendment,01/07/2015,22/11/2017,E39000032,E38,ODS,terminated,63153.93,63104.43,0,63104.43
+E38000109,NHS Newark & Sherwood,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000012,E38,ODS,terminated,63153.93,63104.43,0,63104.43
+E38000109,NHS Newark and Sherwood CCG,,,Name Change,23/11/2017,,E39000032,E38,ODS,live,63153.93,63104.43,0,63104.43
+E38000109,NHS Newark & Sherwood,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,63153.93,63104.43,0,63104.43
+E38000110,NHS Newbury and District,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000024,E38,ODS,terminated,56092.48,56092.48,0,56092.48
+E38000110,NHS Newbury and District CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,56092.48,56092.48,0,56092.48
+E38000110,NHS Newbury and District,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,56092.48,56092.48,0,56092.48
+E38000111,NHS Newcastle North and East,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000006,E38,ODS,terminated,7005.67,6939.3,0,6939.3
+E38000112,NHS Newcastle West,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000006,E38,ODS,terminated,4504.71,4404.64,0,4404.64
+E38000113,NHS Newham CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,3867.64,3622.41,0,3622.41
+E38000113,NHS Newham,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,3867.64,3622.41,0,3622.41
+E38000114,NHS North & West Reading,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,15861.54,15861.54,0,15861.54
+E38000114,NHS North & West Reading,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000024,E38,ODS,terminated,15861.54,15861.54,0,15861.54
+E38000114,NHS North and West Reading CCG,,,Name Change,23/11/2017,31/03/2018,E39000034,E38,ODS,terminated,,,,
+E38000114,NHS North & West Reading CCG,,,Name Amendment,01/07/2015,22/11/2017,E39000034,E38,ODS,terminated,15861.54,15861.54,0,15861.54
+E38000115,NHS North Derbyshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000012,E38,ODS,terminated,113351.56,113351.56,111.08,113240.48
+E38000115,NHS North Derbyshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,113351.56,113351.56,111.08,113240.48
+E38000115,NHS North Derbyshire CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000032,E38,ODS,terminated,113351.56,113351.56,111.08,113240.48
+E38000116,NHS North Durham,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000027,E38,ODS,terminated,52512.94,52505.29,0,52505.29
+E38000116,NHS North Durham,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000002,E38,ODS,terminated,52512.94,52505.29,0,52505.29
+E38000116,NHS North Durham CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,31/03/2019,E39000039,E38,ODS,terminated,52512.94,52505.29,0,52505.29
+E38000116,NHS North Durham CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000116,NHS North Durham CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000027,E38,ODS,terminated,52512.94,52505.29,0,52505.29
+E38000117,NHS North East Essex CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000117,NHS North East Essex,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,71232.89,67082.29,410.14,66672.15
+E38000117,NHS North East Essex CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,71232.89,67082.29,410.14,66672.15
+E38000117,NHS North East Essex,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000014,E38,ODS,terminated,71232.89,67082.29,410.14,66672.15
+E38000118,NHS North East Hampshire and Farnham CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000025,E38,ODS,terminated,18637.67,18637.67,0,18637.67
+E38000118,NHS North East Hampshire and Farnham,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000025,E38,ODS,terminated,18637.67,18637.67,0,18637.67
+E38000118,NHS North East Hampshire and Farnham CCG,,,Changes to Parent geography,01/04/2018,,E39000041,E38,ODS,live,18637.67,18637.67,0,18637.67
+E38000119,NHS North East Lincolnshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000007,E38,ODS,terminated,20354.18,19184.5,0,19184.5
+E38000119,NHS North East Lincolnshire CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000119,NHS North East Lincolnshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,20354.18,19184.5,0,19184.5
+E38000119,NHS North East Lincolnshire CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,20354.18,19184.5,0,19184.5
+E38000120,NHS North Hampshire CCG,,,Changes to Parent geography,01/04/2018,,E39000041,E38,ODS,live,86083.42,86083.42,0,86083.42
+E38000120,NHS North Hampshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000025,E38,ODS,terminated,86083.42,86083.42,0,86083.42
+E38000120,NHS North Hampshire CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000025,E38,ODS,terminated,86083.42,86083.42,0,86083.42
+E38000121,NHS North Kirklees CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000121,NHS North Kirklees CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,9434.8,9434.8,0,9434.8
+E38000121,NHS North Kirklees,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,9434.8,9434.8,0,9434.8
+E38000121,NHS North Kirklees,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000009,E38,ODS,terminated,9434.8,9434.8,0,9434.8
+E38000122,NHS North Lincolnshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000007,E38,ODS,terminated,87561.15,84631.29,0,84631.29
+E38000122,NHS North Lincolnshire CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,87561.15,84631.29,0,84631.29
+E38000122,NHS North Lincolnshire CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000122,NHS North Lincolnshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,87561.15,84631.29,0,84631.29
+E38000123,NHS North Manchester CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,4249.9,4249.9,0,4249.9
+E38000123,NHS North Manchester,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,4249.9,4249.9,0,4249.9
+E38000123,NHS North Manchester,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,4249.9,4249.9,0,4249.9
+E38000123,NHS North Manchester CCG,,,Change to Parent Geography,01/04/2016,31/03/2017,E39000037,E38,ODS,terminated,4249.89,4249.89,0,4249.89
+E38000124,NHS North Norfolk,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000013,E38,ODS,terminated,151188.37,148136.88,158.64,147978.24
+E38000124,NHS North Norfolk,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,151188.37,148136.88,158.64,147978.24
+E38000124,NHS North Norfolk CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000124,NHS North Norfolk CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,151188.37,148136.88,158.64,147978.24
+E38000125,NHS North Somerset CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000036,E38,ODS,terminated,39085.4,37467.6,88.76,37378.84
+E38000125,NHS North Somerset,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000020,E38,ODS,terminated,39085.4,37467.6,88.76,37378.84
+E38000125,NHS North Somerset,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000036,E38,ODS,terminated,39085.4,37467.6,88.76,37378.84
+E38000126,NHS North Staffordshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,73857.06,73857.06,0,73857.06
+E38000126,NHS North Staffordshire CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,73857.06,73857.06,0,73857.06
+E38000126,NHS North Staffordshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000017,E38,ODS,terminated,73857.06,73857.06,0,73857.06
+E38000127,NHS North Tyneside CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000027,E38,ODS,terminated,8518.97,8239.08,0,8239.08
+E38000127,NHS North Tyneside CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,31/03/2019,E39000039,E38,ODS,terminated,8518.97,8239.08,0,8239.08
+E38000127,NHS North Tyneside,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000006,E38,ODS,terminated,8518.97,8239.08,0,8239.08
+E38000127,NHS North Tyneside CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000127,NHS North Tyneside,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000027,E38,ODS,terminated,8518.97,8239.08,0,8239.08
+E38000128,NHS North West Surrey,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,26192.46,26192.46,755.54,25436.92
+E38000128,NHS North West Surrey CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,26192.46,26192.46,755.54,25436.92
+E38000128,NHS North West Surrey,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,26192.46,26192.46,755.54,25436.92
+E38000128,NHS North West Surrey CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,26192.46,26192.46,755.54,25436.92
+E38000129,"NHS Northern, Eastern and Western Devon CCG",,,Name Amendment,01/07/2015,31/03/2018,E39000036,E38,ODS,terminated,588424.17,582399.77,289.82,582109.95
+E38000129,"NHS North, East, West Devon",,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000036,E38,ODS,terminated,588424.17,582399.77,289.82,582109.95
+E38000129,"NHS Northern, Eastern and Western Devon CCG",,,Changes to Parent geography,01/04/2018,31/03/2019,E39000044,E38,ODS,terminated,588424.17,582399.77,289.82,582109.95
+E38000129,"NHS North, East, West Devon",,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000021,E38,ODS,terminated,588424.17,582399.77,289.82,582109.95
+E38000130,NHS Northumberland CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000130,NHS Northumberland CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,31/03/2019,E39000039,E38,ODS,terminated,507841.31,502609.44,1241.26,501368.18
+E38000130,NHS Northumberland CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000027,E38,ODS,terminated,507841.31,502609.44,1241.26,501368.18
+E38000130,NHS Northumberland,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000027,E38,ODS,terminated,507841.31,502609.44,1241.26,501368.18
+E38000130,NHS Northumberland,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000006,E38,ODS,terminated,507841.31,502609.44,1241.26,501368.18
+E38000131,NHS Norwich,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000013,E38,ODS,terminated,7652.71,7499.38,0,7499.38
+E38000131,NHS Norwich CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000031,E38,ODS,terminated,7652.72,7499.38,0,7499.38
+E38000131,NHS Norwich,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,7652.71,7499.38,0,7499.38
+E38000132,NHS Nottingham City CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,7461.21,7461.21,0,7461.21
+E38000132,NHS Nottingham City,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000012,E38,ODS,terminated,7461.21,7461.21,0,7461.21
+E38000132,NHS Nottingham City,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,7461.21,7461.21,0,7461.21
+E38000133,NHS Nottingham North & East,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,15640.54,15640.54,0,15640.54
+E38000133,NHS Nottingham North and East CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,15640.54,15640.54,0,15640.54
+E38000133,NHS Nottingham North & East,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000012,E38,ODS,terminated,15640.54,15640.54,0,15640.54
+E38000134,NHS Nottingham West,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000012,E38,ODS,terminated,8009.87,8009.87,0,8009.87
+E38000134,NHS Nottingham West,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,8009.87,8009.87,0,8009.87
+E38000134,NHS Nottingham West CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,8009.87,8009.87,0,8009.87
+E38000135,NHS Oldham CCG,,,Change to Parent Geography,01/04/2016,,E39000037,E38,ODS,live,14236.47,14236.47,0,14236.47
+E38000135,NHS Oldham,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,14236.47,14236.47,0,14236.47
+E38000135,NHS Oldham,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,14236.47,14236.47,0,14236.47
+E38000135,NHS Oldham CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,14236.47,14236.47,0,14236.47
+E38000136,NHS Oxfordshire CCG,,,Changes to Parent geography,01/04/2018,,E39000041,E38,ODS,live,252370.83,252370.83,101.58,252269.25
+E38000136,NHS Oxfordshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000024,E38,ODS,terminated,252370.83,252370.83,101.58,252269.25
+E38000136,NHS Oxfordshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,252370.83,252370.83,101.58,252269.25
+E38000136,NHS Oxfordshire CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,252370.83,252370.83,101.58,252269.25
+E38000137,NHS Portsmouth,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000025,E38,ODS,terminated,6019.1,4041.15,0,4041.15
+E38000137,NHS Portsmouth CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000025,E38,ODS,terminated,6019.1,4041.15,0,4041.15
+E38000137,NHS Portsmouth CCG,,,Changes to Parent geography,01/04/2018,,E39000041,E38,ODS,live,6019.1,4041.15,0,4041.15
+E38000138,NHS Redbridge,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,5643.44,5641.14,0,5641.14
+E38000138,NHS Redbridge CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,5643.44,5641.14,0,5641.14
+E38000139,NHS Redditch and Bromsgrove CCG,,,Name Amendment,01/07/2015,,E39000033,E38,ODS,live,27121.94,27121.94,0,27121.94
+E38000139,NHS Redditch and Bromsgrove,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,27121.94,27121.94,0,27121.94
+E38000139,NHS Redditch and Bromsgrove,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000010,E38,ODS,terminated,27121.94,27121.94,0,27121.94
+E38000140,NHS Richmond CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,5876.83,5741.43,0,5741.43
+E38000140,NHS Richmond,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,5876.83,5741.43,0,5741.43
+E38000141,NHS Rotherham CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,28653.78,28653.78,0,28653.78
+E38000141,NHS Rotherham CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000141,NHS Rotherham,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,28653.78,28653.78,0,28653.78
+E38000141,NHS Rotherham,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000008,E38,ODS,terminated,28653.78,28653.78,0,28653.78
+E38000142,NHS Rushcliffe CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,40923.61,40923.61,0,40923.61
+E38000142,NHS Rushcliffe,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,40923.61,40923.61,0,40923.61
+E38000142,NHS Rushcliffe,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000012,E38,ODS,terminated,40923.61,40923.61,0,40923.61
+E38000143,NHS Salford,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,9718.96,9718.96,0,9718.96
+E38000143,NHS Salford CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,9718.96,9718.96,0,9718.96
+E38000143,NHS Salford CCG,,,Change to Parent Geography,01/04/2016,,E39000037,E38,ODS,live,9718.96,9718.96,0,9718.96
+E38000143,NHS Salford,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,9718.96,9718.96,0,9718.96
+E38000144,NHS Sandwell and West Birmingham CCG,,,Name Amendment,01/07/2015,,E39000033,E38,ODS,live,11850.48,11850.48,0,11850.48
+E38000144,NHS Sandwell and West Birmingham,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000011,E38,ODS,terminated,11850.48,11850.48,0,11850.48
+E38000144,NHS Sandwell and West Birmingham,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,11850.48,11850.48,0,11850.48
+E38000145,NHS Scarborough and Ryedale CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000145,NHS Scarborough and Ryedale,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000007,E38,ODS,terminated,103461.86,102923.65,0,102923.65
+E38000145,NHS Scarborough and Ryedale CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,103461.86,102923.65,0,102923.65
+E38000145,NHS Scarborough and Ryedale,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,103461.86,102923.65,0,102923.65
+E38000146,NHS Sheffield,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,36795,36795,0,36795
+E38000146,NHS Sheffield CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,36795,36795,0,36795
+E38000146,NHS Sheffield CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000146,NHS Sheffield,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000008,E38,ODS,terminated,36795,36795,0,36795
+E38000147,NHS Shropshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000017,E38,ODS,terminated,319730.29,319730.29,0,319730.29
+E38000147,NHS Shropshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,319730.29,319730.29,0,319730.29
+E38000147,NHS Shropshire CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,319730.29,319730.29,0,319730.29
+E38000148,NHS Slough,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000024,E38,ODS,terminated,3253.64,3253.64,0,3253.64
+E38000148,NHS Slough,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,3253.64,3253.64,0,3253.64
+E38000148,NHS Slough CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,3253.63,3253.63,0,3253.63
+E38000149,NHS Solihull,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000011,E38,ODS,terminated,17828.8,17828.8,0,17828.8
+E38000149,NHS Solihull CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000033,E38,ODS,terminated,17828.8,17828.8,0,17828.8
+E38000149,NHS Solihull,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,17828.8,17828.8,0,17828.8
+E38000150,NHS Somerset,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000020,E38,ODS,terminated,351623.27,345204.27,148.97,345055.3
+E38000150,NHS Somerset CCG,,,Changes to Parent geography,01/04/2018,,E39000044,E38,ODS,live,351623.27,345204.27,148.97,345055.3
+E38000150,NHS Somerset CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000036,E38,ODS,terminated,351623.27,345204.27,148.97,345055.3
+E38000150,NHS Somerset,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000036,E38,ODS,terminated,351623.27,345204.27,148.97,345055.3
+E38000151,NHS South Cheshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000001,E38,ODS,terminated,54087.55,54087.55,0,54087.55
+E38000151,NHS South Cheshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,54087.55,54087.55,0,54087.55
+E38000151,NHS South Cheshire CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,54087.55,54087.55,0,54087.55
+E38000152,NHS South Devon and Torbay,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000021,E38,ODS,terminated,95647.08,88584.08,0,88584.08
+E38000152,NHS South Devon and Torbay CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000036,E38,ODS,terminated,95647.08,88584.08,0,88584.08
+E38000152,NHS South Devon and Torbay CCG,,,Changes to Parent geography,01/04/2018,31/03/2019,E39000044,E38,ODS,terminated,95647.08,88584.08,0,88584.08
+E38000152,NHS South Devon and Torbay,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000036,E38,ODS,terminated,95647.08,88584.08,0,88584.08
+E38000153,NHS South East Staffs and Seisdon and Peninsular,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000017,E38,ODS,terminated,46187.29,46187.29,0,46187.29
+E38000153,NHS South East Staffordshire and Seisdon Peninsula CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,46187.29,46187.29,0,46187.29
+E38000153,NHS South East Staffs and Seisdon and Peninsular,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,46187.29,46187.29,0,46187.29
+E38000154,NHS South Eastern Hampshire CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000025,E38,ODS,terminated,37321.44,34917.39,0,34917.39
+E38000154,NHS South Eastern Hampshire CCG,,,Changes to Parent geography,01/04/2018,,E39000041,E38,ODS,live,37321.44,34917.39,0,34917.39
+E38000154,NHS South Eastern Hampshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000025,E38,ODS,terminated,37321.44,34917.39,0,34917.39
+E38000155,NHS South Gloucestershire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000020,E38,ODS,terminated,53692.51,49694.44,0,49694.44
+E38000155,NHS South Gloucestershire CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000036,E38,ODS,terminated,53692.51,49694.44,0,49694.44
+E38000155,NHS South Gloucestershire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000036,E38,ODS,terminated,53692.51,49694.44,0,49694.44
+E38000156,NHS South Kent Coast CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,54833.97,53819.17,0,53819.17
+E38000156,NHS South Kent Coast,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000022,E38,ODS,terminated,54833.97,53819.17,0,53819.17
+E38000156,NHS South Kent Coast,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,54833.97,53819.17,0,53819.17
+E38000156,NHS South Kent Coast CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,54833.97,53819.17,0,53819.17
+E38000157,NHS South Lincolnshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,94470.45,90939.32,0,90939.32
+E38000157,NHS South Lincolnshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000016,E38,ODS,terminated,94470.45,90939.32,0,90939.32
+E38000157,NHS South Lincolnshire CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000045,E38,ODS,live,,,,
+E38000157,NHS South Lincolnshire CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,94470.45,90939.32,0,90939.32
+E38000158,NHS South Manchester,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,4494.1,4494.1,0,4494.1
+E38000158,NHS South Manchester,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,4494.1,4494.1,0,4494.1
+E38000158,NHS South Manchester CCG,,,Change to Parent Geography,01/04/2016,31/03/2017,E39000037,E38,ODS,terminated,4494.1,4494.1,0,4494.1
+E38000158,NHS South Manchester CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,4494.1,4494.1,0,4494.1
+E38000159,NHS South Norfolk,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000013,E38,ODS,terminated,171194.03,171073.88,0,171073.88
+E38000159,NHS South Norfolk,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,171194.03,171073.88,0,171073.88
+E38000159,NHS South Norfolk CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000031,E38,ODS,terminated,171194.03,171073.88,0,171073.88
+E38000160,NHS South Reading,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,2502.74,2502.74,0,2502.74
+E38000160,NHS South Reading,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000024,E38,ODS,terminated,2502.74,2502.74,0,2502.74
+E38000160,NHS South Reading CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,2502.74,2502.74,0,2502.74
+E38000161,NHS South Sefton CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,8485.2,7504.75,0,7504.75
+E38000161,NHS South Sefton,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000005,E38,ODS,terminated,8485.2,7504.75,0,7504.75
+E38000161,NHS South Sefton,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,8485.2,7504.75,0,7504.75
+E38000162,NHS South Tees CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000027,E38,ODS,terminated,30845.02,29877.13,0,29877.13
+E38000162,NHS South Tees CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000162,NHS South Tees,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000002,E38,ODS,terminated,30845.02,29877.13,0,29877.13
+E38000162,NHS South Tees CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,31/03/2019,E39000039,E38,ODS,terminated,30845.02,29877.13,0,29877.13
+E38000162,NHS South Tees,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000027,E38,ODS,terminated,30845.02,29877.13,0,29877.13
+E38000163,NHS South Tyneside,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000006,E38,ODS,terminated,6714.62,6441.39,0,6441.39
+E38000163,NHS South Tyneside CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000027,E38,ODS,terminated,6714.62,6441.39,0,6441.39
+E38000163,NHS South Tyneside,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000027,E38,ODS,terminated,6714.62,6441.39,0,6441.39
+E38000163,NHS South Tyneside CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000163,NHS South Tyneside CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,31/03/2019,E39000039,E38,ODS,terminated,6714.62,6441.39,0,6441.39
+E38000164,NHS South Warwickshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,126074.96,126074.96,0,126074.96
+E38000164,NHS South Warwickshire CCG,,,Name Amendment,01/07/2015,,E39000033,E38,ODS,live,126074.96,126074.96,0,126074.96
+E38000164,NHS South Warwickshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000010,E38,ODS,terminated,126074.96,126074.96,0,126074.96
+E38000165,NHS South West Lincolnshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000016,E38,ODS,terminated,121864.07,121864.07,0,121864.07
+E38000165,NHS South West Lincolnshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,121864.07,121864.07,0,121864.07
+E38000165,NHS South West Lincolnshire CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,121864.07,121864.07,0,121864.07
+E38000165,NHS South West  Lincolnshire CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000045,E38,ODS,live,,,,
+E38000166,NHS South Worcestershire CCG,,,Name Amendment,01/07/2015,,E39000033,E38,ODS,live,127389.14,127389.14,0,127389.14
+E38000166,NHS South Worcestershire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,127389.14,127389.14,0,127389.14
+E38000166,NHS South Worcestershire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000010,E38,ODS,terminated,127389.14,127389.14,0,127389.14
+E38000167,NHS Southampton CCG,,,Changes to Parent geography,01/04/2018,,E39000041,E38,ODS,live,5637.71,4988.94,0,4988.94
+E38000167,NHS Southampton,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000025,E38,ODS,terminated,5637.71,4988.94,0,4988.94
+E38000167,NHS Southampton CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000025,E38,ODS,terminated,5637.71,4988.94,0,4988.94
+E38000168,NHS Southend CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,6784.62,4175.57,0,4175.57
+E38000168,NHS Southend,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,6784.62,4175.57,0,4175.57
+E38000168,NHS Southend CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000168,NHS Southend,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000014,E38,ODS,terminated,6784.62,4175.57,0,4175.57
+E38000169,NHS Southern Derbyshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000012,E38,ODS,terminated,109195.39,109195.39,289.37,108906.02
+E38000169,NHS Southern Derbyshire CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000032,E38,ODS,terminated,109195.39,109195.39,289.37,108906.02
+E38000169,NHS Southern Derbyshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,109195.39,109195.39,289.37,108906.02
+E38000170,NHS Southport and Formby,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000005,E38,ODS,terminated,11992.3,7808.87,0,7808.87
+E38000170,NHS Southport and Formby CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,11992.3,7808.87,0,7808.87
+E38000170,NHS Southport and Formby,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,11992.3,7808.87,0,7808.87
+E38000171,NHS Southwark,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,2989.73,2885.37,0,2885.37
+E38000171,NHS Southwark CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,2989.73,2885.37,0,2885.37
+E38000172,NHS St Helens,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000005,E38,ODS,terminated,13638.14,13638.14,0,13638.14
+E38000172,NHS St Helens,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,13638.14,13638.14,0,13638.14
+E38000172,NHS St Helens CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,13638.14,13638.14,0,13638.14
+E38000173,NHS Stafford and Surrounds,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000017,E38,ODS,terminated,76541.48,76541.48,0,76541.48
+E38000173,NHS Stafford and Surrounds CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,76541.48,76541.48,0,76541.48
+E38000173,NHS Stafford and Surrounds,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,76541.48,76541.48,0,76541.48
+E38000174,NHS Stockport,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,12606.39,12606.39,0,12606.39
+E38000174,NHS Stockport,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,12606.39,12606.39,0,12606.39
+E38000174,NHS Stockport CCG,,,Change to Parent Geography,01/04/2016,,E39000037,E38,ODS,live,12606.39,12606.39,0,12606.39
+E38000174,NHS Stockport CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,12606.39,12606.39,0,12606.39
+E38000175,NHS Stoke on Trent,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000017,E38,ODS,terminated,14168.28,14168.28,0,14168.28
+E38000175,NHS Stoke on Trent,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,14168.28,14168.28,0,14168.28
+E38000175,NHS Stoke on Trent CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,14168.28,14168.28,0,14168.28
+E38000176,NHS Sunderland CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000027,E38,ODS,terminated,13965.07,13745.94,0,13745.94
+E38000176,NHS Sunderland,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000027,E38,ODS,terminated,13965.07,13745.94,0,13745.94
+E38000176,NHS Sunderland CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000176,NHS Sunderland CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,31/03/2019,E39000039,E38,ODS,terminated,13965.07,13745.94,0,13745.94
+E38000176,NHS Sunderland,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000006,E38,ODS,terminated,13965.07,13745.94,0,13745.94
+E38000177,NHS Surrey Downs CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,40503.83,40503.83,0,40503.83
+E38000177,NHS Surrey Downs,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,40503.83,40503.83,0,40503.83
+E38000177,NHS Surrey Downs,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,40503.83,40503.83,0,40503.83
+E38000177,NHS Surrey Downs CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,40503.83,40503.83,0,40503.83
+E38000178,NHS Surrey Heath CCG,,,Changes to Parent geography,01/04/2018,,E39000041,E38,ODS,live,6681.22,6681.22,0,6681.22
+E38000178,NHS Surrey Heath,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,6681.22,6681.22,0,6681.22
+E38000178,NHS Surrey Heath,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000023,E38,ODS,terminated,6681.22,6681.22,0,6681.22
+E38000178,NHS Surrey Heath CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,6681.22,6681.22,0,6681.22
+E38000179,NHS Sutton CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,4385.04,4385.04,0,4385.04
+E38000179,NHS Sutton,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,4385.04,4385.04,0,4385.04
+E38000180,NHS Swale,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000022,E38,ODS,terminated,25341.06,21065.02,0,21065.02
+E38000180,NHS Swale,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,25341.06,21065.02,0,21065.02
+E38000180,NHS Swale CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,25341.06,21065.02,0,21065.02
+E38000180,NHS Swale CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,25341.06,21065.02,0,21065.02
+E38000181,NHS Swindon CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,26009.08,26009.08,0,26009.08
+E38000181,NHS Swindon CCG,,,Changes to Parent geography,01/04/2018,,E39000043,E38,ODS,live,26009.08,26009.08,0,26009.08
+E38000181,NHS Swindon,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,26009.08,26009.08,0,26009.08
+E38000181,NHS Swindon,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000019,E38,ODS,terminated,26009.08,26009.08,0,26009.08
+E38000182,NHS Tameside and Glossop,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,22919.83,22919.83,0,22919.83
+E38000182,NHS Tameside and Glossop CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,22919.83,22919.83,0,22919.83
+E38000182,NHS Tameside and Glossop,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,22919.83,22919.83,0,22919.83
+E38000182,NHS Tameside and Glossop CCG,,,Change to Parent Geography,01/04/2016,,E39000037,E38,ODS,live,22919.83,22919.83,0,22919.83
+E38000183,NHS Telford and Wrekin CCG,,,Name Amendment,01/07/2015,,E39000032,E38,ODS,live,29031.37,29031.37,0,29031.37
+E38000183,NHS Telford & Wrekin,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000017,E38,ODS,terminated,29031.37,29031.37,0,29031.37
+E38000183,NHS Telford & Wrekin,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000032,E38,ODS,terminated,29031.37,29031.37,0,29031.37
+E38000184,NHS Thanet,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,11232.87,10333.52,0,10333.52
+E38000184,NHS Thanet CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,11232.87,10333.52,0,10333.52
+E38000184,NHS Thanet CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,11232.87,10333.52,0,10333.52
+E38000184,NHS Thanet,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000022,E38,ODS,terminated,11232.87,10333.52,0,10333.52
+E38000185,NHS Thurrock CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000185,NHS Thurrock,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,18432.02,16337.58,0,16337.58
+E38000185,NHS Thurrock,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000014,E38,ODS,terminated,18432.02,16337.58,0,16337.58
+E38000185,NHS Thurrock CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,18432.02,16337.58,0,16337.58
+E38000186,NHS Tower Hamlets,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,2156.65,1976.82,0,1976.82
+E38000186,NHS Tower Hamlets CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,2156.65,1976.82,0,1976.82
+E38000187,NHS Trafford,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,10603.57,10603.57,0,10603.57
+E38000187,NHS Trafford CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,10603.57,10603.57,0,10603.57
+E38000187,NHS Trafford CCG,,,Change to Parent Geography,01/04/2016,,E39000037,E38,ODS,live,10603.57,10603.57,0,10603.57
+E38000187,NHS Trafford,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,10603.57,10603.57,0,10603.57
+E38000188,NHS Vale of York,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,222031.9,221732.88,0,221732.88
+E38000188,NHS Vale of York CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000188,NHS Vale of York CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,222031.9,221732.88,0,221732.88
+E38000188,NHS Vale of York,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000007,E38,ODS,terminated,222031.9,221732.88,0,221732.88
+E38000189,NHS Vale Royal,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,24852.26,24852.26,0,24852.26
+E38000189,NHS Vale Royal,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000001,E38,ODS,terminated,24852.26,24852.26,0,24852.26
+E38000189,NHS Vale Royal CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,24852.26,24852.26,0,24852.26
+E38000190,NHS Wakefield CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000190,NHS Wakefield,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000009,E38,ODS,terminated,33861.17,33861.17,0,33861.17
+E38000190,NHS Wakefield,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000029,E38,ODS,terminated,33861.17,33861.17,0,33861.17
+E38000190,NHS Wakefield CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000029,E38,ODS,terminated,33861.17,33861.17,0,33861.17
+E38000191,NHS Walsall,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,10395.38,10395.38,0,10395.38
+E38000191,NHS Walsall,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000011,E38,ODS,terminated,10395.38,10395.38,0,10395.38
+E38000191,NHS Walsall CCG,,,Name Amendment,01/07/2015,,E39000033,E38,ODS,live,10395.38,10395.38,0,10395.38
+E38000192,NHS Waltham Forest,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,3881.52,3881.52,0,3881.52
+E38000192,NHS Waltham Forest CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,3881.52,3881.52,0,3881.52
+E38000193,NHS Wandsworth,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,3522,3426.41,0,3426.41
+E38000193,NHS Wandsworth CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,3522,3426.41,0,3426.41
+E38000194,NHS Warrington,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,18237.86,18065.38,0,18065.38
+E38000194,NHS Warrington,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000001,E38,ODS,terminated,18237.86,18065.38,0,18065.38
+E38000194,NHS Warrington CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,18237.86,18065.38,0,18065.38
+E38000195,NHS Warwickshire North CCG,,,Name Amendment,01/07/2015,,E39000033,E38,ODS,live,36321.85,36321.85,0,36321.85
+E38000195,NHS Warwickshire North,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000010,E38,ODS,terminated,36321.85,36321.85,0,36321.85
+E38000195,NHS Warwickshire North,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,36321.85,36321.85,0,36321.85
+E38000196,NHS West Cheshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000001,E38,ODS,terminated,69263.99,66813.3,0,66813.3
+E38000196,NHS West Cheshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,69263.99,66813.3,0,66813.3
+E38000196,NHS West Cheshire CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,69263.99,66813.3,0,66813.3
+E38000197,NHS West Essex CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,101070.7,101070.7,0,101070.7
+E38000197,NHS West Essex,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,101070.7,101070.7,0,101070.7
+E38000197,NHS West Essex,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000014,E38,ODS,terminated,101070.7,101070.7,0,101070.7
+E38000197,NHS West Essex CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000198,NHS West Hampshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000025,E38,ODS,terminated,227847.14,224833.83,0,224833.83
+E38000198,NHS West Hampshire CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000025,E38,ODS,terminated,227847.14,224833.83,0,224833.83
+E38000198,NHS West Hampshire CCG,,,Changes to Parent geography,01/04/2018,,E39000041,E38,ODS,live,227847.14,224833.83,0,224833.83
+E38000199,NHS West Kent,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000022,E38,ODS,terminated,123974.85,123888.24,111.61,123776.63
+E38000199,NHS West Kent CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,123974.85,123888.24,111.61,123776.63
+E38000199,NHS West Kent,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000035,E38,ODS,terminated,123974.85,123888.24,111.61,123776.63
+E38000199,NHS West Kent CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000035,E38,ODS,terminated,123974.85,123888.24,111.61,123776.63
+E38000200,NHS West Lancashire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,38110.03,34678.93,0,34678.93
+E38000200,NHS West Lancashire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000004,E38,ODS,terminated,38110.03,34678.93,0,34678.93
+E38000200,NHS West Lancashire CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,38110.03,34678.93,0,34678.93
+E38000200,NHS West Lancashire CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,,E39000040,E38,ODS,live,38110.03,34678.93,0,34678.93
+E38000200,NHS West Lancashire CCG,,,Change to Parent Geography,01/04/2016,31/03/2017,E39000038,E38,ODS,terminated,38110.03,34678.93,0,34678.93
+E38000201,NHS West Leicestershire CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000045,E38,ODS,live,,,,
+E38000201,NHS West Leicestershire CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000030,E38,ODS,terminated,87907.09,87907.09,0,87907.09
+E38000201,NHS West Leicestershire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000030,E38,ODS,terminated,87907.09,87907.09,0,87907.09
+E38000201,NHS West Leicestershire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000016,E38,ODS,terminated,87907.09,87907.09,0,87907.09
+E38000202,NHS West London CCG,,,Name Amendment,01/07/2015,,E39000018,E38,ODS,live,1559.62,1533.62,0,1533.62
+E38000202,"NHS West London (Kensington and Chelsea, Queen’s Park and Paddington)",,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,30/06/2015,E39000018,E38,ODS,terminated,1559.62,1533.62,0,1533.62
+E38000203,NHS West Norfolk CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,201508.19,193088.03,0,193088.03
+E38000203,NHS West Norfolk,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000013,E38,ODS,terminated,201508.19,193088.03,0,193088.03
+E38000203,NHS West Norfolk CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000203,NHS West Norfolk,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,201508.19,193088.03,0,193088.03
+E38000204,NHS West Suffolk CCG,,,Name Amendment,01/07/2015,31/03/2019,E39000031,E38,ODS,terminated,122423.26,122423.26,0,122423.26
+E38000204,NHS West Suffolk,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000031,E38,ODS,terminated,122423.26,122423.26,0,122423.26
+E38000204,NHS West Suffolk,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000013,E38,ODS,terminated,122423.26,122423.26,0,122423.26
+E38000204,NHS West Suffolk CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000205,NHS Wigan Borough,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000003,E38,ODS,terminated,18819.2,18819.2,0,18819.2
+E38000205,NHS Wigan Borough,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000028,E38,ODS,terminated,18819.2,18819.2,0,18819.2
+E38000205,NHS Wigan Borough CCG,,,Name Amendment,01/07/2015,31/03/2016,E39000028,E38,ODS,terminated,18819.2,18819.2,0,18819.2
+E38000205,NHS Wigan Borough CCG,,,Change to Parent Geography,01/04/2016,,E39000037,E38,ODS,live,18819.2,18819.2,0,18819.2
+E38000206,NHS Wiltshire,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000019,E38,ODS,terminated,325534.22,325534.22,0,325534.22
+E38000206,NHS Wiltshire CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,325534.22,325534.22,0,325534.22
+E38000206,NHS Wiltshire CCG,,,Changes to Parent geography,01/04/2018,,E39000043,E38,ODS,live,325534.22,325534.22,0,325534.22
+E38000206,NHS Wiltshire,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,325534.22,325534.22,0,325534.22
+E38000207,"NHS Windsor, Ascot and Maidenhead",,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000024,E38,ODS,terminated,18833.77,18833.77,192.55,18641.22
+E38000207,"NHS Windsor, Ascot and Maidenhead",,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,18833.77,18833.77,192.55,18641.22
+E38000207,"NHS Windsor, Ascot and Maidenhead CCG",,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,18833.76,18833.76,192.55,18641.21
+E38000208,NHS Wirral,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000001,E38,ODS,terminated,25503.17,15704.99,0,15704.99
+E38000208,NHS Wirral,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000026,E38,ODS,terminated,25503.17,15704.99,0,15704.99
+E38000208,NHS Wirral CCG,,,Name Amendment,01/07/2015,,E39000026,E38,ODS,live,25503.17,15704.99,0,15704.99
+E38000209,NHS Wokingham,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000024,E38,ODS,terminated,17897.92,17897.92,0,17897.92
+E38000209,NHS Wokingham,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000034,E38,ODS,terminated,17897.92,17897.92,0,17897.92
+E38000209,NHS Wokingham CCG,,,Name Amendment,01/07/2015,31/03/2018,E39000034,E38,ODS,terminated,17897.92,17897.92,0,17897.92
+E38000210,NHS Wolverhampton CCG,,,Name Amendment,01/07/2015,,E39000033,E38,ODS,live,6943.97,6943.97,0,6943.97
+E38000210,NHS Wolverhampton,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000011,E38,ODS,terminated,6943.97,6943.97,0,6943.97
+E38000210,NHS Wolverhampton,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,6943.97,6943.97,0,6943.97
+E38000211,NHS Wyre Forest CCG,,,Name Amendment,01/07/2015,,E39000033,E38,ODS,live,19540.57,19540.57,0,19540.57
+E38000211,NHS Wyre Forest,,,To reflect change to NHS Region Geography Parent Code,01/04/2015,30/06/2015,E39000033,E38,ODS,terminated,19540.57,19540.57,0,19540.57
+E38000211,NHS Wyre Forest,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2015,E39000010,E38,ODS,terminated,19540.57,19540.57,0,19540.57
+E38000212,NHS Newcastle Gateshead CCG,,,To reflect change to NHSRLO Parent Code,01/04/2017,31/03/2019,E39000039,E38,ODS,terminated,25917.09,25578.67,0,25578.67
+E38000212,NHS Newcastle Gateshead,,,,01/04/2015,30/06/2015,E39000027,E38,ODS,terminated,25917.09,25578.67,0,25578.67
+E38000212,NHS Newcastle Gateshead CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000212,NHS Newcastle Gateshead CCG,,,Name Amendment,01/07/2015,31/03/2017,E39000027,E38,ODS,terminated,25917.09,25578.67,0,25578.67
+E38000213,NHS Coastal West Sussex CCG,,,"Four LSOAs have been moved from Guildford and Waverley CCG to Coastal West Sussex CCG in order to align the county and CCG boundaries. They are: E01031502 Chichester 001A, E01031503 Chichester 001B, E01031504 Chichester 001C, E01031519 Chichester 001D",03/07/2015,31/03/2018,E39000035,E38,ODS,terminated,140350.46,136379.28,0,136379.28
+E38000213,NHS Coastal West Sussex CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,140350.46,136379.28,0,136379.28
+E38000214,NHS Guildford and Waverley CCG,,,Changes to Parent geography,01/04/2018,,E39000042,E38,ODS,live,53775.01,53775.01,0,53775.01
+E38000214,NHS Guildford and Waverley CCG,,,"Four LSOAs have been moved from Guildford and Waverley CCG to Coastal West Sussex CCG in order to align the county and CCG boundaries. They are: E01031502 Chichester 001A, E01031503 Chichester 001B, E01031504 Chichester 001C, E01031519 Chichester 001D",03/07/2015,31/03/2018,E39000035,E38,ODS,terminated,53775.01,53775.01,0,53775.01
+E38000215,NHS North Cumbria CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000047,E38,ODS,live,,,,
+E38000215,NHS North Cumbria CCG,,,ODS Organisation Changes,01/04/2017,31/03/2019,E39000039,E38,ODS,terminated,513594.53,504321.66,3613.15,500708.51
+E38000216,NHS Morecambe Bay CCG,,,ODS Organisation Changes,01/04/2017,31/03/2018,E39000040,E38,ODS,terminated,,,,
+E38000217,NHS Manchester CCG,,,ODS Organisation Changes,01/04/2017,,E39000037,E38,ODS,live,11564.56,11564.56,0,11564.56
+E38000218,NHS Norwich CCG,,,ODS Organisation Changes,01/04/2017,31/03/2019,E39000031,E38,ODS,terminated,9516.62,9363.29,0,9363.29
+E38000218,NHS Norwich CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000219,NHS South Norfolk CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000046,E38,ODS,live,,,,
+E38000219,NHS South Norfolk CCG,,,ODS Organisation Changes,01/04/2017,31/03/2019,E39000031,E38,ODS,terminated,169330.12,169209.96,0,169209.96
+E38000220,NHS Birmingham and Solihull CCG,,,ODS Organisation Changes,01/04/2018,,E39000033,E38,ODS,live,41313.81,41313.81,0,41313.81
+E38000221,NHS Berkshire West CCG,,,ODS Organisation Changes,01/04/2018,,E39000041,E38,ODS,live,92354.67,92354.67,0,92354.67
+E38000222,"NHS Bristol, North Somerset and South Gloucestershire CCG",,,ODS Organisation Changes,01/04/2018,,E39000043,E38,ODS,live,116311.84,98122.74,88.76,98033.98
+E38000223,NHS Buckinghamshire CCG,,,ODS Organisation Changes,01/04/2018,,E39000041,E38,ODS,live,155731.68,155731.68,0,155731.68
+E38000224,NHS East Berkshire CCG,,,ODS Organisation Changes,01/04/2018,,E39000041,E38,ODS,live,34956.74,34956.74,192.55,34764.19
+E38000225,NHS Leeds CCG,,,ODS Organisation Changes,01/04/2018,31/03/2019,E39000029,E38,ODS,terminated,55172.49,55172.49,0,55172.49
+E38000225,NHS Leeds CCG,,,"To reflect change to NHS England (Region, Local Office) Parent Code",01/04/2019,,E39000048,E38,ODS,live,,,,
+E38000226,NHS Fylde and Wyre CCG,,,ODS Organisation Changes,01/04/2018,,E39000040,E38,ODS,live,52688.72,46349.69,0,46349.69
+E38000227,NHS Greater Preston CCG,,,ODS Organisation Changes,01/04/2018,,E39000040,E38,ODS,live,37017.34,36786.27,16.59,36769.68
+E38000228,NHS Morecambe Bay CCG,,,ODS Organisation Changes,01/04/2018,,E39000040,E38,ODS,live,283638.25,249331.5,1946.09,247385.41
+E38000229,NHS Derby and Derbyshire CCG,,,ODS Organisation Changes,01/04/2019,,E39000032,E38,ODS,live,,,,
+E38000230,NHS Devon CCG,,,ODS Organisation Changes,01/04/2019,,E39000044,E38,ODS,live,,,,

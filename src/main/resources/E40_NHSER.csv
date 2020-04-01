@@ -1,0 +1,11 @@
+﻿GEOGCD,GEOGNM,GEOGNMW,SI_ID,SI_TITLE,OPER_DATE,TERM_DATE,PARENTCD,ENTITYCD,OWNER,STATUS,AREAEHECT,AREACHECT,AREAIHECT,AREALHECT
+E40000001,North Of England,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2019,,E40,ODS,terminated,3992139.46,3892932.17,7863.71,3885068.46
+E40000002,Midlands and East of England,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2019,,E40,ODS,terminated,4799648.92,4736043.32,4210.36,4731832.96
+E40000003,London,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,,,E40,ODS,live,159472.03,157353.02,136.93,157216.09
+E40000004,South of England,,2996/2012,The National Health Service Commissioning Board and Clinical Commissioning Groups (Responsibilities and Standing Rules) Regulations 2012,01/04/2013,31/03/2018,,E40,ODS,terminated,52303232.04,51338769.01,43220.64,51295548.37
+E40000005,South East,,,,01/04/2018,,,E40,ODS,live,1901449.18,1868694.7,1574.8,1867119.9
+E40000006,South West,,,,01/04/2018,,,E40,ODS,live,2442225.5,2388155.7,1402.58,2386753.12
+E40000007,East of England,,,,01/04/2019,,,E40,ODS,live,,,,
+E40000008,Midlands,,,,01/04/2019,,,E40,ODS,live,,,,
+E40000009,North East and Yorkshire,,,,01/04/2019,,,E40,ODS,live,,,,
+E40000010,North West,,,,01/04/2019,,,E40,ODS,live,,,,
