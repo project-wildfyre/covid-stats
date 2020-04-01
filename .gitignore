@@ -1,0 +1,12 @@
+.idea/
+*.iml
+temp/
+template/
+output/
+input-cache/*.*
+.idea/
+*.iml
+*/target/*
+target/*
+node_modules/*
+*/node_modules/*
