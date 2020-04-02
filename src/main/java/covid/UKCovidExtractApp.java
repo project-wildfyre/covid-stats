@@ -1,11 +1,13 @@
 package covid;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import com.opencsv.CSVIterator;
 import com.opencsv.CSVReader;
 import org.apache.commons.io.Charsets;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,17 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(UKCovidExtractApp.class);
 
+    private class NHSStat {
+        int nhs111 = 0;
+        int nhs999 = 0;
+        int nhsOnline = 0;
+        int male = 0;
+        int female = 0;
+        String parent;
+    }
+
+    String phe;
+    String uec;
 
     final String UUID_Prefix = "urn:uuid:";
 
@@ -47,6 +60,9 @@ public class UKCovidExtractApp implements CommandLineRunner {
     private Map<String, BigDecimal> population = new HashMap<>();
 
     private Map<String, Map<Date, MeasureReport>> nhs = new HashMap<>();
+
+    private Map<String, Map<Date, NHSStat>> nhsStatMap = new HashMap<>();
+
 
   //  private Map<String,MeasureReport> pastMeasures = new HashMap<>();
 
@@ -81,7 +97,18 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ldt = ldt.minusDays(1);
         today = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 
+        Measure measure = new Measure();
+        measure.addIdentifier().setSystem("https://fhir.mayfield-is.co.uk/MEASURCODE").setValue("PHE_COVID");
+        measure.setStatus(Enumerations.PublicationStatus.ACTIVE);
+        MethodOutcome outcome = client.create().resource(measure).conditionalByUrl("Measure?identifier=https://fhir.mayfield-is.co.uk/MEASURCODE|PHE_COVID").execute();
+        phe = "Measure/"+outcome.getId().getIdPart();
+        measure = new Measure();
+        measure.addIdentifier().setSystem("https://fhir.mayfield-is.co.uk/MEASURCODE").setValue("UEC_COVID");
+        measure.setStatus(Enumerations.PublicationStatus.ACTIVE);
+        outcome = client.create().resource(measure).conditionalByUrl("Measure?identifier=https://fhir.mayfield-is.co.uk/MEASURCODE|UEC_COVID").execute();
+        uec= "Measure/"+outcome.getId().getIdPart();
         ProcessDeprivation();
+
 
         // Population
 
@@ -89,7 +116,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessPopulationsFile("UK.csv");
         ProcessPopulationsFile("EnglandRegions.csv");
         ProcessPopulationsFile("LocalAuthority.csv");
-
+/*
         // Locations
         ProcessLocationsFile("E92_CTRY.csv","CTRY");
         ProcessLocationsFile("E12_RGN.csv","RGN");
@@ -100,24 +127,29 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E07_NMD.csv","NMD");
         ProcessLocationsFile("E06_UA.csv","UA");
      // Not required   ProcessLocationsFile("E05_WD.csv","WD");
+*/
 
-/*
         ProcessLocationsFile("E40_NHSER.csv","NHSER");
         ProcessLocationsFile("E39_NHSRLO.csv","NHSRLO");
         ProcessLocationsFile("E38_CCG.csv","CCG");
+        ProcessLocationsFile("E12_RGN.csv","NHSRGN");
+        ProcessLocationsFile("E06_UA.csv","NHSUA");
         PopulateNHS();
-*/
+
+        /*
   //      Disable for now, can use to correct past results.
         log.info("Processing Past Data");
         ProcessHistoric();
-/*
+
         // Process Daily UA File
         reports = new ArrayList<>();
         ProcessDailyUAFile(today);
 
- */
+
         log.info("Calculating Regions");
         CalculateRegions(dateStamp.format(today));
+
+         */
 
     }
 
@@ -131,6 +163,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
            // System.out.println("Key = " + en.getKey());
             processNHSReport(en);
         }
+
+        CalculateNHSRegional();
 
         Bundle bundle = null;
 
@@ -165,6 +199,58 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     }
 
+    private void CalculateNHSRegional() {
+        for (Map.Entry<String, Map<Date, NHSStat>> org : nhsStatMap.entrySet()) {
+            int maleTot =0;
+            int femaleTot =0;
+            Map<Date, MeasureReport> ccg = nhs.get(org.getKey());
+            if (ccg == null) {
+                ccg = new HashMap<>();
+                nhs.put(org.getKey(),ccg);
+            }
+            Map<Date, NHSStat> treeMap = new TreeMap(org.getValue());
+            for (Map.Entry<Date, NHSStat> dateentry : treeMap.entrySet()) {
+                // System.out.println("Key = " + dateentry.getKey());
+                NHSStat nhs = dateentry.getValue();
+
+                MeasureReport report = new MeasureReport();
+                report.addIdentifier()
+                        .setSystem("https://fhir.mayfield-is.co.uk/Measure/NHS111")
+                        .setValue(org.getKey() + "-" + stamp.format(dateentry.getKey()));
+
+                report.setDate(dateentry.getKey());
+                report.setPeriod(new Period().setStart(dateentry.getKey()));
+                report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
+                report.setType(MeasureReport.MeasureReportType.SUMMARY);
+                report.setReporter(new Reference().setIdentifier(new Identifier().setSystem(ONSSystem).setValue(org.getKey())));
+                report.setMeasure(uec);
+
+                Location location = locations.get(org.getKey());
+                if (location != null) {
+                    report.getSubject().setReference(location.getId());
+                    report.getSubject().setDisplay(location.getName());
+                    report.getReporter().setReference(location.getId());
+                    report.getReporter().setDisplay(location.getName());
+                }
+                maleTot += nhs.male;
+                femaleTot += nhs.female;
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-online","NHS 111 Online", nhs.nhsOnline);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-111","NHS 111", nhs.nhs111);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-999","NHS 999", nhs.nhs999);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","male","UEC Male", nhs.male);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female","UEC Female", nhs.female);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","daily-total","UEC Daily Total", nhs.female+nhs.male);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","male-total","UEC Male Total", maleTot);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female-total","UEC Female Total", femaleTot);
+                addGroup(report,"http://snomed.info/sct","840544004","Suspected disease caused by severe acute respiratory coronavirus 2 (situation)", femaleTot + maleTot);
+                log.info("{} count {} {}", report.getIdentifierFirstRep().getValue(), nhs.female + nhs.male, femaleTot + maleTot);
+
+                ccg.put(dateentry.getKey(),report);
+
+            }
+        }
+    }
+
 private void processNHSReport(Map.Entry<String, Map<Date, MeasureReport>> en) {
     Map<Date,MeasureReport> treeMap = new TreeMap(en.getValue());
 
@@ -175,42 +261,67 @@ private void processNHSReport(Map.Entry<String, Map<Date, MeasureReport>> en) {
         // System.out.println("Key = " + dateentry.getKey());
 
         MeasureReport report = dateentry.getValue();
-        int nhs111 = 0;
-        int nhs999 = 0;
-        int nhsOnline = 0;
-        int male = 0;
-        int female = 0;
+        NHSStat nhs = new NHSStat();
 
         for (MeasureReport.MeasureReportGroupComponent group : report.getGroup()) {
             if (group.getCode().getCodingFirstRep().getCode().startsWith("nhs111online")) {
-                nhsOnline += group.getMeasureScore().getValue().intValue();
+                nhs.nhsOnline += group.getMeasureScore().getValue().intValue();
             }
             if (group.getCode().getCodingFirstRep().getCode().startsWith("111")) {
-                nhs111 += group.getMeasureScore().getValue().intValue();
+                nhs.nhs111 += group.getMeasureScore().getValue().intValue();
             }
             if (group.getCode().getCodingFirstRep().getCode().startsWith("999")) {
-                nhs999 += group.getMeasureScore().getValue().intValue();
+                nhs.nhs999 += group.getMeasureScore().getValue().intValue();
             }
             if (group.getCode().getCodingFirstRep().getCode().contains("Female")) {
-                female += group.getMeasureScore().getValue().intValue();
+                nhs.female += group.getMeasureScore().getValue().intValue();
             } else {
-                male += group.getMeasureScore().getValue().intValue();
+                nhs.male += group.getMeasureScore().getValue().intValue();
             }
         }
-        maleTot += male;
-        femaleTot += female;
-        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-online","NHS 111 Online", nhsOnline);
-        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-111","NHS 111", nhs111);
-        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-999","NHS 999", nhs999);
-        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","male","UEC Male", male);
-        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female","UEC Female", female);
-        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","daily-total","UEC Daily Total", female+male);
+        maleTot += nhs.male;
+        femaleTot += nhs.female;
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-online","NHS 111 Online", nhs.nhsOnline);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-111","NHS 111", nhs.nhs111);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-999","NHS 999", nhs.nhs999);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","male","UEC Male", nhs.male);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female","UEC Female", nhs.female);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","daily-total","UEC Daily Total", nhs.female+nhs.male);
         addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","male-total","UEC Male Total", maleTot);
-        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female-total","UEC Female Total", maleTot);
-        addGroup(report,"http://snomed.info/sct","840544004","Suspected disease caused by severe acute respiratory coronavirus 2 (situation)", female + maleTot);
-        log.info("{} count {} {}", report.getIdentifierFirstRep().getValue(), female + male, femaleTot + maleTot);
+        addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female-total","UEC Female Total", femaleTot);
+        addGroup(report,"http://snomed.info/sct","840544004","Suspected disease caused by severe acute respiratory coronavirus 2 (situation)", femaleTot + maleTot);
+        log.info("{} count {} {}", report.getIdentifierFirstRep().getValue(), nhs.female + nhs.male, femaleTot + maleTot);
+
+        populateParent(report.getReporter().getIdentifier().getValue(),dateentry.getKey(),nhs);
     }
 }
+
+
+   private void  populateParent(String org,Date date,NHSStat nhs) {
+        Location location = locations.get(org);
+        if (location != null) {
+            Location parent = locations.get(location.getPartOf().getIdentifier().getValue());
+            if (parent != null) {
+
+                Map<Date, NHSStat> nhsStat = nhsStatMap.get(parent.getIdentifierFirstRep().getValue());
+                if (nhsStat == null) {
+                    nhsStat = new HashMap<>();
+                    nhsStatMap.put(parent.getIdentifierFirstRep().getValue(), nhsStat);
+                }
+                NHSStat parentStat = nhsStat.get(date);
+                if (parentStat == null) {
+                    parentStat = new NHSStat();
+                    nhsStat.put(date, parentStat);
+                }
+                parentStat.female += nhs.female;
+                parentStat.male += nhs.male;
+                parentStat.nhs111 += nhs.nhs111;
+                parentStat.nhs999 += nhs.nhs111;
+                parentStat.nhsOnline += nhs.nhsOnline;
+                populateParent(parent.getIdentifierFirstRep().getValue(), date, parentStat);
+            }
+        }
+    }
 private void addGroup(MeasureReport report, String system, String code, String display, int qtyValue ) {
     MeasureReport.MeasureReportGroupComponent group = report.addGroup();
     Quantity qty = new Quantity();
@@ -260,7 +371,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
                         report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
                         report.setType(MeasureReport.MeasureReportType.SUMMARY);
                         report.setReporter(new Reference().setDisplay(nextLine[5]).setIdentifier(new Identifier().setSystem(ONSSystem).setValue(nextLine[4])));
-                        report.setMeasure("https://fhir.mayfield-is.co.uk/Measure/NHS111");
+                        report.setMeasure(uec);
 
                         Location location = locations.get(nextLine[4]);
                         if (location != null) {
@@ -327,7 +438,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
                         report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
                         report.setType(MeasureReport.MeasureReportType.SUMMARY);
                         report.setReporter(new Reference().setDisplay(nextLine[4]).setIdentifier(new Identifier().setSystem(ONSSystem).setValue(nextLine[3])));
-                        report.setMeasure("https://fhir.mayfield-is.co.uk/Measure/NHS111");
+                        report.setMeasure(uec);
 
                         Location location = locations.get(nextLine[3]);
                         if (location != null) {
@@ -522,7 +633,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
             report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
             report.setType(MeasureReport.MeasureReportType.SUMMARY);
             report.setReporter(new Reference().setDisplay(location.getName()).setReference(location.getId()));
-            report.setMeasure("https://www.arcgis.com/fhir/Measure/CountyUAs_cases");
+            report.setMeasure(phe);
             Quantity qty = new Quantity();
             qty.setValue(new BigDecimal(cases));
 
@@ -916,7 +1027,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
                 report.setType(MeasureReport.MeasureReportType.SUMMARY);
                 report.setReporter(new Reference().setDisplay(location.getName()).setReference(location.getId()));
-                report.setMeasure("https://www.arcgis.com/fhir/Measure/CountyUAs_cases");
+                report.setMeasure(phe);
 
                 report.getSubject()
                         .setDisplay(theRecord[1])
