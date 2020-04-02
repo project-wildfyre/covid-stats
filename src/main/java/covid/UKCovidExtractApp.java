@@ -118,7 +118,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessPopulationsFile("UK.csv");
         ProcessPopulationsFile("EnglandRegions.csv");
         ProcessPopulationsFile("LocalAuthority.csv");
-/*
+
         // Locations
         ProcessLocationsFile("E92_CTRY.csv","CTRY");
         ProcessLocationsFile("E12_RGN.csv","RGN");
@@ -129,7 +129,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E07_NMD.csv","NMD");
         ProcessLocationsFile("E06_UA.csv","UA");
      // Not required   ProcessLocationsFile("E05_WD.csv","WD");
-*/
+
 
         ProcessLocationsFile("E40_NHSER.csv","NHSER");
         ProcessLocationsFile("E39_NHSRLO.csv","NHSRLO");
@@ -138,20 +138,17 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E06_UA.csv","NHSUA");
         PopulateNHS();
 
-        /*
+
   //      Disable for now, can use to correct past results.
         log.info("Processing Past Data");
-        ProcessHistoric();
+     //   ProcessHistoric();
 
         // Process Daily UA File
         reports = new ArrayList<>();
         ProcessDailyUAFile(today);
 
-
         log.info("Calculating Regions");
         CalculateRegions(dateStamp.format(today));
-
-         */
 
     }
 
