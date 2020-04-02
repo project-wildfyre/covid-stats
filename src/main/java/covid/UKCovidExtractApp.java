@@ -130,9 +130,12 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E06_UA.csv","UA");
      // Not required   ProcessLocationsFile("E05_WD.csv","WD");
 
-
+        // These next three files have been modified to make sense
+        ProcessLocationsFile("E40_ENG.csv","NHSENG");
         ProcessLocationsFile("E40_NHSER.csv","NHSER");
+        // This is the main top level codes
         ProcessLocationsFile("E39_NHSRLO.csv","NHSRLO");
+
         ProcessLocationsFile("E38_CCG.csv","CCG");
         ProcessLocationsFile("E12_RGN.csv","NHSRGN");
         ProcessLocationsFile("E06_UA.csv","NHSUA");
