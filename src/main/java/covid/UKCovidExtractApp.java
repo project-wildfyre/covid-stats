@@ -7,7 +7,8 @@ import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import com.opencsv.CSVIterator;
 import com.opencsv.CSVReader;
 import org.apache.commons.io.Charsets;
-import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
+
 import org.hl7.fhir.r4.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -111,7 +110,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
         uec= "Measure/"+outcome.getId().getIdPart();
         ProcessDeprivation();
 
-
+    //    fixNHS();
         // Population
 
         log.info("Processing Locations");
@@ -155,11 +154,25 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     }
 
+    private void fixNHS() {
+        Bundle bundle = client.search().byUrl("MeasureReport?measure=21264").returnBundle(Bundle.class).execute();
+        for (Bundle.BundleEntryComponent entryComponent : bundle.getEntry()) {
+            IBaseOperationOutcome outcome = client.delete().resourceById(entryComponent.getResource().getIdElement()).execute();
+        }
+        if (bundle.hasLink()) {
+            for(Bundle.BundleLinkComponent link : bundle.getLink()) {
+                if (link.getRelation().contains("next")) {
+                    fixNHS();
+                }
+            }
+        }
+    }
+
     private void PopulateNHS() throws Exception {
 
         // https://digital.nhs.uk/data-and-information/publications/statistical/mi-potential-covid-19-symptoms-reported-through-nhs-pathways-and-111-online/latest
-        GetNHSData("https://files.digital.nhs.uk/AE/AB9ABB/NHS%20Pathways%20Covid-19%20data%202020-03-31.csv");
-        GetNHSOnlineData("https://files.digital.nhs.uk/EA/075299/111%20Online%20Covid-19%20data_2020-03-31.csv");
+        GetNHSData("https://files.digital.nhs.uk/D6/BAA97E/NHS%20Pathways%20Covid-19%20data%202020-04-01.csv");
+        GetNHSOnlineData("https://files.digital.nhs.uk/1F/5113E1/111%20Online%20Covid-19%20data_2020-04-01.csv");
 
         for (Map.Entry<String, Map<Date, MeasureReport>> en : nhs.entrySet()) {
            // System.out.println("Key = " + en.getKey());
@@ -407,13 +420,15 @@ private void addGroup(MeasureReport report, String system, String code, String d
                         report.setPeriod(new Period().setStart(reportDate));
                         report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
                         report.setType(MeasureReport.MeasureReportType.SUMMARY);
-                        report.setReporter(new Reference().setDisplay(nextLine[5]).setIdentifier(new Identifier().setSystem(ONSSystem).setValue(nextLine[4])));
+                        report.setReporter(new Reference().setIdentifier(new Identifier().setSystem(ONSSystem).setValue(nextLine[4])));
                         report.setMeasure(uec);
 
                         Location location = locations.get(nextLine[4]);
                         if (location != null) {
                             report.getSubject().setReference(location.getId());
+                            report.getSubject().setDisplay(location.getName());
                             report.getReporter().setReference(location.getId());
+                            report.getReporter().setDisplay(location.getName());
                             ccg.put(reportDate,report);
                         }
                     }
@@ -610,7 +625,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 // Set to date before
                 ldt = ldt.plusDays(1);
                 Date endDate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-                String url = "MeasureReport?identifier=https://www.arcgis.com/fhir/CountyUAs_cases|&reporter.partof.identifier="+nextLine[0]+"&date=ge"+date+"&date=lt"+dateStamp.format(endDate)+"&_count=50";
+                String url = "MeasureReport?identifier=https://www.arcgis.com/fhir/CountyUAs_cases|&reporter.partof.identifier="+nextLine[0]+"&date=ge"+date+"&date=lt"+dateStamp.format(endDate)+"T00:00+00:00&_count=50";
                 log.info(url);
                 Bundle results = client.search().byUrl(url).returnBundle(Bundle.class).execute();
                 int cases =0;
