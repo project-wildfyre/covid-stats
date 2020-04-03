@@ -18,6 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URL;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -73,7 +74,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
         SpringApplication.run(UKCovidExtractApp.class, args);
     }
 
-    String FILE_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
+    String PHE_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
 
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -620,12 +621,16 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
             for (CSVIterator it = iterator; it.hasNext(); ) {
                 String[] nextLine = it.next();
+                /*
                 Date startDate = dateStamp.parse(date);
                 LocalDateTime ldt = LocalDateTime.ofInstant(startDate.toInstant(), ZoneId.systemDefault());
                 // Set to date before
                 ldt = ldt.plusDays(1);
                 Date endDate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-                String url = "MeasureReport?identifier=https://www.arcgis.com/fhir/CountyUAs_cases|&reporter.partof.identifier="+nextLine[0]+"&date=ge"+date+"&date=lt"+dateStamp.format(endDate)+"T00:00+00:00&_count=50";
+                //String url = "MeasureReport?identifier=https://www.arcgis.com/fhir/CountyUAs_cases|&reporter.partof.identifier="+nextLine[0]+"&date=ge"+date+"&date=lt"+dateStamp.format(endDate)+"T00:00+00:00&_count=50";
+
+                */
+                String url = "MeasureReport?measure=21263&reporter.partof.identifier="+nextLine[0]+"&date=ge"+date+"T00:00:00.000+00:00&_count=50";
                 log.info(url);
                 Bundle results = client.search().byUrl(url).returnBundle(Bundle.class).execute();
                 int cases =0;
@@ -875,7 +880,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
     }
 
     private void ProcessDailyUAFile(Date reportDate) throws Exception {
-        BufferedInputStream in = new BufferedInputStream(new URL(FILE_URL).openStream());
+        BufferedInputStream in = new BufferedInputStream(new URL(PHE_URL).openStream());
 
         CaseHandler handler = new CaseHandler(reportDate);
         Process(in, handler);
