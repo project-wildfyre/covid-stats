@@ -68,8 +68,9 @@ public class UKCovidExtractApp implements CommandLineRunner {
     private Map<String, BigDecimal> population = new HashMap<>();
 
     private Map<String, Map<Date, NHSStat>> nhs = new HashMap<>();
+    private Map<String, Map<Date, NHSStat>> nhsParent;
 
-   // private Map<String, Map<Date, NHSStat>> nhsStatMap = new HashMap<>();
+    // private Map<String, Map<Date, NHSStat>> nhsStatMap = new HashMap<>();
 
     ClassLoader classLoader = getClass().getClassLoader();
 
@@ -120,21 +121,18 @@ public class UKCovidExtractApp implements CommandLineRunner {
         /*
         for (int i = 1; i<10;i++) {
             RemoveOrgReport("E3900000"+i);
-        }
-        for (int i = 10; i<50;i++) {
-            RemoveOrgReport("E390000"+i);
-        }
-*/
+        }*/
 
         // Population
 
-        log.info("Processing Locations");
+        log.info("Processing Population");
         ProcessPopulationsFile("UK.csv");
         ProcessPopulationsFile("EnglandRegions.csv");
         ProcessPopulationsFile("LocalAuthority.csv");
         ProcessPopulationsFile("2019-ccg-estimates.csv");
 
         // Locations
+        log.info("Processing Locations");
         ProcessLocationsFile("E92_CTRY.csv","CTRY");
         ProcessLocationsFile("E12_RGN.csv","RGN");
         ProcessLocationsFile("E11_MCTY.csv","MCTY");
@@ -154,6 +152,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         ProcessLocationsFile("E38_CCG.csv","CCG");
         ProcessLocationsFile("E_UNK.csv","NHS_OTHERREGION");
+
         ProcessLocationsFile("E12_RGN.csv","NHSRGN");
         ProcessLocationsFile("E06_UA.csv","NHSUA");
 
@@ -182,40 +181,18 @@ public class UKCovidExtractApp implements CommandLineRunner {
         GetNHSOnlineData(NHSONLINE_URL);
 
         // Build entries for top level codes
-        Map<String, Map<Date, NHSStat>> nhsNew = new HashMap<>();
+        nhsParent = new HashMap<>();
+
         for (Map.Entry<String, Map<Date, NHSStat>> en : nhs.entrySet()) {
             for (Map.Entry<Date, NHSStat> entry : en.getValue().entrySet()) {
-
-                populateParent(nhsNew, entry.getValue());
+                populateParent( entry.getValue());
             }
         }
-        this.nhs.putAll(nhsNew);
+        this.nhs.putAll(nhsParent);
+
 
         if (missinglocation.size()>0) {
-            File file = new File("MissingLocation.csv");
-            try {
-                // create FileWriter object with file as parameter
-                FileWriter outputfile = new FileWriter(file);
-
-                // create CSVWriter object filewriter object as parameter
-                CSVWriter
-                        writer = new CSVWriter(outputfile);
-                // adding header to csv
-                String[] header = { "GEOGCD", "GEOGNM" };
-                writer.writeNext(header);
-
-                for (Map.Entry<String, String> location : missinglocation.entrySet()) {
-                    String[] data = { location.getKey(), location.getValue()};
-                    writer.writeNext(data);
-                }
-
-                // closing writer connection
-                writer.close();
-            }
-            catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            ProcessMissingLocation();
             throw new InternalError("Missing data");
         }
 
@@ -253,6 +230,33 @@ public class UKCovidExtractApp implements CommandLineRunner {
     }
 
 
+    private void ProcessMissingLocation() {
+        File file = new File("MissingLocation.csv");
+        try {
+            // create FileWriter object with file as parameter
+            FileWriter outputfile = new FileWriter(file);
+
+            // create CSVWriter object filewriter object as parameter
+            CSVWriter
+                    writer = new CSVWriter(outputfile);
+            // adding header to csv
+            String[] header = { "GEOGCD", "GEOGNM" };
+            writer.writeNext(header);
+
+            for (Map.Entry<String, String> location : missinglocation.entrySet()) {
+                String[] data = { location.getKey(), location.getValue()};
+                writer.writeNext(data);
+            }
+
+            // closing writer connection
+            writer.close();
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     private void CalculateNHSRegional() {
         for (Map.Entry<String, Map<Date, NHSStat>> org : nhs.entrySet()) {
             int maleTriageTotal =0;
@@ -262,12 +266,10 @@ public class UKCovidExtractApp implements CommandLineRunner {
             int femaleOnlineTotal =0;
             int unknownOnlineTotal =0;
 
-            Map<Date, NHSStat> ccg = nhs.get(org.getKey());
-
-
             Map<Date, NHSStat> treeMap = new TreeMap(org.getValue());
+
             for (Map.Entry<Date, NHSStat> dateentry : treeMap.entrySet()) {
-                // System.out.println("Key = " + dateentry.getKey());
+                //System.out.println("Key = " + dateentry.getKey());
                 NHSStat nhs = dateentry.getValue();
 
                 MeasureReport report = new MeasureReport();
@@ -324,37 +326,25 @@ public class UKCovidExtractApp implements CommandLineRunner {
         }
     }
 
-
-/*
-private void processNHSReport(Map.Entry<String, Map<Date, NHSStat>> en) {
-    Map<Date,NHSStat> treeMap = new TreeMap(en.getValue());
-    for ( Map.Entry<Date, NHSStat> dateentry : treeMap.entrySet()) {
-
-        NHSStat report = dateentry.getValue();
-        log.info("{} count {} {}", report.org, report.femaleTriage + report.maleTriage);
-
-        populateParent(report);
-    }
-}
-*/
-
-   private void  populateParent( Map<String, Map<Date, NHSStat>> nhsNew,  NHSStat nhs) {
+   private void  populateParent(  NHSStat nhs) {
         Location location = locations.get(nhs.org);
         if (location != null) {
             Location parent = locations.get(location.getPartOf().getIdentifier().getValue());
             if (parent != null) {
 
-                Map<Date, NHSStat> nhsStat = nhsNew.get(parent.getIdentifierFirstRep().getValue());
+                Map<Date, NHSStat> nhsStat = nhsParent.get(parent.getIdentifierFirstRep().getValue());
                 if (nhsStat == null) {
                     nhsStat = new HashMap<>();
-                    nhsNew.put(parent.getIdentifierFirstRep().getValue(), nhsStat);
+                    nhsParent.put(parent.getIdentifierFirstRep().getValue(), nhsStat);
                 }
-                NHSStat parentStat = nhsStat.get(nhs.org);
+                NHSStat parentStat = nhsStat.get(nhs.date);
                 if (parentStat == null) {
                     parentStat = new NHSStat();
                     parentStat.org = parent.getIdentifierFirstRep().getValue();
                     parentStat.date = nhs.date;
                     nhsStat.put(nhs.date, parentStat);
+                } else {
+                    log.debug("Found past entry");
                 }
                 parentStat.femaleTriage += nhs.femaleTriage;
                 parentStat.maleTriage += nhs.maleTriage;
@@ -363,8 +353,14 @@ private void processNHSReport(Map.Entry<String, Map<Date, NHSStat>> en) {
                 parentStat.femaleOnline += nhs.femaleOnline;
                 parentStat.unknownOnline += nhs.unknownOnline;
 
-                populateParent(nhsNew,parentStat);
+                populateParent(parentStat);
+            } else {
+                if (!nhs.org.equals("E40000000")) {
+                    throw new InternalError("Parent of " + nhs.org + " should be present");
+                }
             }
+        } else {
+            throw new InternalError("Org should not be empty");
         }
     }
 private void addGroup(MeasureReport report, String system, String code, String display, int qtyValue, BigDecimal population ) {
@@ -814,7 +810,11 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 } else {
                     String[] nextLine = it.next();
                     if (!nextLine[0].isEmpty()) {
-                        population.put(nextLine[0], new BigDecimal(nextLine[4]));
+                        try {
+                        population.put(nextLine[0], new BigDecimal(nextLine[4])); }
+                        catch (Exception ex ) {
+                            log.warn("{} invalid population count {}",nextLine[0],nextLine[4]);
+                        }
                     }
                 }
                 count++;
