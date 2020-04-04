@@ -73,6 +73,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
     }
 
     String PHE_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
+    String NHS_URL = "https://files.digital.nhs.uk/8E/AE4094/NHS%20Pathways%20Covid-19%20data%202020-04-02.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/9D/E01A56/111%20Online%20Covid-19%20data_2020-04-02.csv";
 
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -82,8 +84,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     Date today = null;
 
-  // IGenericClient client = ctxFHIR.newRestfulGenericClient("https://fhir.test.xgenome.co.uk/R4");
-    IGenericClient client = ctxFHIR.newRestfulGenericClient("http://fhirserver-env-1.eba-aepmzc4d.eu-west-2.elasticbeanstalk.com:8186/R4");
+    IGenericClient client = ctxFHIR.newRestfulGenericClient("https://fhir.test.xgenome.co.uk/R4");
+    //IGenericClient client = ctxFHIR.newRestfulGenericClient("http://fhirserver-env-1.eba-aepmzc4d.eu-west-2.elasticbeanstalk.com:8186/R4");
    // IGenericClient client = ctxFHIR.newRestfulGenericClient("https://fhir-test-526344451.eu-west-2.elb.amazonaws.com/R4");
 
     @Override
@@ -159,8 +161,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
     private void PopulateNHS() throws Exception {
 
         // https://digital.nhs.uk/data-and-information/publications/statistical/mi-potential-covid-19-symptoms-reported-through-nhs-pathways-and-111-online/latest
-        GetNHSData("https://files.digital.nhs.uk/AE/AB9ABB/NHS%20Pathways%20Covid-19%20data%202020-03-31.csv");
-        GetNHSOnlineData("https://files.digital.nhs.uk/EA/075299/111%20Online%20Covid-19%20data_2020-03-31.csv");
+        GetNHSData( NHS_URL );
+        GetNHSOnlineData(NHSONLINE_URL);
 
         for (Map.Entry<String, Map<Date, MeasureReport>> en : nhs.entrySet()) {
            // System.out.println("Key = " + en.getKey());
