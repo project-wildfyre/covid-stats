@@ -111,6 +111,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
         uec= "Measure/"+outcome.getId().getIdPart();
         ProcessDeprivation();
 
+        RemoveOrgReport("E39000009");
+        for (int i = 10; i<50;i++) {
+            RemoveOrgReport("E390000"+i);
+        }
+
 
         // Population
 
@@ -413,10 +418,19 @@ private void addGroup(MeasureReport report, String system, String code, String d
                     .setCode(code)
             .setDisplay(display)
     ));
-//"http://fhir.mayfield-is.co.uk"
+
 
 }
 
+    private void RemoveOrgReport(String org) {
+        Bundle bundle = client.search().byUrl("MeasureReport?reporter.identifier="+org).returnBundle(Bundle.class).execute();
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+            if (entry.getResource() instanceof MeasureReport) {
+                client.delete().resourceById(((MeasureReport) entry.getResource()).getIdElement()).execute();
+            }
+        }
+
+    }
     private void GetNHSData(String fileUrl) throws Exception {
         BufferedInputStream zis = new BufferedInputStream(new URL(fileUrl).openStream());
         try {
@@ -1066,7 +1080,6 @@ private void addGroup(MeasureReport report, String system, String code, String d
             }
 
 
-
             BigDecimal pop = population.get(theRecord[0]);
             if (pop != null) {
                 Extension extensionpop = location.addExtension();
@@ -1226,109 +1239,6 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
 
     }
-
-
-       /*
-    private void LoadYesterdays()  {
-        Bundle bundle = null;
-        Date indate = new Date();
-        LocalDateTime ldt = LocalDateTime.ofInstant(indate.toInstant(), ZoneId.systemDefault());
-        // Set to date before
-        ldt = ldt.minusDays(2);
-        Date reportDate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-
-        int count = 0;
-        int fileCnt=0;
-        for (Location location : locations.values() ) {
-
-            if ((count % batchSize) == 0 ) {
-
-                if (bundle != null) ProcessYesterday(bundle);
-                bundle = new Bundle();
-                bundle.getIdentifier().setSystem("https://fhir.mayfield-is.co.uk/Id/")
-                        .setValue(UUID.randomUUID().toString());
-
-                bundle.setType(Bundle.BundleType.TRANSACTION);
-                fileCnt++;
-            }
-            Bundle.BundleEntryComponent entry = bundle.addEntry()
-                    .setFullUrl(UUID_Prefix + UUID.randomUUID().toString());
-            String conditionalUrl = "identifier=https://www.arcgis.com/fhir/CountyUAs_cases|" +  location.getIdentifierFirstRep().getValue() + "-" +stamp.format(reportDate);
-            entry.getRequest()
-                    .setMethod(Bundle.HTTPVerb.GET)
-                    .setUrl("MeasureReport?" + conditionalUrl);
-            count++;
-        }
-        if (bundle != null && bundle.getEntry().size() > 0) {
-            ProcessYesterday(bundle);
-        }
-
-
-    }
-
-
-    private void ProcessYesterday(Bundle bundle) {
-        log.info("Processing Yesterdays data");
-        Bundle resp = client.transaction().withBundle(bundle).execute();
-        for (Bundle.BundleEntryComponent entry : resp.getEntry()) {
-            if (entry.hasResource()) {
-                for (Bundle.BundleEntryComponent result : ((Bundle) entry.getResource()).getEntry()) {
-                    MeasureReport report = (MeasureReport) result.getResource();
-                    pastMeasures.put(report.getReporter().getReference(),report);
-                }
-            }
-        }
-    }
-
-     */
-
-      /*
-    private void FixLocation() {
-
-
-        for (Location location : locations.values() ) {
-
-            Bundle bundle = new Bundle();
-            bundle.getIdentifier().setSystem("https://fhir.mayfield-is.co.uk/Id/")
-                    .setValue(UUID.randomUUID().toString());
-
-            bundle.setType(Bundle.BundleType.TRANSACTION);
-            Bundle.BundleEntryComponent entry = bundle.addEntry()
-                    .setFullUrl(UUID_Prefix + UUID.randomUUID().toString());
-            String conditionalUrl = getConditional(location.getIdentifierFirstRep());
-            entry.getRequest()
-                    .setMethod(Bundle.HTTPVerb.GET)
-                    .setUrl("Location?" + conditionalUrl);
-
-            Bundle resp = client.transaction().withBundle(bundle).execute();
-
-            for (Bundle.BundleEntryComponent delt : resp.getEntry()) {
-                if (delt.getResource() instanceof Bundle && ((Bundle) delt.getResource()).getEntry().size()>1) {
-                    Bundle delbundle = new Bundle();
-                    delbundle.getIdentifier().setSystem("https://fhir.mayfield-is.co.uk/Id/")
-                            .setValue(bundle.getId());
-
-                    delbundle.setType(Bundle.BundleType.TRANSACTION);
-                    //log.info(ctxFHIR.newJsonParser().setPrettyPrint(true).encodeResourceToString(resp));
-
-                    for (Bundle.BundleEntryComponent del : ((Bundle) delt.getResource()).getEntry()) {
-                        Bundle.BundleEntryComponent delentry = delbundle.addEntry()
-                                .setFullUrl(UUID_Prefix + UUID.randomUUID().toString());
-
-                        delentry.getRequest()
-                                .setMethod(Bundle.HTTPVerb.DELETE)
-                                .setUrl(del.getResource().getId());
-                    }
-                    log.info(ctxFHIR.newJsonParser().setPrettyPrint(true).encodeResourceToString(delbundle));
-                    Bundle respdel = client.transaction().withBundle(delbundle).execute();
-                }
-            }
-        }
-    }
-
-     */
-
-
 
 
 }
