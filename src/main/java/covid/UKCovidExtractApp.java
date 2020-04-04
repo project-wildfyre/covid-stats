@@ -110,12 +110,14 @@ public class UKCovidExtractApp implements CommandLineRunner {
         outcome = client.create().resource(measure).conditionalByUrl("Measure?identifier=https://fhir.mayfield-is.co.uk/MEASURCODE|UEC_COVID").execute();
         uec= "Measure/"+outcome.getId().getIdPart();
         ProcessDeprivation();
-
-        RemoveOrgReport("E39000009");
+        /*
+        for (int i = 1; i<10;i++) {
+            RemoveOrgReport("E3900000"+i);
+        }
         for (int i = 10; i<50;i++) {
             RemoveOrgReport("E390000"+i);
         }
-
+*/
 
         // Population
 
