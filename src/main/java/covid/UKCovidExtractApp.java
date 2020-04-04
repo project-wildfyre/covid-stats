@@ -102,7 +102,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
         Date in = new Date();
         LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
         // Set to date before
-        ldt = ldt.minusDays(1);
+       // ldt = ldt.minusDays(1);
         today = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 
         Measure measure = new Measure();
@@ -162,8 +162,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
   //      Disable for now, can use to correct past results.
       //  log.info("Processing Past Data");
-       // reports = new ArrayList<>();
-     //   ProcessHistoric();
+        reports = new ArrayList<>();
+        ProcessHistoric();
 
         // Process Daily UA File
         reports = new ArrayList<>();
@@ -596,15 +596,20 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
             for (CSVIterator it = iterator; it.hasNext(); ) {
                 String[] nextLine = it.next();
-                /*
+
                 Date startDate = dateStamp.parse(date);
                 LocalDateTime ldt = LocalDateTime.ofInstant(startDate.toInstant(), ZoneId.systemDefault());
                 // Set to date before
                 ldt = ldt.plusDays(1);
                 Date endDate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+                //dateStamp.format(endDate)
 
-                 */
-                String url = "MeasureReport?measure=21263&reporter.partof.identifier="+nextLine[0]+"&date=ge"+date+"T00:00:00.000+00:00&_count=50";
+                String url = "MeasureReport?measure=21263&subject.partof.identifier="+
+                        nextLine[0]+
+                        "&date=ge"+date+
+                        "&date=lt"+dateStamp.format(endDate)+
+                        //+"T23:00:00.000+00:00"+
+                        "&_count=50";
                 log.info(url);
                 Bundle results = client.search().byUrl(url).returnBundle(Bundle.class).execute();
                 int cases =0;
