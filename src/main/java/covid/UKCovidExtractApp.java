@@ -156,21 +156,178 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E12_RGN.csv","NHSRGN");
         ProcessLocationsFile("E06_UA.csv","NHSUA");
 
+        for(String location : locations.keySet()) {
+            if (!location.equals(GetMergedId(location))) {
+                log.info("Removing reports for {}",location);
+                RemoveOrgReport(location);
+            }
+        }
         reports = new ArrayList<>();
         PopulateNHS();
 
 
   //      Disable for now, can use to correct past results.
       //  log.info("Processing Past Data");
-        reports = new ArrayList<>();
-        ProcessHistoric();
+      //  reports = new ArrayList<>();
+      //  ProcessHistoric();
 
         // Process Daily UA File
         reports = new ArrayList<>();
         ProcessDailyUAFile(today);
 
         log.info("Calculating Regions");
-        CalculateRegions(dateStamp.format(today));
+        CalculateRegions(dateStamp.format(today),false);
+
+    }
+
+    private String GetMergedId(String oldId) {
+
+        // Source https://digital.nhs.uk/services/organisation-data-service/change-summary---stp-reconfiguration
+        switch (oldId) {
+            // Jorvik
+            case "E38000018" :
+            case "E38000019":
+            case "E38000001":
+                return "E38000232"; //Bradford
+            case "E38000073":
+            case "E38000145":
+            case "E38000069":
+                return "E38000241"; // North Yorkshire
+
+            case "E38000162":
+            case "E38000075":
+            case "E38000042":
+                return "E38000247"; // Tees Valley
+            case "E38000116":
+            case "E38000047":
+                return "E38000234"; // County Durham
+            case "E38000056":
+            case "E38000151":
+            case "E38000189":
+            case "E38000196":
+                return "E38000233"; // north cheshire
+
+            case "E38000078":
+            case "E38000139":
+            case "E38000166":
+            case "E38000211":
+                return "E38000236"; // Hereford and Worcs
+
+            case "E38000037":
+            case "E38000108":
+                return "E38000242"; // Norhamptomshire
+
+            case "E38000103":
+            case "E38000109":
+            case "E38000132":
+            case "E38000133":
+            case "E38000134":
+            case "E38000142":
+                return "E38000243"; // Notts
+
+            case "E38000099":
+            case "E38000100":
+            case "E38000157":
+            case "E38000165":
+                return "E38000238"; // Lincs
+
+
+            case "E38000063":
+            case "E38000124":
+            case "E38000203":
+            case "E38000219":
+            case "E3800013":
+                return "E38000239"; //NHS Norfolk & Waveney CCG
+
+            case "E38000011":
+            case "E38000023":
+            case "E38000066":
+            case "E38000092":
+            case "E38000098":
+            case "E38000171":
+                return "E38000244"; // NHS South East London CCG
+
+            case "E38000040":
+            case "E38000090":
+            case "E38000140":
+            case "E38000105":
+            case "E38000193":
+            case "E38000179":
+                return "E38000245"; // NHS South West London CCG
+
+
+            case "E38000005":
+            case "E38000027":
+            case "E38000057":
+            case "E38000072":
+            case "E38000088":
+                return "E38000240"; //NHS North Central London CCG
+
+            case "E38000002":
+            case "E38000029":
+            case "E38000043":
+            case "E38000104":
+            case "E38000156":
+            case "E38000180":
+            case "E38000184":
+            case "E38000199":
+                return "E38000237"; //NHS Kent and Medway CCG
+
+            case "E38000067":
+            case "E38000128":
+            case "E38000177":
+            case "E38000054":
+                return "E38000246"; //NHS Surrey Heartlands CCG
+
+            case "E38000213":
+            case "E38000039":
+            case "E38000083":
+                return "E38000248"; // NHS West Sussex CCG
+
+            case "E38000076":
+            case "E38000081":
+            case "E38000055":
+                return "E38000235"; // NHS East Sussex CCG
+
+            case "E38000009":
+            case "E38000181":
+            case "E38000206":
+                return "E38000231"; // NHS Bath and North East Somerset, Swindon and Wiltshire CCG
+            default:
+                return oldId;
+        }
+
+    }
+
+    private void UploadReports() throws Exception {
+        Bundle bundle = null;
+
+        int count = 0;
+        int fileCnt=0;
+
+        for (MeasureReport measureReport : this.reports) {
+
+            if ((count % batchSize) == 0) {
+
+                if (bundle != null) sendMeasures(bundle, fileCnt);
+                bundle = new Bundle();
+                bundle.getIdentifier().setSystem("https://fhir.mayfield-is.co.uk/Id/")
+                        .setValue(UUID.randomUUID().toString());
+                bundle.setType(Bundle.BundleType.TRANSACTION);
+                fileCnt++;
+            }
+            Bundle.BundleEntryComponent entry = bundle.addEntry()
+                    .setFullUrl(UUID_Prefix + UUID.randomUUID().toString())
+                    .setResource(measureReport);
+            String conditionalUrl = getConditional(measureReport.getIdentifierFirstRep());
+            entry.getRequest()
+                    .setMethod(Bundle.HTTPVerb.PUT)
+                    .setUrl(entry.getResource().getClass().getSimpleName() + "?" + conditionalUrl);
+            count++;
+        }
+        if (bundle != null && bundle.getEntry().size() > 0) {
+            sendMeasures(bundle, fileCnt);
+        }
 
     }
 
@@ -198,35 +355,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         CalculateNHSRegional();
 
-        Bundle bundle = null;
-
-        int count = 0;
-        int fileCnt=0;
-
-        for (MeasureReport measureReport : this.reports) {
-
-                if ((count % batchSize) == 0) {
-
-                    if (bundle != null) processMeasures(bundle, fileCnt);
-                    bundle = new Bundle();
-                    bundle.getIdentifier().setSystem("https://fhir.mayfield-is.co.uk/Id/")
-                            .setValue(UUID.randomUUID().toString());
-                    bundle.setType(Bundle.BundleType.TRANSACTION);
-                    fileCnt++;
-                }
-                Bundle.BundleEntryComponent entry = bundle.addEntry()
-                        .setFullUrl(UUID_Prefix + UUID.randomUUID().toString())
-                        .setResource(measureReport);
-                String conditionalUrl = getConditional(measureReport.getIdentifierFirstRep());
-                entry.getRequest()
-                        .setMethod(Bundle.HTTPVerb.PUT)
-                        .setUrl(entry.getResource().getClass().getSimpleName() + "?" + conditionalUrl);
-                count++;
-            }
-            if (bundle != null && bundle.getEntry().size() > 0) {
-                processMeasures(bundle, fileCnt);
-            }
-
+        UploadReports();
     }
 
 
@@ -405,25 +534,26 @@ private void addGroup(MeasureReport report, String system, String code, String d
                     it.next();
                 } else {
                     String[] nextLine = it.next();
-                    Map<Date, NHSStat> ccg = nhs.get(nextLine[4]);
+                    String onsCode = GetMergedId(nextLine[4]);
+                    Map<Date, NHSStat> ccg = nhs.get(onsCode);
                     if (ccg == null) {
                         ccg = new HashMap<>();
-                        nhs.put(nextLine[4],ccg);
+                        nhs.put(onsCode,ccg);
                     }
 
                     Date reportDate = hisFormat.parse(nextLine[1]);
                     NHSStat report = ccg.get(reportDate);
                     if (report == null) {
                         report = new NHSStat();
-                        report.org = nextLine[4];
+                        report.org = onsCode;
                         report.date = reportDate;
 
-                        Location location = locations.get(nextLine[4]);
+                        Location location = locations.get(onsCode);
                         if (location != null) {
                             ccg.put(reportDate,report);
                         } else {
-                            if (missinglocation.get(nextLine[4]) == null) {
-                                missinglocation.put(nextLine[4],nextLine[5]);
+                            if (missinglocation.get(onsCode) == null) {
+                                missinglocation.put(onsCode,nextLine[5]);
                             }
                         }
                     }
@@ -457,26 +587,27 @@ private void addGroup(MeasureReport report, String system, String code, String d
             for (CSVIterator it = iterator; it.hasNext(); ) {
 
                 if (count == 0) {
-                    header = it.next();
+                    it.next();
                 } else {
                     String[] nextLine = it.next();
-                    Map<Date, NHSStat> ccg = nhs.get(nextLine[3]);
+                    String onsCode = GetMergedId(nextLine[3]);
+                    Map<Date, NHSStat> ccg = nhs.get(onsCode);
                     if (ccg == null) {
                         ccg = new HashMap<>();
-                        nhs.put(nextLine[3],ccg);
+                        nhs.put(onsCode,ccg);
                     }
                     Date reportDate = hisFormat.parse(nextLine[0]);
                     NHSStat report = ccg.get(reportDate);
                     if (report == null) {
                         report = new NHSStat();
-                        report.org = nextLine[3];
+                        report.org = onsCode;
                         report.date = reportDate;
-                        Location location = locations.get(nextLine[3]);
+                        Location location = locations.get(onsCode);
                         if (location != null) {
                             ccg.put(reportDate,report);
                         } else {
-                            if (missinglocation.get(nextLine[3]) == null) {
-                                missinglocation.put(nextLine[3],nextLine[4]);
+                            if (missinglocation.get(onsCode) == null) {
+                                missinglocation.put(onsCode,nextLine[4]);
                             }
                         }
                     }
@@ -570,7 +701,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
             for (int i = 2; i < header.length; i++) {
                 String date = header[i].replace("\"","");
                 if (!date.isEmpty() ) {
-                    CalculateRegions(dateStamp.format(hisFormat.parse(date)));
+                    CalculateRegions(dateStamp.format(hisFormat.parse(date)),true);
                 }
             }
 
@@ -580,7 +711,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
     }
 
-    private void  CalculateRegions(String date) {
+    private void  CalculateRegions(String date, Boolean endDt) {
         InputStream zis = classLoader.getResourceAsStream("EnglandRegions.csv");
 
         Bundle bundle = new Bundle();
@@ -607,15 +738,20 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 String url = "MeasureReport?measure=21263&subject.partof.identifier="+
                         nextLine[0]+
                         "&date=ge"+date+
-                        "&date=lt"+dateStamp.format(endDate)+
-                        //+"T23:00:00.000+00:00"+
                         "&_count=50";
+                if (endDt) {
+                    url += "&date=lt"+dateStamp.format(endDate);
+                }
+
                 log.info(url);
                 Bundle results = client.search().byUrl(url).returnBundle(Bundle.class).execute();
                 int cases =0;
                 for(Bundle.BundleEntryComponent entryComponent : results.getEntry()) {
                     if (entryComponent.getResource() instanceof MeasureReport) {
-                        cases +=  ((MeasureReport) entryComponent.getResource()).getGroupFirstRep().getMeasureScore().getValue().intValue();
+                        MeasureReport measureReport = ((MeasureReport) entryComponent.getResource());
+                        if (measureReport.getIdentifierFirstRep().getValue().contains(stamp.format(dateStamp.parse(date)))) {
+                            cases += measureReport.getGroupFirstRep().getMeasureScore().getValue().intValue();
+                        }
                     }
                 }
                 log.info("{} Regional Cases Count = {}",nextLine[0], cases);
@@ -815,10 +951,19 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 } else {
                     String[] nextLine = it.next();
                     if (!nextLine[0].isEmpty()) {
+                        String onsCode = GetMergedId(nextLine[0]);
                         try {
-                        population.put(nextLine[0], new BigDecimal(nextLine[4])); }
+
+                            if (population.get(onsCode) != null) {
+                                BigDecimal pop = population.get(onsCode);
+                                pop = pop.add(new BigDecimal(nextLine[4]));
+                                population.replace(onsCode, pop);
+                            } else {
+                                population.put(onsCode, new BigDecimal(nextLine[4]));
+                            }
+                        }
                         catch (Exception ex ) {
-                            log.warn("{} invalid population count {}",nextLine[0],nextLine[4]);
+                            log.warn("{} invalid population count {}",onsCode,nextLine[4]);
                         }
                     }
                 }
@@ -870,34 +1015,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
         CaseHandler handler = new CaseHandler(reportDate);
         Process(in, handler);
 
-        Bundle bundle = null;
-
-        int count = 0;
-        int fileCnt=0;
-
-        for (Iterator<MeasureReport> iterator = reports.iterator(); iterator.hasNext(); ) {
-            MeasureReport measureReport = iterator.next();
-            if ((count % batchSize) == 0 ) {
-
-                if (bundle != null) processMeasures(bundle, fileCnt);
-                bundle = new Bundle();
-                bundle.getIdentifier().setSystem("https://fhir.mayfield-is.co.uk/Id/")
-                        .setValue(UUID.randomUUID().toString());
-                bundle.setType(Bundle.BundleType.TRANSACTION);
-                fileCnt++;
-            }
-            Bundle.BundleEntryComponent entry = bundle.addEntry()
-                    .setFullUrl(UUID_Prefix + UUID.randomUUID().toString())
-                    .setResource(measureReport);
-            String conditionalUrl = getConditional(measureReport.getIdentifierFirstRep());
-            entry.getRequest()
-                    .setMethod(Bundle.HTTPVerb.PUT)
-                    .setUrl(entry.getResource().getClass().getSimpleName() + "?" + conditionalUrl);
-            count++;
-        }
-        if (bundle != null && bundle.getEntry().size() > 0) {
-            processMeasures(bundle,fileCnt);
-        }
+        UploadReports();
 
     }
 
@@ -912,39 +1030,13 @@ private void addGroup(MeasureReport report, String system, String code, String d
         CaseHandler handler = new CaseHandler(reportDate);
         Process(in, handler);
 
-        Bundle bundle = null;
+        UploadReports();
 
-        int count = 0;
-        int fileCnt=0;
-
-        for (Iterator<MeasureReport> iterator = reports.iterator(); iterator.hasNext(); ) {
-            MeasureReport measureReport = iterator.next();
-            if ((count % batchSize) == 0 ) {
-
-                if (bundle != null) processMeasures(bundle, fileCnt);
-                bundle = new Bundle();
-                bundle.getIdentifier().setSystem("https://fhir.mayfield-is.co.uk/Id/")
-                        .setValue(UUID.randomUUID().toString());
-                bundle.setType(Bundle.BundleType.TRANSACTION);
-                fileCnt++;
-            }
-            Bundle.BundleEntryComponent entry = bundle.addEntry()
-                    .setFullUrl(UUID_Prefix + UUID.randomUUID().toString())
-                    .setResource(measureReport);
-            String conditionalUrl = getConditional(measureReport.getIdentifierFirstRep());
-            entry.getRequest()
-                    .setMethod(Bundle.HTTPVerb.PUT)
-                    .setUrl(entry.getResource().getClass().getSimpleName() + "?" + conditionalUrl);
-            count++;
-        }
-        if (bundle != null && bundle.getEntry().size() > 0) {
-            processMeasures(bundle,fileCnt);
-        }
 
     }
 
 
-    private void processMeasures(Bundle bundle, int fileCount) throws Exception {
+    private void sendMeasures(Bundle bundle, int fileCount) throws Exception {
         log.info("Processing Cases "+ fileCount);
 
         Bundle resp = client.transaction().withBundle(bundle).execute();
