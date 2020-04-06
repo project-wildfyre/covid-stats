@@ -7,7 +7,9 @@ import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import com.opencsv.CSVIterator;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.Charsets;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hl7.fhir.r4.model.*;
@@ -36,17 +38,18 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         Date date;
 
-        int maleTriage = 0;
-        int femaleTriage = 0;
-        int unknownTriage = 0;
+        Integer maleTriage = 0;
+        Integer femaleTriage = 0;
+        Integer unknownTriage = 0;
 
-        int maleOnline = 0;
-        int femaleOnline = 0;
-        int unknownOnline = 0;
+        Integer maleOnline = 0;
+        Integer femaleOnline = 0;
+        Integer unknownOnline = 0;
 
-        int population= 0;
-
+        Double nhsCostEstimate = Double.valueOf(0);
     }
+
+
 
     String phe;
     String uec;
@@ -70,9 +73,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
     private Map<String, BigDecimal> population = new HashMap<>();
 
     private Map<String, Map<Date, NHSStat>> nhs = new HashMap<>();
-    private Map<String, Map<Date, NHSStat>> nhsParent;
-
-    // private Map<String, Map<Date, NHSStat>> nhsStatMap = new HashMap<>();
+    private Map<String, Map<Date, NHSStat>> nhsParent = new HashMap<>();
+    private Map<String, Map<String, Integer>> ccgPopulation = new HashMap<>();
 
     ClassLoader classLoader = getClass().getClassLoader();
 
@@ -81,8 +83,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
     }
 
     String PHE_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
-    String NHS_URL = "https://files.digital.nhs.uk/8E/AE4094/NHS%20Pathways%20Covid-19%20data%202020-04-02.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/9D/E01A56/111%20Online%20Covid-19%20data_2020-04-02.csv";
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/45/DEE03C/NHS%20Pathways%20Covid-19%20data%202020-04-05.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/13/DD5187/111%20Online%20Covid-19%20data_2020-04-05.csv";
     String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -107,19 +109,19 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         SetupMeasures();
 
+        ProcessCCGPopulationEstimates();
+
         ProcessDeprivation();
         SetupPopulations();
 
+
         SetupPHELocations();
-        ProcessPHEExcelFile();
-
-
         SetupNHSLocations();
-
         PopulateNHS();
 
+      //  if (true) throw new InternalError("EOF");
 
-  //  CalculateRegions(dateStamp.format(today),false);
+        ProcessPHEExcelFile();
 
     }
 
@@ -187,6 +189,83 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         ProcessLocationsFile("E12_RGN.csv","NHSRGN");
         ProcessLocationsFile("E06_UA.csv","NHSUA");
+    }
+
+    private void ProcessCCGPopulationEstimates() {
+
+
+        try {
+            InputStream zis = classLoader.getResourceAsStream("CCGEstimates2018.xls");
+            Workbook wb = new HSSFWorkbook(zis);
+            Sheet  sheet = wb.getSheet("Persons");
+            if (sheet != null) {
+                Row header = sheet.getRow(6);
+                for(int i =7;i < sheet.getLastRowNum(); i++ ) {
+                    Row row = sheet.getRow(i);
+                    String oldCode = row.getCell(0).getStringCellValue();
+                    // need to obtain new code
+                    String onsCode = GetMergedId(oldCode);
+                    String group = row.getCell(2).getStringCellValue();
+
+                    Integer count = (int) row.getCell(3).getNumericCellValue();
+                    if (onsCode != null && !onsCode.isEmpty() && group !=null && !group.isEmpty())  {
+                        group = getBand(group);
+                        if (this.ccgPopulation.get(onsCode) == null) {
+                            this.ccgPopulation.put(onsCode, new HashedMap());
+                        }
+                        Map<String, Integer> bands = this.ccgPopulation.get(onsCode);
+                        if (bands.get(group) == null) {
+                            bands.put(group,count);
+                        } else {
+                            bands.replace(group, bands.get(group) + count);
+                        }
+                    }
+                }
+
+
+            }
+
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            throw new InternalError(ex.getMessage());
+        }
+    }
+    private String getBand(String group) throws Exception {
+        switch (group){
+
+            case "0-4":
+            case  "5-9":
+                return "0-9 years old";
+            case  "10-14":
+            case  "15-19":
+                return "10-99 years old";
+            case  "20-24":
+            case  "25-29":
+                return "20-29 years old";
+            case  "30-34":
+            case  "35-39":
+                return "30-39 years old";
+            case  "40-44":
+            case  "45-49":
+                return "40-49 years old";
+            case  "50-54":
+            case  "55-59":
+                return "50-59 years old";
+            case  "60-64":
+            case  "65-69":
+                return "60-69 years old";
+            case  "70-74":
+            case  "75-79":
+                return "70-79 years old";
+            case  "80-84":
+            case  "85-89":
+            case  "90+":
+                return "80+ years old";
+            case  "All ages":
+                return "All";
+            default:
+                throw new Exception("unmapped age band");
+        }
     }
 
     private String GetMergedId(String oldId) {
@@ -344,9 +423,10 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         reports = new ArrayList<>();
         // https://digital.nhs.uk/data-and-information/publications/statistical/mi-potential-covid-19-symptoms-reported-through-nhs-pathways-and-111-online/latest
-        GetNHSTriageData( NHS_URL );
+        GetNHSTriageData( NHS_PATHWAYS_URL );
         GetNHSOnlineData(NHSONLINE_URL);
 
+        CostEstimate();
         // Build entries for top level codes
         nhsParent = new HashMap<>();
 
@@ -360,12 +440,47 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         if (missinglocation.size()>0) {
             ProcessMissingLocation();
-            throw new InternalError("Missing data");
+          //  throw new InternalError("Missing data");
         }
 
         CalculateNHSRegional();
 
         UploadReports();
+    }
+
+    private void CostEstimate() {
+        //  Cost Estimate
+        for (Map.Entry<String, Map<Date, NHSStat>> en : nhs.entrySet()) {
+            Map<String, Integer> popMap = this.ccgPopulation.get(en.getKey());
+            if (popMap != null) {
+                for (Map.Entry<Date, NHSStat> entry : en.getValue().entrySet()) {
+                    NHSStat stat = entry.getValue();
+                    Double population = Double.valueOf(popMap.get("All"));
+                    Double rawCost = Double.valueOf(popMap.get("0-9 years old")) * 0;
+
+                    rawCost += popMap.get("10-99 years old") * 0.002;
+                    rawCost += popMap.get("20-29 years old") * 0.002;
+                    rawCost += popMap.get("30-39 years old") * 0.002;
+
+                    rawCost += popMap.get("40-49 years old") * 0.004;
+
+                    rawCost += popMap.get("50-59 years old") * 0.013;
+
+                    rawCost += popMap.get("60-69 years old") * 0.036;
+
+                    rawCost += popMap.get("70-79 years old") * 0.08;
+
+                    rawCost += popMap.get("80+ years old") * 0.148;
+
+                    Double cost = rawCost / population;
+                    cost = cost * (stat.maleTriage + stat.femaleTriage +stat.unknownTriage );
+
+                    stat.nhsCostEstimate = cost;
+                 //   log.info("{} cost estimate = {}", en.getKey(), cost);
+                }
+            }
+
+        }
     }
 
 
@@ -445,19 +560,20 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
                 BigDecimal population = this.population.get(report.getSubject().getIdentifier().getValue());
 
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-cost","Cost Estimate", nhs.nhsCostEstimate,null);
 
-                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","daily-triage","UEC Daily Total", nhs.femaleTriage+nhs.maleTriage+nhs.unknownTriage,null);
-                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","daily-online","NHS 111 Website Daily Total", nhs.femaleOnline+nhs.maleOnline+nhs.unknownOnline,null);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","daily-triage","UEC Daily Total", Double.valueOf(nhs.femaleTriage+nhs.maleTriage+nhs.unknownTriage),null);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","daily-online","NHS 111 Website Daily Total", Double.valueOf(nhs.femaleOnline+nhs.maleOnline+nhs.unknownOnline),null);
 
-                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","male-online-total","UEC Male Total", maleOnlineTotal,null);
-                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female-online-total","UEC Female Total", femaleOnlineTotal,null);
-                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","online-total","COVID Symptoms Reported NHS 111 website", maleOnlineTotal + femaleOnlineTotal + unknownOnlineTotal,population);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","male-online-total","UEC Male Total", Double.valueOf(maleOnlineTotal),null);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female-online-total","UEC Female Total", Double.valueOf(femaleOnlineTotal),null);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","online-total","COVID Symptoms Reported NHS 111 website", Double.valueOf(maleOnlineTotal + femaleOnlineTotal + unknownOnlineTotal),population);
 
-                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","male-triage-total","UEC Male Total", maleTriageTotal,null);
-                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female-triage-total","UEC Female Total", femaleTriageTotal,null);
-                addGroup(report,"http://snomed.info/sct","840544004","Suspected disease caused by severe acute respiratory coronavirus 2 (situation)", femaleTriageTotal + maleTriageTotal+ unknownTriageTotal,population);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","male-triage-total","UEC Male Total", Double.valueOf(maleTriageTotal),null);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","female-triage-total","UEC Female Total", Double.valueOf(femaleTriageTotal),null);
+                addGroup(report,"http://snomed.info/sct","840544004","Suspected disease caused by severe acute respiratory coronavirus 2 (situation)", Double.valueOf(femaleTriageTotal + maleTriageTotal+ unknownTriageTotal),population);
 
-                log.info("{} count {} {}", report.getIdentifierFirstRep().getValue(), nhs.femaleTriage + nhs.maleTriage, femaleTriageTotal + maleTriageTotal);
+             //   log.info("{} count {} {}", report.getIdentifierFirstRep().getValue(), nhs.femaleTriage + nhs.maleTriage, femaleTriageTotal + maleTriageTotal);
 
                 reports.add(report);
 
@@ -502,7 +618,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
             throw new InternalError("Org should not be empty");
         }
     }
-private void addGroup(MeasureReport report, String system, String code, String display, int qtyValue, BigDecimal population ) {
+private void addGroup(MeasureReport report, String system, String code, String display, Double qtyValue, BigDecimal population ) {
     MeasureReport.MeasureReportGroupComponent group = report.addGroup();
     Quantity qty = new Quantity();
     BigDecimal value= new BigDecimal(qtyValue);
@@ -578,6 +694,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
                             report.unknownTriage += Integer.parseInt(nextLine[6]);
                     }
                 }
+
                 count++;
             }
         } catch (Exception ex) {
@@ -678,9 +795,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
                     Row row = sheet.getRow(i);
                     String onsCode = row.getCell(0).getStringCellValue();
                     for(int f=3;f < row.getLastCellNum();f++) {
-                        log.info("{} value {}",
-                                header.getCell(f).getDateCellValue(),
-                                row.getCell(f).getNumericCellValue());
+
                         MeasureReport report = getMeasureReport(Date.from(header.getCell(f).getDateCellValue().toInstant()),
                                 (int) row.getCell(f).getNumericCellValue(),
                                 onsCode);
@@ -977,7 +1092,11 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
 
     private void sendMeasures(Bundle bundle, int fileCount) throws Exception {
-        log.info("Processing Cases "+ fileCount);
+
+        if (bundle.getEntryFirstRep() != null) {
+            MeasureReport t = (MeasureReport) bundle.getEntryFirstRep().getResource();
+            log.info("Processing {} Cases {}",  t.getMeasure(), t.getIdentifierFirstRep().getValue());
+        }
 
         Bundle resp = client.transaction().withBundle(bundle).execute();
 
