@@ -46,6 +46,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
         Integer femaleOnline = 0;
         Integer unknownOnline = 0;
 
+        Double covidRiskFactor =Double.valueOf(0);
         Double nhsCostEstimate = Double.valueOf(0);
     }
 
@@ -463,9 +464,12 @@ public class UKCovidExtractApp implements CommandLineRunner {
     private void CostEstimate() {
         //  Cost Estimate
         for (Map.Entry<String, Map<Date, NHSStat>> en : nhs.entrySet()) {
+            List<Double> costs = new ArrayList<Double>();
             Map<String, Integer> popMap = this.ccgPopulation.get(en.getKey());
             if (popMap != null) {
-                for (Map.Entry<Date, NHSStat> entry : en.getValue().entrySet()) {
+                Map<Date, NHSStat> treeMap = new TreeMap(en.getValue());
+
+                for (Map.Entry<Date, NHSStat> entry : treeMap.entrySet()) {
                     NHSStat stat = entry.getValue();
                     Double population = Double.valueOf(popMap.get("All"));
                     Double rawCost = Double.valueOf(popMap.get("0-9 years old")) * 0;
@@ -485,9 +489,19 @@ public class UKCovidExtractApp implements CommandLineRunner {
                     rawCost += popMap.get("80+ years old") * 0.148;
 
                     Double cost = rawCost / population;
+                    stat.covidRiskFactor = cost;
                     cost = cost * (stat.maleTriage + stat.femaleTriage +stat.unknownTriage );
 
-                    stat.nhsCostEstimate = cost;
+                    costs.add(cost);
+                    Double avg = Double.valueOf(0);
+                    for (int f=0; f<costs.size();f++) {
+                        avg += costs.get(f);
+                    }
+                    stat.nhsCostEstimate = avg/costs.size();
+                    if (costs.size()>8) {
+                        List<Double> tempcosts =costs.subList(1, costs.size());
+                        costs=tempcosts;
+                    }
 
                     log.info("location {} population {} cost estimate = {}",  en.getKey(), popMap.get("All"), cost);
                 }
@@ -574,6 +588,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
                 BigDecimal population = this.population.get(report.getSubject().getIdentifier().getValue());
 
                 addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","nhs-cost","Cost Estimate", nhs.nhsCostEstimate,null);
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","risk-factor","Risk Factor", nhs.covidRiskFactor,null);
 
                 addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","daily-triage","UEC Daily Total", Double.valueOf(nhs.femaleTriage+nhs.maleTriage+nhs.unknownTriage),null);
                 addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/NHS-UEC-COVID","daily-online","NHS 111 Website Daily Total", Double.valueOf(nhs.femaleOnline+nhs.maleOnline+nhs.unknownOnline),null);
