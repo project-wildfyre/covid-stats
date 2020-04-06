@@ -8,6 +8,8 @@ import com.opencsv.CSVIterator;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import org.apache.commons.io.Charsets;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hl7.fhir.r4.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,7 +83,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
     String PHE_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
     String NHS_URL = "https://files.digital.nhs.uk/8E/AE4094/NHS%20Pathways%20Covid-19%20data%202020-04-02.csv";
     String NHSONLINE_URL = "https://files.digital.nhs.uk/9D/E01A56/111%20Online%20Covid-19%20data_2020-04-02.csv";
-
+    String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
     DateFormat hisFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -101,10 +103,37 @@ public class UKCovidExtractApp implements CommandLineRunner {
         }
         Date in = new Date();
         LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
-        // Set to date before
-       // ldt = ldt.minusDays(1);
         today = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 
+        SetupMeasures();
+
+        ProcessDeprivation();
+        SetupPopulations();
+
+        SetupPHELocations();
+        ProcessPHEExcelFile();
+
+
+        SetupNHSLocations();
+
+        PopulateNHS();
+
+
+  //  CalculateRegions(dateStamp.format(today),false);
+
+    }
+
+    private void FixLocations(){
+          /*
+        for(String location : locations.keySet()) {
+            if (!location.equals(GetMergedId(location))) {
+                log.info("Removing reports for {}",location);
+                RemoveOrgReport(location);
+            }
+        }
+        */
+    }
+    private void SetupMeasures(){
         Measure measure = new Measure();
         measure.addIdentifier().setSystem("https://fhir.mayfield-is.co.uk/MEASURCODE").setValue("PHE_COVID");
         measure.setStatus(Enumerations.PublicationStatus.ACTIVE);
@@ -115,14 +144,9 @@ public class UKCovidExtractApp implements CommandLineRunner {
         measure.setStatus(Enumerations.PublicationStatus.ACTIVE);
         outcome = client.create().resource(measure).conditionalByUrl("Measure?identifier=https://fhir.mayfield-is.co.uk/MEASURCODE|UEC_COVID").execute();
         uec= "Measure/"+outcome.getId().getIdPart();
+    }
 
-
-        ProcessDeprivation();
-        /*
-        for (int i = 1; i<10;i++) {
-            RemoveOrgReport("E3900000"+i);
-        }*/
-
+    private void SetupPopulations() throws Exception {
         // Population
 
         log.info("Processing Population");
@@ -130,9 +154,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessPopulationsFile("EnglandRegions.csv");
         ProcessPopulationsFile("LocalAuthority.csv");
         ProcessPopulationsFile("2019-ccg-estimates.csv");
+    }
 
+    private void SetupPHELocations() throws Exception {
         // Locations
-        log.info("Processing Locations");
+        log.info("Processing PHE Locations");
         ProcessLocationsFile("E92_CTRY.csv","CTRY");
         ProcessLocationsFile("E12_RGN.csv","RGN");
         ProcessLocationsFile("E11_MCTY.csv","MCTY");
@@ -141,7 +167,13 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E08_MD.csv","MD");
         ProcessLocationsFile("E07_NMD.csv","NMD");
         ProcessLocationsFile("E06_UA.csv","UA");
-     // Not required   ProcessLocationsFile("E05_WD.csv","WD");
+        // Not required   ProcessLocationsFile("E05_WD.csv","WD");
+
+
+    }
+    private void SetupNHSLocations() throws Exception {
+        // Locations
+        log.info("Processing NHS Locations");
 
         // These next three files have been modified to make sense
         ProcessLocationsFile("E40_ENG.csv","NHSENG");
@@ -155,29 +187,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         ProcessLocationsFile("E12_RGN.csv","NHSRGN");
         ProcessLocationsFile("E06_UA.csv","NHSUA");
-
-        for(String location : locations.keySet()) {
-            if (!location.equals(GetMergedId(location))) {
-                log.info("Removing reports for {}",location);
-                RemoveOrgReport(location);
-            }
-        }
-        reports = new ArrayList<>();
-        PopulateNHS();
-
-
-  //      Disable for now, can use to correct past results.
-      //  log.info("Processing Past Data");
-      //  reports = new ArrayList<>();
-      //  ProcessHistoric();
-
-        // Process Daily UA File
-        reports = new ArrayList<>();
-        ProcessDailyUAFile(today);
-
-        log.info("Calculating Regions");
-        CalculateRegions(dateStamp.format(today),false);
-
     }
 
     private String GetMergedId(String oldId) {
@@ -333,6 +342,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     private void PopulateNHS() throws Exception {
 
+        reports = new ArrayList<>();
         // https://digital.nhs.uk/data-and-information/publications/statistical/mi-potential-covid-19-symptoms-reported-through-nhs-pathways-and-111-online/latest
         GetNHSTriageData( NHS_URL );
         GetNHSOnlineData(NHSONLINE_URL);
@@ -655,156 +665,111 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
     }
 
-    private void ProcessHistoric() {
-        InputStream zis = classLoader.getResourceAsStream("Historic.csv");
+    private void ProcessPHEExcelFile() {
 
+        reports = new ArrayList<>();
         try {
-            Reader reader = new InputStreamReader(zis, Charsets.UTF_8);
-
-            CSVIterator iterator = new CSVIterator(new CSVReader(reader, ',', '\"', 0));
-            String[] header = null;
-            int count = 0;
-            for (CSVIterator it = iterator; it.hasNext(); ) {
-
-                if (count==0) {
-                    header=it.next();
-                    log.debug("{} Historic", header[0]);
-                } else  {
-                    String[] nextLine = it.next();
-                    Bundle bundle = new Bundle();
-                    bundle.getIdentifier().setSystem("https://fhir.mayfield-is.co.uk/Id/")
-                            .setValue(UUID.randomUUID().toString());
-                    bundle.setType(Bundle.BundleType.TRANSACTION);
-                    for (int i = 2; i < nextLine.length; i++) {
-                        log.debug("{} {} Historic count {}", nextLine[0], header[i], nextLine[i]);
-                        try {
-                            MeasureReport report = getMeasureReport(hisFormat.parse(header[i]), Integer.parseInt(nextLine[i].replace(",","").trim()), nextLine[0]);
-                            if (report != null) {
-
-                                Bundle.BundleEntryComponent entry = bundle.addEntry()
-                                        .setFullUrl(UUID_Prefix + UUID.randomUUID().toString())
-                                        .setResource(report);
-                                String conditionalUrl = getConditional(report.getIdentifierFirstRep());
-                                entry.getRequest()
-                                        .setMethod(Bundle.HTTPVerb.PUT)
-                                        .setUrl(entry.getResource().getClass().getSimpleName() + "?" + conditionalUrl);
-                            }
-                        } catch (Exception ex) {
-                            log.error("Not processed {} {} due to {}",nextLine[0],header[i], ex.getMessage());
-                        }
+            BufferedInputStream zis = new BufferedInputStream(new URL(PHE_EXCEL).openStream());
+            Workbook wb = new XSSFWorkbook(zis);
+            Sheet  sheet = wb.getSheet("UTLAs");
+            if (sheet != null) {
+                Row header = sheet.getRow(7);
+                for(int i =9;i < sheet.getLastRowNum(); i++ ) {
+                    Row row = sheet.getRow(i);
+                    String onsCode = row.getCell(0).getStringCellValue();
+                    for(int f=3;f < row.getLastCellNum();f++) {
+                        log.info("{} value {}",
+                                header.getCell(f).getDateCellValue(),
+                                row.getCell(f).getNumericCellValue());
+                        MeasureReport report = getMeasureReport(Date.from(header.getCell(f).getDateCellValue().toInstant()),
+                                (int) row.getCell(f).getNumericCellValue(),
+                                onsCode);
+                        this.reports.add(report);
                     }
-                   // log.info(ctxFHIR.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle));
-                    Bundle resp = client.transaction().withBundle(bundle).execute();
                 }
-                count++;
-            }
-            for (int i = 2; i < header.length; i++) {
-                String date = header[i].replace("\"","");
-                if (!date.isEmpty() ) {
-                    CalculateRegions(dateStamp.format(hisFormat.parse(date)),true);
-                }
-            }
 
+                CalculatePHERegions();
+
+                UploadReports();
+
+            }
 
         } catch (Exception ex) {
             log.error(ex.getMessage());
+            throw new InternalError(ex.getMessage());
         }
     }
 
-    private void  CalculateRegions(String date, Boolean endDt) {
-        InputStream zis = classLoader.getResourceAsStream("EnglandRegions.csv");
 
-        Bundle bundle = new Bundle();
-        bundle.getIdentifier().setSystem("https://fhir.mayfield-is.co.uk/Id/")
-                .setValue(UUID.randomUUID().toString());
-        bundle.setType(Bundle.BundleType.TRANSACTION);
+    private void  CalculatePHERegions() {
+        Map<String , Map<Date, BigDecimal>> pheMap = new HashMap<>();
+        for (MeasureReport report : this.reports) {
+            String onsCode = report.getSubject().getIdentifier().getValue();
+            Location location = this.locations.get(onsCode);
+            if (location != null) {
+                String parentONS = location.getPartOf().getIdentifier().getValue();
+                if (parentONS != null) {
 
-
-        try {
-            Reader reader = new InputStreamReader(zis, Charsets.UTF_8);
-
-            CSVIterator iterator = new CSVIterator(new CSVReader(reader,',', '\"', 1));
-
-            for (CSVIterator it = iterator; it.hasNext(); ) {
-                String[] nextLine = it.next();
-
-                Date startDate = dateStamp.parse(date);
-                LocalDateTime ldt = LocalDateTime.ofInstant(startDate.toInstant(), ZoneId.systemDefault());
-                // Set to date before
-                ldt = ldt.plusDays(1);
-                Date endDate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-                //dateStamp.format(endDate)
-
-                String url = "MeasureReport?measure=21263&subject.partof.identifier="+
-                        nextLine[0]+
-                        "&date=ge"+date+
-                        "&_count=50";
-                if (endDt) {
-                    url += "&date=lt"+dateStamp.format(endDate);
-                }
-
-                log.info(url);
-                Bundle results = client.search().byUrl(url).returnBundle(Bundle.class).execute();
-                int cases =0;
-                for(Bundle.BundleEntryComponent entryComponent : results.getEntry()) {
-                    if (entryComponent.getResource() instanceof MeasureReport) {
-                        MeasureReport measureReport = ((MeasureReport) entryComponent.getResource());
-                        if (measureReport.getIdentifierFirstRep().getValue().contains(stamp.format(dateStamp.parse(date)))) {
-                            cases += measureReport.getGroupFirstRep().getMeasureScore().getValue().intValue();
+                    if (pheMap.get(parentONS) == null) {
+                        pheMap.put(parentONS, new HashMap<>());
+                    }
+                    Map<Date,BigDecimal> parentMap = pheMap.get(parentONS);
+                    if (parentMap.get(report.getDate()) ==null) {
+                        parentMap.put(report.getDate(),new BigDecimal(0));
+                    }
+                    for (MeasureReport.MeasureReportGroupComponent group : report.getGroup()) {
+                        if (group.getCode().getCodingFirstRep().getCode().equals("840539006")) {
+                            parentMap.replace(report.getDate(),
+                                    group.getMeasureScore().getValue().add(parentMap.get(report.getDate())));
                         }
                     }
-                }
-                log.info("{} Regional Cases Count = {}",nextLine[0], cases);
-
-                Date reportDate = null;
-                try {
-                    reportDate = dateStamp.parse(date);
-                } catch (Exception ex) {
-                    log.error("Invalid date {}",date);
-                    log.error(ex.getMessage());
-                }
-                MeasureReport report = getMeasureReport(reportDate,cases,nextLine[0]);
-
-                if (report != null) {
-
-                    Bundle.BundleEntryComponent entry = bundle.addEntry()
-                            .setFullUrl(UUID_Prefix + UUID.randomUUID().toString())
-                            .setResource(report);
-                    String conditionalUrl = getConditional(report.getIdentifierFirstRep());
-                    entry.getRequest()
-                            .setMethod(Bundle.HTTPVerb.PUT)
-                            .setUrl(entry.getResource().getClass().getSimpleName() + "?" + conditionalUrl);
-
+                } else {
+                    if (!onsCode.equals("E92000001")) throw new InternalError("Missing Parent Location "+ onsCode);
                 }
 
-
+            } else {
+                throw new InternalError("Missing Location "+ onsCode);
             }
-           Bundle resp = client.transaction().withBundle(bundle).execute();
-        } catch (IOException e) {
-            throw new InternalErrorException(e);
+
         }
-        catch (Exception e) {
-            throw new InternalErrorException(e);
+
+        for (Map.Entry<String,Map<Date,BigDecimal>> parent : pheMap.entrySet()) {
+            for(Map.Entry<Date,BigDecimal> dayEntry : parent.getValue().entrySet()) {
+                MeasureReport report = getMeasureReport(dayEntry.getKey(),
+                        dayEntry.getValue().intValue(),
+                        parent.getKey());
+                this.reports.add(report);
+            }
         }
     }
 
-    private MeasureReport getMeasureReport(Date reportDate, int cases, String locationId) {
+    private MeasureReport getMeasureReport(Date reportDate, int cases, String onsCode) {
         MeasureReport report = new MeasureReport();
 
-        Location location = locations.get(locationId);
+        Location location = locations.get(onsCode);
 
 
         if (location != null) {
             int population = ((IntegerType) location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/Population").getValue()).getValue();
             report.addIdentifier()
                     .setSystem("https://www.arcgis.com/fhir/CountyUAs_cases")
-                    .setValue(locationId + "-" + stamp.format(reportDate));
+                    .setValue(onsCode + "-" + stamp.format(reportDate));
 
             report.setDate(reportDate);
             report.setPeriod(new Period().setStart(reportDate));
             report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
             report.setType(MeasureReport.MeasureReportType.SUMMARY);
-            report.setReporter(new Reference().setDisplay(location.getName()).setReference(location.getId()));
+
+            report.getReporter()
+                    .setDisplay(location.getName())
+                    .setReference(location.getId());
+            report.getReporter().setIdentifier(new Identifier().setSystem(ONSSystem).setValue(onsCode));
+
+            report.getSubject()
+                    .setDisplay(location.getName())
+                    .setReference(location.getId());
+            report.getSubject().setIdentifier(new Identifier().setSystem(ONSSystem).setValue(onsCode));
+
             report.setMeasure(phe);
             Quantity qty = new Quantity();
             qty.setValue(new BigDecimal(cases));
@@ -883,9 +848,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 group.setMeasureScore(perhect);
             }
 
-            report.getSubject()
-                    .setDisplay(location.getName())
-                    .setReference(location.getId());
+
             return report;
         } else {
             log.error("Missing Location Id");
@@ -1009,31 +972,8 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
     }
 
-    private void ProcessDailyUAFile(Date reportDate) throws Exception {
-        BufferedInputStream in = new BufferedInputStream(new URL(PHE_URL).openStream());
-
-        CaseHandler handler = new CaseHandler(reportDate);
-        Process(in, handler);
-
-        UploadReports();
-
-    }
-
-    private void ProcessDailyUAFileTemp() throws Exception {
-
-        InputStream in = classLoader.getResourceAsStream("CountyUAs_cases_table.csv");
-        Date indate = new Date();
-        LocalDateTime ldt = LocalDateTime.ofInstant(indate.toInstant(), ZoneId.systemDefault());
-        // Set to date before
-        ldt = ldt.minusDays(2);
-        Date reportDate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-        CaseHandler handler = new CaseHandler(reportDate);
-        Process(in, handler);
-
-        UploadReports();
 
 
-    }
 
 
     private void sendMeasures(Bundle bundle, int fileCount) throws Exception {
@@ -1149,125 +1089,5 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
 
     }
-    public class CaseHandler implements IRecordHandler
-    {
-
-        Date reportDate;
-        CaseHandler(Date reportDate) {
-            this.reportDate = reportDate;
-        }
-
-
-        @Override
-        public void accept(String[] theRecord) {
-
-            MeasureReport report = new MeasureReport();
-
-            Location location = locations.get(theRecord[0]);
-
-            if (location != null) {
-                int population = ((IntegerType) location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/Population").getValue()).getValue();
-                report.addIdentifier()
-                        .setSystem("https://www.arcgis.com/fhir/CountyUAs_cases")
-                        .setValue(theRecord[0] + "-" + stamp.format(reportDate));
-
-                report.setDate(reportDate);
-                report.setPeriod(new Period().setStart(reportDate));
-                report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
-                report.setType(MeasureReport.MeasureReportType.SUMMARY);
-                report.setReporter(new Reference().setDisplay(location.getName()).setReference(location.getId()));
-                report.setMeasure(phe);
-
-                report.getSubject()
-                        .setDisplay(theRecord[1])
-                        .setReference(location.getId());
-
-                Quantity qty = new Quantity();
-                qty.setValue(new BigDecimal(Integer.parseInt(theRecord[2].trim())));
-
-                MeasureReport.MeasureReportGroupComponent group = report.addGroup();
-                group.setCode(
-                        new CodeableConcept().addCoding(
-                                new Coding().setSystem("http://snomed.info/sct")
-                                        .setCode("840539006")
-                                        .setDisplay("Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)")
-                        )
-                )
-                .addPopulation().setCount(population);
-                group.setMeasureScore(qty);
-
-                group = report.addGroup();
-                group.setCode(
-                        new CodeableConcept().addCoding(
-                                new Coding().setSystem("http://fhir.mayfield-is.co.uk")
-                                        .setCode("CASES/MILLION")
-                                        .setDisplay("COVID-19 Cases Per million")
-                        )
-                )
-                        .addPopulation().setCount(1000000);
-                Quantity qtyadj = new Quantity();
-                Double num = (qty.getValue().doubleValue() / population) * 1000000;
-                qtyadj.setValue(num);
-                group.setMeasureScore(qtyadj);
-
-
-                Extension hi = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/HI");
-                   if (hi != null) {
-                       group = report.addGroup();
-                       group.setCode(
-                               new CodeableConcept().addCoding(
-                                       new Coding().setSystem("http://fhir.mayfield-is.co.uk")
-                                               .setCode("HI")
-                                               .setDisplay("Health Index")
-                               )
-                       )
-                               .addPopulation().setCount(32845);
-
-                       group.setMeasureScore((Quantity) hi.getValue());
-                   }
-                Extension mdi = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/MDI");
-
-                if (mdi != null) {
-                    group = report.addGroup();
-                    group.setCode(
-                            new CodeableConcept().addCoding(
-                                    new Coding().setSystem("http://fhir.mayfield-is.co.uk")
-                                            .setCode("MDI")
-                                            .setDisplay("Multiple Depravity Index")
-                            )
-                    )
-                            .addPopulation().setCount(32845);
-
-                    group.setMeasureScore((Quantity) mdi.getValue());
-                }
-
-                Extension hect = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/AREAEHECT");
-
-                if (hect != null) {
-                    group = report.addGroup();
-                    group.setCode(
-                            new CodeableConcept().addCoding(
-                                    new Coding().setSystem("http://fhir.mayfield-is.co.uk")
-                                            .setCode("PERHECT")
-                                            .setDisplay("Cases Per Hectare")
-                            )
-                    )
-                            .addPopulation().setCount(((Quantity) hect.getValue()).getValue().intValue());
-
-                    Quantity perhect = new Quantity();
-                    Double numPerHect = (qty.getValue().doubleValue() / ((Quantity) hect.getValue()).getValue().doubleValue()) ;
-                    perhect.setValue(numPerHect);
-                    group.setMeasureScore(perhect);
-                }
-
-                reports.add(report);
-            } else {
-                log.error("Missing Location " + theRecord[0]);
-            }
-
-        }
-
-    }
-
 
 }
