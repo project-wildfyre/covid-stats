@@ -109,11 +109,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         SetupMeasures();
 
-        ProcessCCGPopulationEstimates();
-
         ProcessDeprivation();
         SetupPopulations();
-
 
         SetupPHELocations();
         SetupNHSLocations();
@@ -185,6 +182,9 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E39_NHSRLO.csv","NHSRLO");
 
         ProcessLocationsFile("E38_CCG.csv","CCG");
+        // This will recalculate
+        ProcessCCGPopulationEstimates();
+
         ProcessLocationsFile("E_UNK.csv","NHS_OTHERREGION");
 
         ProcessLocationsFile("E12_RGN.csv","NHSRGN");
@@ -272,6 +272,17 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         // Source https://digital.nhs.uk/services/organisation-data-service/change-summary---stp-reconfiguration
         switch (oldId) {
+
+            case "E38000058":
+            case "E38000071":
+            case "E38000115":
+            case "E38000169":
+                return "E38000229"; // Derbys this was a 2019 change
+
+            case "E38000129":
+            case "E38000152":
+                return "E38000230"; // Devon
+
             // Jorvik
             case "E38000018" :
             case "E38000019":
@@ -304,6 +315,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
             case "E38000037":
             case "E38000108":
                 return "E38000242"; // Norhamptomshire
+
 
             case "E38000103":
             case "E38000109":
@@ -476,7 +488,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
                     cost = cost * (stat.maleTriage + stat.femaleTriage +stat.unknownTriage );
 
                     stat.nhsCostEstimate = cost;
-                 //   log.info("{} cost estimate = {}", en.getKey(), cost);
+
+                    log.info("location {} population {} cost estimate = {}",  en.getKey(), popMap.get("All"), cost);
                 }
             }
 
