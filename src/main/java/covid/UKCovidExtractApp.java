@@ -3,7 +3,7 @@ package covid;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
+
 import com.opencsv.CSVIterator;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -84,8 +84,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
     }
 
     String PHE_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
-    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/45/DEE03C/NHS%20Pathways%20Covid-19%20data%202020-04-05.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/13/DD5187/111%20Online%20Covid-19%20data_2020-04-05.csv";
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/DB/31E103/NHS%20Pathways%20Covid-19%20data%202020-04-06.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/99/7529F2/111%20Online%20Covid-19%20data_2020-04-06.csv";
     String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -192,10 +192,10 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E06_UA.csv","NHSUA");
     }
 
-    private void ProcessCCGPopulationEstimates() {
+    private void ProcessCCGPopulationEstimates() throws Exception {
 
 
-        try {
+
             InputStream zis = classLoader.getResourceAsStream("CCGEstimates2018.xls");
             Workbook wb = new HSSFWorkbook(zis);
             Sheet  sheet = wb.getSheet("Persons");
@@ -225,11 +225,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
 
             }
-
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            throw new InternalError(ex.getMessage());
-        }
     }
     private String getBand(String group) throws Exception {
         switch (group){
@@ -511,9 +506,9 @@ public class UKCovidExtractApp implements CommandLineRunner {
     }
 
 
-    private void ProcessMissingLocation() {
+    private void ProcessMissingLocation() throws Exception {
         File file = new File("MissingLocation.csv");
-        try {
+
             // create FileWriter object with file as parameter
             FileWriter outputfile = new FileWriter(file);
 
@@ -531,11 +526,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
             // closing writer connection
             writer.close();
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+
+
     }
 
     private void CalculateNHSRegional() {
@@ -676,7 +668,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
     }
     private void GetNHSTriageData(String fileUrl) throws Exception {
         BufferedInputStream zis = new BufferedInputStream(new URL(fileUrl).openStream());
-        try {
+
             Reader reader = new InputStreamReader(zis, Charsets.UTF_8);
 
             CSVIterator iterator = new CSVIterator(new CSVReader(reader, ',', '\"', 0));
@@ -713,21 +705,19 @@ private void addGroup(MeasureReport report, String system, String code, String d
                     }
                     switch (nextLine[2].trim().toLowerCase()) {
                         case "female" :
-                            report.femaleTriage += Integer.parseInt(nextLine[6]);
+                            report.femaleTriage += Integer.parseInt(nextLine[8]);
                             break;
                         case "male" :
-                            report.maleTriage += Integer.parseInt(nextLine[6]);
+                            report.maleTriage += Integer.parseInt(nextLine[8]);
                             break;
                         default:
-                            report.unknownTriage += Integer.parseInt(nextLine[6]);
+                            report.unknownTriage += Integer.parseInt(nextLine[8]);
                     }
                 }
 
                 count++;
             }
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-        }
+
 
     }
 
@@ -769,13 +759,13 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
                     switch (nextLine[1].trim().toLowerCase()) {
                         case "female" :
-                            report.femaleOnline += Integer.parseInt(nextLine[5]);
+                            report.femaleOnline += Integer.parseInt(nextLine[7]);
                             break;
                         case "male" :
-                            report.maleOnline += Integer.parseInt(nextLine[5]);
+                            report.maleOnline += Integer.parseInt(nextLine[7]);
                             break;
                         default:
-                            report.unknownOnline += Integer.parseInt(nextLine[5]);
+                            report.unknownOnline += Integer.parseInt(nextLine[7]);
                     }
                 }
                 count++;
@@ -810,10 +800,10 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
     }
 
-    private void ProcessPHEExcelFile() {
+    private void ProcessPHEExcelFile() throws Exception {
 
         reports = new ArrayList<>();
-        try {
+
             BufferedInputStream zis = new BufferedInputStream(new URL(PHE_EXCEL).openStream());
             Workbook wb = new XSSFWorkbook(zis);
             Sheet  sheet = wb.getSheet("UTLAs");
@@ -823,11 +813,19 @@ private void addGroup(MeasureReport report, String system, String code, String d
                     Row row = sheet.getRow(i);
                     String onsCode = row.getCell(0).getStringCellValue();
                     for(int f=3;f < row.getLastCellNum();f++) {
+                        Date columnDate = null;
+                        try {
+                            columnDate = header.getCell(f).getDateCellValue();
+                            MeasureReport report = getMeasureReport(Date.from(columnDate.toInstant()),
+                                    (int) row.getCell(f).getNumericCellValue(),
+                                    onsCode);
+                            if (report != null) this.reports.add(report);
+                        } catch (Exception ex) {
+                            log.info("OnsCode {} Row Number {} Cell NUmber {}",onsCode,i,f);
+                            log.info("columnDate {}",columnDate);
 
-                        MeasureReport report = getMeasureReport(Date.from(header.getCell(f).getDateCellValue().toInstant()),
-                                (int) row.getCell(f).getNumericCellValue(),
-                                onsCode);
-                        this.reports.add(report);
+                            throw ex;
+                        }
                     }
                 }
 
@@ -837,10 +835,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
             }
 
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            throw new InternalError(ex.getMessage());
-        }
+
     }
 
 
@@ -1045,7 +1040,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
         InputStream zis = classLoader.getResourceAsStream(fileName);
 
-        try {
+
             Reader reader = new InputStreamReader(zis, Charsets.UTF_8);
 
             CSVIterator iterator = new CSVIterator(new CSVReader(reader, ',', '\"', 0));
@@ -1075,9 +1070,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 }
                 count++;
             }
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-        }
+
 // Log the response
 
     }
@@ -1086,7 +1079,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
         //Path path = Paths.get("Locations-"+fileCount+".json");
         //Files.write(path,ctxFHIR.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle).getBytes() );
 
-        try {
+
 
             Bundle resp = client.transaction().withBundle(bundle).execute();
             int index = 0;
@@ -1110,9 +1103,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 index++;
             }
 
-        } catch (Exception ex ) {
-            log.error(ex.getMessage());
-        }
+
     }
 
 
@@ -1143,12 +1134,10 @@ private void addGroup(MeasureReport report, String system, String code, String d
         void accept(String[] theRecord);
     }
 
-    private void Process(InputStream zis, IRecordHandler handler) {
+    private void Process(InputStream zis, IRecordHandler handler) throws Exception {
 
         char delimiter = ',';
 
-
-        try {
             Reader reader = new InputStreamReader(zis, Charsets.UTF_8);
 
             CSVIterator iterator = new CSVIterator(new CSVReader(reader,',', '\"', 1));
@@ -1158,9 +1147,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 handler.accept(nextLine);
             }
 
-        } catch (IOException e) {
-            throw new InternalErrorException(e);
-        }
+
     }
 
     public class LAHandler implements IRecordHandler
