@@ -4,6 +4,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 
+import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import com.opencsv.CSVIterator;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -84,8 +85,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
     }
 
     String PHE_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
-    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/DB/31E103/NHS%20Pathways%20Covid-19%20data%202020-04-06.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/99/7529F2/111%20Online%20Covid-19%20data_2020-04-06.csv";
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/08/510910/NHS%20Pathways%20Covid-19%20data%202020-04-07.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/EA/9901C2/111%20Online%20Covid-19%20data_2020-04-07.csv";
     String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -677,7 +678,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
             for (CSVIterator it = iterator; it.hasNext(); ) {
 
                 if (count == 0) {
-                    it.next();
+                    header = it.next();
                 } else {
                     String[] nextLine = it.next();
                     String onsCode = GetMergedId(nextLine[4]);
@@ -703,15 +704,32 @@ private void addGroup(MeasureReport report, String system, String code, String d
                             }
                         }
                     }
-                    switch (nextLine[2].trim().toLowerCase()) {
-                        case "female" :
-                            report.femaleTriage += Integer.parseInt(nextLine[8]);
-                            break;
-                        case "male" :
-                            report.maleTriage += Integer.parseInt(nextLine[8]);
-                            break;
-                        default:
-                            report.unknownTriage += Integer.parseInt(nextLine[8]);
+                    if (header.length> 8 && header[8].equals("TriageCount")) {
+                        switch (nextLine[2].trim().toLowerCase()) {
+                            case "female":
+                                report.femaleTriage += Integer.parseInt(nextLine[8]);
+                                break;
+                            case "male":
+                                report.maleTriage += Integer.parseInt(nextLine[8]);
+                                break;
+                            default:
+                                report.unknownTriage += Integer.parseInt(nextLine[8]);
+                        }
+
+                    } else if (header.length> 6 && header[6].equals("TriageCount")) {
+                        switch (nextLine[2].trim().toLowerCase()) {
+                            case "female":
+                                report.femaleTriage += Integer.parseInt(nextLine[6]);
+                                break;
+                            case "male":
+                                report.maleTriage += Integer.parseInt(nextLine[6]);
+                                break;
+                            default:
+                                report.unknownTriage += Integer.parseInt(nextLine[6]);
+                        }
+                    }
+                    else {
+                        throw new InternalErrorException("Unable to process NHS Pathways data file");
                     }
                 }
 
@@ -732,7 +750,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
             for (CSVIterator it = iterator; it.hasNext(); ) {
 
                 if (count == 0) {
-                    it.next();
+                    header = it.next();
                 } else {
                     String[] nextLine = it.next();
                     String onsCode = GetMergedId(nextLine[3]);
@@ -756,16 +774,31 @@ private void addGroup(MeasureReport report, String system, String code, String d
                             }
                         }
                     }
-
-                    switch (nextLine[1].trim().toLowerCase()) {
-                        case "female" :
-                            report.femaleOnline += Integer.parseInt(nextLine[7]);
-                            break;
-                        case "male" :
-                            report.maleOnline += Integer.parseInt(nextLine[7]);
-                            break;
-                        default:
-                            report.unknownOnline += Integer.parseInt(nextLine[7]);
+                    if (header.length>5 && header[5].equals("Total")) {
+                        switch (nextLine[1].trim().toLowerCase()) {
+                            case "female":
+                                report.femaleOnline += Integer.parseInt(nextLine[5]);
+                                break;
+                            case "male":
+                                report.maleOnline += Integer.parseInt(nextLine[5]);
+                                break;
+                            default:
+                                report.unknownOnline += Integer.parseInt(nextLine[5]);
+                        }
+                    } else if (header.length>7 && header[7].equals("Total")) {
+                        switch (nextLine[1].trim().toLowerCase()) {
+                            case "female":
+                                report.femaleOnline += Integer.parseInt(nextLine[7]);
+                                break;
+                            case "male":
+                                report.maleOnline += Integer.parseInt(nextLine[7]);
+                                break;
+                            default:
+                                report.unknownOnline += Integer.parseInt(nextLine[7]);
+                        }
+                    }
+                    else {
+                        throw new InternalErrorException("Unable to process NHS Online data file");
                     }
                 }
                 count++;
