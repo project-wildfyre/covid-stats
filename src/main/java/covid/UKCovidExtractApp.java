@@ -55,6 +55,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     String phe;
     String uec;
+    String morbidity;
 
     final String UUID_Prefix = "urn:uuid:";
 
@@ -111,16 +112,22 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         SetupMeasures();
 
+
+
         ProcessDeprivation();
         SetupPopulations();
 
         SetupPHELocations();
+
+        ProcessPHEMorbidity();
+        ProcessPHEExcelFile();
+
         SetupNHSLocations();
         PopulateNHS();
 
       //  if (true) throw new InternalError("EOF");
 
-        ProcessPHEExcelFile();
+
 
     }
 
@@ -145,6 +152,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
         measure.setStatus(Enumerations.PublicationStatus.ACTIVE);
         outcome = client.create().resource(measure).conditionalByUrl("Measure?identifier=https://fhir.mayfield-is.co.uk/MEASURCODE|UEC_COVID").execute();
         uec= "Measure/"+outcome.getId().getIdPart();
+        measure = new Measure();
+        measure.addIdentifier().setSystem("https://fhir.mayfield-is.co.uk/MEASURCODE").setValue("MORBIDITY_COVID");
+        measure.setStatus(Enumerations.PublicationStatus.ACTIVE);
+        outcome = client.create().resource(measure).conditionalByUrl("Measure?identifier=https://fhir.mayfield-is.co.uk/MEASURCODE|MORBIDITY_COVID").execute();
+        morbidity= "Measure/"+outcome.getId().getIdPart();
     }
 
     private void SetupPopulations() throws Exception {
@@ -160,6 +172,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
     private void SetupPHELocations() throws Exception {
         // Locations
         log.info("Processing PHE Locations");
+        ProcessLocationsFile("Z92_UK.csv","CTRY");
         ProcessLocationsFile("E92_CTRY.csv","CTRY");
         ProcessLocationsFile("E12_RGN.csv","RGN");
         ProcessLocationsFile("E11_MCTY.csv","MCTY");
@@ -191,6 +204,67 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         ProcessLocationsFile("E12_RGN.csv","NHSRGN");
         ProcessLocationsFile("E06_UA.csv","NHSUA");
+    }
+
+    private void ProcessPHEMorbidity() throws Exception {
+
+        reports = new ArrayList<>();
+
+        BufferedInputStream zis = new BufferedInputStream(new URL(PHE_EXCEL).openStream());
+        Workbook wb = new XSSFWorkbook(zis);
+        Sheet  sheet = wb.getSheet("UK Deaths");
+        if (sheet != null) {
+            Row header = sheet.getRow(7);
+            for(int i =8;i < sheet.getLastRowNum(); i++ ) {
+                Row row = sheet.getRow(i);
+                for(int f=2;f < row.getLastCellNum();f++) {
+                    String onsCode;
+                    if (header.getCell(f) != null && header.getCell(f).getCellType() != null) {
+                        switch (header.getCell(f).getStringCellValue()) {
+                            case "UK":
+                                onsCode = "Z92";
+                                break;
+                            case "England":
+                                onsCode = "E92000001";
+                                break;
+                            case "Scotland":
+                                onsCode = "S92000003";
+                                break;
+                            case "Wales":
+                                onsCode = "W92000004";
+                                break;
+                            case "Northern Ireland":
+                                onsCode = "N92000002";
+                                break;
+                            default:
+                                throw new InternalError("Missing country code " + header.getCell(f).getStringCellValue());
+
+                        }
+                        ;
+                        Date columnDate = null;
+                        try {
+                            columnDate = row.getCell(0).getDateCellValue();
+
+                            MeasureReport report = getMorbidityMeasureReport(Date.from(columnDate.toInstant()),
+                                    (int) row.getCell(f).getNumericCellValue(),
+                                    onsCode);
+                            if (report != null) this.reports.add(report);
+                        } catch (Exception ex) {
+                            log.info("OnsCode {} Row Number {} Cell NUmber {}", onsCode, i, f);
+                            log.info("columnDate {}", columnDate);
+
+                            throw ex;
+                        }
+                    }
+                }
+            }
+
+
+            UploadReports();
+
+        }
+
+
     }
 
     private void ProcessCCGPopulationEstimates() throws Exception {
@@ -849,7 +923,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
                         Date columnDate = null;
                         try {
                             columnDate = header.getCell(f).getDateCellValue();
-                            MeasureReport report = getMeasureReport(Date.from(columnDate.toInstant()),
+                            MeasureReport report = getPHEMeasureReport(Date.from(columnDate.toInstant()),
                                     (int) row.getCell(f).getNumericCellValue(),
                                     onsCode);
                             if (report != null) this.reports.add(report);
@@ -906,7 +980,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
         for (Map.Entry<String,Map<Date,BigDecimal>> parent : pheMap.entrySet()) {
             for(Map.Entry<Date,BigDecimal> dayEntry : parent.getValue().entrySet()) {
-                MeasureReport report = getMeasureReport(dayEntry.getKey(),
+                MeasureReport report = getPHEMeasureReport(dayEntry.getKey(),
                         dayEntry.getValue().intValue(),
                         parent.getKey());
                 this.reports.add(report);
@@ -914,7 +988,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
     }
 
-    private MeasureReport getMeasureReport(Date reportDate, int cases, String onsCode) {
+    private MeasureReport getPHEMeasureReport(Date reportDate, int cases, String onsCode) {
         MeasureReport report = new MeasureReport();
 
         Location location = locations.get(onsCode);
@@ -1018,6 +1092,61 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 perhect.setValue(numPerHect);
                 group.setMeasureScore(perhect);
             }
+
+
+            return report;
+        } else {
+            log.error("Missing Location Id");
+            return null;
+        }
+    }
+
+    private MeasureReport getMorbidityMeasureReport(Date reportDate, int cases, String onsCode) {
+        MeasureReport report = new MeasureReport();
+
+        Location location = locations.get(onsCode);
+
+
+        if (location != null) {
+            int population = 0;
+            Extension locExt = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/Population");
+            if (locExt != null) {
+                population = ((IntegerType) locExt.getValue()).getValue();
+            }
+            report.addIdentifier()
+                    .setSystem("https://www.arcgis.com/fhir/Morbidity")
+                    .setValue(onsCode + "-" + stamp.format(reportDate));
+
+            report.setDate(reportDate);
+            report.setPeriod(new Period().setStart(reportDate));
+            report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
+            report.setType(MeasureReport.MeasureReportType.SUMMARY);
+
+            report.getReporter()
+                    .setDisplay(location.getName())
+                    .setReference(location.getId());
+            report.getReporter().setIdentifier(new Identifier().setSystem(ONSSystem).setValue(onsCode));
+
+            report.getSubject()
+                    .setDisplay(location.getName())
+                    .setReference(location.getId());
+            report.getSubject().setIdentifier(new Identifier().setSystem(ONSSystem).setValue(onsCode));
+
+            report.setMeasure(morbidity);
+            Quantity qty = new Quantity();
+            qty.setValue(new BigDecimal(cases));
+
+            MeasureReport.MeasureReportGroupComponent group = report.addGroup();
+            group.setCode(
+                    new CodeableConcept().addCoding(
+                            new Coding().setSystem("http://snomed.info/sct")
+                                    .setCode("255619001|419620001")
+                                    .setDisplay("Total Deaths")
+                    )
+            )
+                    .addPopulation().setCount(population);
+            group.setMeasureScore(qty);
+
 
 
             return report;
