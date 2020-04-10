@@ -85,40 +85,39 @@ public class UKCovidExtractApp implements CommandLineRunner {
         SpringApplication.run(UKCovidExtractApp.class, args);
     }
 
-    String PHE_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
+    String PHE_UACASES_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
+    String PHE_DAILYINDICATORS_URL = "https://www.arcgis.com/sharing/rest/content/items/bc8ee90225644ef7a6f4dd1b13ea1d67/data";
+    String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
+
+
     String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/08/510910/NHS%20Pathways%20Covid-19%20data%202020-04-07.csv";
     String NHSONLINE_URL = "https://files.digital.nhs.uk/EA/9901C2/111%20Online%20Covid-19%20data_2020-04-07.csv";
-    String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
+
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
     DateFormat hisFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     DateFormat stamp = new SimpleDateFormat("yyyyMMdd");
 
-    Date today = null;
 
     IGenericClient client = ctxFHIR.newRestfulGenericClient("https://fhir.test.xgenome.co.uk/R4");
-    //IGenericClient client = ctxFHIR.newRestfulGenericClient("http://fhirserver-env-1.eba-aepmzc4d.eu-west-2.elasticbeanstalk.com:8186/R4");
-   // IGenericClient client = ctxFHIR.newRestfulGenericClient("https://fhir-test-526344451.eu-west-2.elb.amazonaws.com/R4");
 
     @Override
     public void run(String... args) throws Exception {
         if (args.length > 0 && args[0].equals("exitcode")) {
             throw new Exception();
         }
-        Date in = new Date();
-        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
-        today = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+     ;
 
         SetupMeasures();
-
-
 
         ProcessDeprivation();
         SetupPopulations();
 
         SetupPHELocations();
 
+        ProcessPHEMorbidityDailyIndicators();
+        ProcessPHEDailyUAFile();
         ProcessPHEMorbidity();
         ProcessPHEExcelFile();
 
@@ -130,17 +129,18 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
 
     }
-
+/*
     private void FixLocations(){
-          /*
+
         for(String location : locations.keySet()) {
             if (!location.equals(GetMergedId(location))) {
                 log.info("Removing reports for {}",location);
                 RemoveOrgReport(location);
             }
         }
-        */
+
     }
+    */
     private void SetupMeasures(){
         Measure measure = new Measure();
         measure.addIdentifier().setSystem("https://fhir.mayfield-is.co.uk/MEASURCODE").setValue("PHE_COVID");
@@ -206,6 +206,65 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E06_UA.csv","NHSUA");
     }
 
+    private void ProcessPHEMorbidityDailyIndicators() throws Exception {
+
+        reports = new ArrayList<>();
+
+        BufferedInputStream zis = new BufferedInputStream(new URL(PHE_DAILYINDICATORS_URL).openStream());
+        Workbook wb = new XSSFWorkbook(zis);
+        Sheet  sheet = wb.getSheet("Sheet1");
+        if (sheet != null) {
+            Row header = sheet.getRow(0);
+
+                Row row = sheet.getRow(1);
+                for(int f=1;f < row.getLastCellNum();f++) {
+                    String onsCode = null;
+                    if (header.getCell(f) != null && header.getCell(f).getCellType() != null) {
+                        switch (header.getCell(f).getStringCellValue()) {
+                            case "TotalUKDeaths":
+                                onsCode = "Z92";
+                                break;
+                            case "EnglandDeaths":
+                                onsCode = "E92000001";
+                                break;
+                            case "ScotlandDeaths":
+                                onsCode = "S92000003";
+                                break;
+                            case "WalesDeaths":
+                                onsCode = "W92000004";
+                                break;
+                            case "NIDeaths":
+                                onsCode = "N92000002";
+                                break;
+                        }
+                        if (onsCode != null) {
+                            Date columnDate = null;
+                            try {
+                                columnDate = row.getCell(0).getDateCellValue();
+
+                                MeasureReport report = getMorbidityMeasureReport(Date.from(columnDate.toInstant()),
+                                        (int) row.getCell(f).getNumericCellValue(),
+                                        onsCode);
+                                if (report != null) this.reports.add(report);
+                            } catch (Exception ex) {
+                                log.info("OnsCode {} Row Number {} Cell NUmber {}", onsCode, 1, f);
+                                log.info("columnDate {}", columnDate);
+
+                                throw ex;
+                            }
+                        }
+                    }
+
+            }
+
+
+            UploadReports();
+
+        }
+
+
+    }
+
     private void ProcessPHEMorbidity() throws Exception {
 
         reports = new ArrayList<>();
@@ -240,7 +299,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
                                 throw new InternalError("Missing country code " + header.getCell(f).getStringCellValue());
 
                         }
-                        ;
+
                         Date columnDate = null;
                         try {
                             columnDate = row.getCell(0).getDateCellValue();
@@ -1380,6 +1439,61 @@ private void addGroup(MeasureReport report, String system, String code, String d
             } else {
                 // Record doesn't exist so add
                 locations.put(theRecord[0], location);
+            }
+
+        }
+
+    }
+
+    private void ProcessPHEDailyUAFile() throws Exception {
+
+        Date today = new Date();
+        LocalDateTime ldt = LocalDateTime.ofInstant(today.toInstant(), ZoneId.systemDefault());
+        ldt = ldt.minusDays(1);
+        today = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+
+        reports = new ArrayList<>();
+
+        BufferedInputStream in = new BufferedInputStream(new URL(PHE_UACASES_URL).openStream());
+
+        CaseHandler handler = new CaseHandler(today);
+        Process(in, handler);
+
+        CalculatePHERegions();
+
+        UploadReports();
+
+    }
+
+    public class CaseHandler implements IRecordHandler
+    {
+
+        Date reportDate;
+        CaseHandler(Date reportDate) {
+            this.reportDate = reportDate;
+        }
+
+
+        @Override
+        public void accept(String[] theRecord) {
+
+            MeasureReport report = new MeasureReport();
+
+            Location location = locations.get(theRecord[0]);
+
+            if (location != null) {
+
+                String onsCode = GetMergedId(theRecord[0]);
+
+                String qty = theRecord[2].trim().replace(",","");
+
+                report = getPHEMeasureReport(reportDate,
+                        Integer.parseInt(qty),
+                        onsCode);
+                if (report != null) reports.add(report);
+
+            } else {
+                log.error("Missing Location " + theRecord[0]);
             }
 
         }
