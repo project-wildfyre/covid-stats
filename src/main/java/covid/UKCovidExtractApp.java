@@ -116,7 +116,9 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         SetupPHELocations();
 
+
         ProcessPHEMorbidityDailyIndicators();
+        // Getting narked with this data. So inconsistent need to remove
         ProcessPHEDailyUAFile();
         ProcessPHEMorbidity();
         ProcessPHEExcelFile();
@@ -129,18 +131,23 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
 
     }
-/*
+
     private void FixLocations(){
 
         for(String location : locations.keySet()) {
+            log.info("Removing reports for {}",location);
+            RemoveOrgReport(location);
+            /*
             if (!location.equals(GetMergedId(location))) {
                 log.info("Removing reports for {}",location);
                 RemoveOrgReport(location);
             }
+
+             */
         }
 
     }
-    */
+
     private void SetupMeasures(){
         Measure measure = new Measure();
         measure.addIdentifier().setSystem("https://fhir.mayfield-is.co.uk/MEASURCODE").setValue("PHE_COVID");
@@ -175,6 +182,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("Z92_UK.csv","CTRY");
         ProcessLocationsFile("E92_CTRY.csv","CTRY");
         ProcessLocationsFile("E12_RGN.csv","RGN");
+       // FixLocations();
+
         ProcessLocationsFile("E11_MCTY.csv","MCTY");
         ProcessLocationsFile("E10_CTY.csv","CTY");
         ProcessLocationsFile("E09_LONB.csv","LONB");
@@ -632,7 +641,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
                         costs=tempcosts;
                     }
 
-                    log.info("location {} population {} cost estimate = {}",  en.getKey(), popMap.get("All"), cost);
+                //    log.info("location {} population {} cost estimate = {}",  en.getKey(), popMap.get("All"), cost);
                 }
             }
 
@@ -792,9 +801,10 @@ private void addGroup(MeasureReport report, String system, String code, String d
 }
 
     private void RemoveOrgReport(String org) {
-        Bundle bundle = client.search().byUrl("MeasureReport?reporter.identifier="+org).returnBundle(Bundle.class).execute();
+        Bundle bundle = client.search().byUrl("MeasureReport?subject.identifier="+org).returnBundle(Bundle.class).execute();
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
             if (entry.getResource() instanceof MeasureReport) {
+                log.debug("Delete {} " + ((MeasureReport) entry.getResource()).getIdElement() );
                 client.delete().resourceById(((MeasureReport) entry.getResource()).getIdElement()).execute();
             }
         }
@@ -978,20 +988,27 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 for(int i =9;i < sheet.getLastRowNum(); i++ ) {
                     Row row = sheet.getRow(i);
                     String onsCode = row.getCell(0).getStringCellValue();
+                    Date lastColumnDate = null;
                     for(int f=3;f < row.getLastCellNum();f++) {
                         Date columnDate = null;
                         try {
                             columnDate = header.getCell(f).getDateCellValue();
-                            MeasureReport report = getPHEMeasureReport(Date.from(columnDate.toInstant()),
-                                    (int) row.getCell(f).getNumericCellValue(),
-                                    onsCode);
-                            if (report != null) this.reports.add(report);
+                            if (lastColumnDate == null || !lastColumnDate.toInstant().equals(columnDate.toInstant())) {
+                                MeasureReport report = getPHEMeasureReport(Date.from(columnDate.toInstant()),
+                                        (int) row.getCell(f).getNumericCellValue(),
+                                        onsCode);
+                                if (report != null) this.reports.add(report);
+                            }
+                            if (lastColumnDate != null && lastColumnDate.toInstant().equals(columnDate.toInstant())) {
+                                log.warn("Duplicate entry in PHE Historic file for {}",columnDate.toInstant());
+                            }
                         } catch (Exception ex) {
                             log.info("OnsCode {} Row Number {} Cell NUmber {}",onsCode,i,f);
                             log.info("columnDate {}",columnDate);
 
                             throw ex;
                         }
+                        lastColumnDate = columnDate;
                     }
                 }
 
@@ -1335,7 +1352,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
         if (bundle.getEntryFirstRep() != null) {
             MeasureReport t = (MeasureReport) bundle.getEntryFirstRep().getResource();
-            log.info("Processing {} Cases {}",  t.getMeasure(), t.getIdentifierFirstRep().getValue());
+       //     log.info("Processing {} Cases {}",  t.getMeasure(), t.getIdentifierFirstRep().getValue());
         }
 
         Bundle resp = client.transaction().withBundle(bundle).execute();
