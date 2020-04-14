@@ -987,28 +987,30 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 Row header = sheet.getRow(7);
                 for(int i =9;i < sheet.getLastRowNum(); i++ ) {
                     Row row = sheet.getRow(i);
-                    String onsCode = row.getCell(0).getStringCellValue();
-                    Date lastColumnDate = null;
-                    for(int f=3;f < row.getLastCellNum();f++) {
-                        Date columnDate = null;
-                        try {
-                            columnDate = header.getCell(f).getDateCellValue();
-                            if (lastColumnDate == null || !lastColumnDate.toInstant().equals(columnDate.toInstant())) {
-                                MeasureReport report = getPHEMeasureReport(Date.from(columnDate.toInstant()),
-                                        (int) row.getCell(f).getNumericCellValue(),
-                                        onsCode);
-                                if (report != null) this.reports.add(report);
-                            }
-                            if (lastColumnDate != null && lastColumnDate.toInstant().equals(columnDate.toInstant())) {
-                                log.warn("Duplicate entry in PHE Historic file for {}",columnDate.toInstant());
-                            }
-                        } catch (Exception ex) {
-                            log.info("OnsCode {} Row Number {} Cell NUmber {}",onsCode,i,f);
-                            log.info("columnDate {}",columnDate);
+                    if (row != null && row.getCell(0)!= null) {
+                        String onsCode = row.getCell(0).getStringCellValue();
+                        Date lastColumnDate = null;
+                        for (int f = 3; f < row.getLastCellNum(); f++) {
+                            Date columnDate = null;
+                            try {
+                                columnDate = header.getCell(f).getDateCellValue();
+                                if (lastColumnDate == null || !lastColumnDate.toInstant().equals(columnDate.toInstant())) {
+                                    MeasureReport report = getPHEMeasureReport(Date.from(columnDate.toInstant()),
+                                            (int) row.getCell(f).getNumericCellValue(),
+                                            onsCode);
+                                    if (report != null) this.reports.add(report);
+                                }
+                                if (lastColumnDate != null && lastColumnDate.toInstant().equals(columnDate.toInstant())) {
+                                    log.warn("Duplicate entry in PHE Historic file for {}", columnDate.toInstant());
+                                }
+                            } catch (Exception ex) {
+                                log.info("OnsCode {} Row Number {} Cell NUmber {}", onsCode, i, f);
+                                log.info("columnDate {}", columnDate);
 
-                            throw ex;
+                                throw ex;
+                            }
+                            lastColumnDate = columnDate;
                         }
-                        lastColumnDate = columnDate;
                     }
                 }
 
