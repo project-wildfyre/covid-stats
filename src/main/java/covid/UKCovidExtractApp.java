@@ -98,6 +98,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
         SpringApplication.run(UKCovidExtractApp.class, args);
     }
 
+
+
   //  String PHE_UACASES_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
   //  String PHE_DAILYINDICATORS_URL = "https://www.arcgis.com/sharing/rest/content/items/bc8ee90225644ef7a6f4dd1b13ea1d67/data";
   //  String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
@@ -105,8 +107,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
     String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales/2020/referencetablesweek142020.xlsx";
     String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004141544.json";
 
-    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/E5/6CF262/NHS%20Pathways%20Covid-19%20data%202020-04-13.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/56/7004AE/111%20Online%20Covid-19%20data_2020-04-13.csv";
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/A6/FFFE0E/NHS%20Pathways%20Covid-19%20data%202020-04-14.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/59/067AE3/111%20Online%20Covid-19%20data_2020-04-14.csv";
 
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -1352,7 +1354,11 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
 
         if (location != null) {
-            int population = ((IntegerType) location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/Population").getValue()).getValue();
+            Extension locationExt = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/Population");
+            int population = 0;
+            if (locationExt != null && locationExt.getValue() instanceof IntegerType) {
+                population = ((IntegerType) locationExt.getValue()).getValue();
+            }
             report.addIdentifier()
                     .setSystem("https://www.arcgis.com/fhir/CountyUAs_cases")
                     .setValue(onsCode + "-" + stamp.format(reportDate));
@@ -1397,10 +1403,11 @@ private void addGroup(MeasureReport report, String system, String code, String d
             )
                     .addPopulation().setCount(1000000);
             Quantity qtyadj = new Quantity();
-            Double num = (qty.getValue().doubleValue() / population) * 1000000;
-            qtyadj.setValue(num);
-            group.setMeasureScore(qtyadj);
-
+            if (population>0) {
+                Double num = (qty.getValue().doubleValue() / population) * 1000000;
+                qtyadj.setValue(num);
+                group.setMeasureScore(qtyadj);
+            }
             Extension hi = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/HI");
             if (hi != null) {
                 group = report.addGroup();
