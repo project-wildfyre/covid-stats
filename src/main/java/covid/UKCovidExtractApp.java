@@ -12,8 +12,8 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.Charsets;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hl7.fhir.r4.model.*;
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -22,11 +22,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+
 import java.util.*;
+import org.json.JSONObject;
+
 
 
 @SpringBootApplication
@@ -85,10 +87,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
         SpringApplication.run(UKCovidExtractApp.class, args);
     }
 
-    String PHE_UACASES_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
-    String PHE_DAILYINDICATORS_URL = "https://www.arcgis.com/sharing/rest/content/items/bc8ee90225644ef7a6f4dd1b13ea1d67/data";
-    String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
+  //  String PHE_UACASES_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
+  //  String PHE_DAILYINDICATORS_URL = "https://www.arcgis.com/sharing/rest/content/items/bc8ee90225644ef7a6f4dd1b13ea1d67/data";
+  //  String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
 
+    String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004141544.json";
 
     String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/08/510910/NHS%20Pathways%20Covid-19%20data%202020-04-07.csv";
     String NHSONLINE_URL = "https://files.digital.nhs.uk/EA/9901C2/111%20Online%20Covid-19%20data_2020-04-07.csv";
@@ -111,17 +114,21 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         SetupMeasures();
 
+
+
         ProcessDeprivation();
         SetupPopulations();
 
         SetupPHELocations();
+       // FixLocations();
 
+        ProcessPHEJsonFile(PHE_JSON_URL);
 
-        ProcessPHEMorbidityDailyIndicators();
+        //ProcessPHEMorbidityDailyIndicators();
         // Getting narked with this data. So inconsistent need to remove
-        ProcessPHEDailyUAFile();
-        ProcessPHEMorbidity();
-        ProcessPHEExcelFile();
+        //ProcessPHEDailyUAFile();
+        //ProcessPHEMorbidity();
+        //ProcessPHEExcelFile();
 
         SetupNHSLocations();
         PopulateNHS();
@@ -132,6 +139,92 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     }
 
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
+    }
+
+    private void ProcessPHEJsonFile(String pheJsonLocation) throws Exception {
+        InputStream is = new URL(pheJsonLocation).openStream();
+
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+        String jsonText = readAll(rd);
+        JSONObject json = new JSONObject(jsonText);
+
+        // Mortality UK
+        JSONObject uk = (JSONObject) json.get("overview");
+        ProcessPHEMortality(uk, "UK");
+
+        // Mortality
+        JSONObject countries = (JSONObject) json.get("countries");
+        ProcessPHEMortality(countries, "Home Country");
+
+        // Regions
+        JSONObject regions = (JSONObject) json.get("regions");
+        ProcessPHEJSONCases(regions, "Regions");
+
+        // UTLAs
+        JSONObject utlas = (JSONObject) json.get("utlas");
+        ProcessPHEJSONCases(utlas, "UTLAs");
+
+
+
+    }
+    private void ProcessPHEMortality(JSONObject utlas, String name) throws Exception {
+
+        log.info("Processing Mortality {}", name);
+
+        this.reports = new ArrayList<>();
+
+        for (String onsCode : utlas.keySet()) {
+            JSONObject utlaData = (JSONObject) utlas.get(onsCode);
+            JSONArray utlaDaily = (JSONArray) utlaData.get("dailyTotalDeaths");
+            Iterator it = utlaDaily.iterator();
+            while (it.hasNext()) {
+                JSONObject daily = (JSONObject) it.next();
+                Date columnDate = dateStamp.parse(daily.getString("date"));
+                MeasureReport report = null;
+                if (name.equals("UK")) {
+                    report = getMorbidityMeasureReport(columnDate,
+                            daily.getInt("value"),
+                            "Z92");
+                } else {
+                    report = getMorbidityMeasureReport(columnDate,
+                            daily.getInt("value"),
+                            onsCode);
+                }
+                if (report != null) this.reports.add(report);
+            }
+        }
+
+        UploadReports();
+    }
+    private void ProcessPHEJSONCases(JSONObject utlas, String name) throws Exception {
+
+        log.info("Processing Cases {}",name);
+        this.reports = new ArrayList<>();
+
+        for (String onsCode : utlas.keySet()) {
+            JSONObject utlaData = (JSONObject) utlas.get(onsCode);
+            JSONArray utlaDaily = (JSONArray) utlaData.get("dailyTotalConfirmedCases");
+            Iterator it = utlaDaily.iterator();
+            while (it.hasNext()) {
+                JSONObject daily = (JSONObject) it.next();
+                Date columnDate = dateStamp.parse(daily.getString("date"));
+                MeasureReport report = getPHEMeasureReport(columnDate,
+                        daily.getInt("value"),
+                        onsCode);
+                if (report != null) this.reports.add(report);
+            }
+        }
+
+
+        UploadReports();
+    }
     private void FixLocations(){
 
         for(String location : locations.keySet()) {
@@ -214,7 +307,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E12_RGN.csv","NHSRGN");
         ProcessLocationsFile("E06_UA.csv","NHSUA");
     }
-
+/*
     private void ProcessPHEMorbidityDailyIndicators() throws Exception {
 
         reports = new ArrayList<>();
@@ -274,6 +367,9 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     }
 
+ */
+
+    /*
     private void ProcessPHEMorbidity() throws Exception {
 
         reports = new ArrayList<>();
@@ -334,6 +430,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
 
     }
+
+     */
 
     private void ProcessCCGPopulationEstimates() throws Exception {
 
@@ -976,6 +1074,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
     }
 
+    /*
     private void ProcessPHEExcelFile() throws Exception {
 
         reports = new ArrayList<>();
@@ -1023,7 +1122,9 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
     }
 
+     */
 
+/*
     private void  CalculatePHERegions() {
         Map<String , Map<Date, BigDecimal>> pheMap = new HashMap<>();
         for (MeasureReport report : this.reports) {
@@ -1066,6 +1167,8 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
     }
 
+ */
+
     private MeasureReport getPHEMeasureReport(Date reportDate, int cases, String onsCode) {
         MeasureReport report = new MeasureReport();
 
@@ -1073,7 +1176,13 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
 
         if (location != null) {
-            int population = ((IntegerType) location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/Population").getValue()).getValue();
+            Extension populationExt = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/Population");
+            int population = 0;
+            if (populationExt != null) {
+                population = ((IntegerType) populationExt.getValue()).getValue();
+            } else {
+                log.warn("Missing population for {}",onsCode);
+            }
             report.addIdentifier()
                     .setSystem("https://www.arcgis.com/fhir/CountyUAs_cases")
                     .setValue(onsCode + "-" + stamp.format(reportDate));
@@ -1104,23 +1213,26 @@ private void addGroup(MeasureReport report, String system, String code, String d
                                     .setCode("840539006")
                                     .setDisplay("Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)")
                     )
-            )
-                    .addPopulation().setCount(population);
+            );
+            if (population>0) {
+                    group.addPopulation().setCount(population);
+            }
             group.setMeasureScore(qty);
-
-            group = report.addGroup();
-            group.setCode(
-                    new CodeableConcept().addCoding(
-                            new Coding().setSystem("http://fhir.mayfield-is.co.uk")
-                                    .setCode("CASES/MILLION")
-                                    .setDisplay("COVID-19 Cases Per million")
-                    )
-            )
-                    .addPopulation().setCount(1000000);
-            Quantity qtyadj = new Quantity();
-            Double num = (qty.getValue().doubleValue() / population) * 1000000;
-            qtyadj.setValue(num);
-            group.setMeasureScore(qtyadj);
+            if (population>0) {
+                group = report.addGroup();
+                group.setCode(
+                        new CodeableConcept().addCoding(
+                                new Coding().setSystem("http://fhir.mayfield-is.co.uk")
+                                        .setCode("CASES/MILLION")
+                                        .setDisplay("COVID-19 Cases Per million")
+                        )
+                )
+                        .addPopulation().setCount(1000000);
+                Quantity qtyadj = new Quantity();
+                Double num = (qty.getValue().doubleValue() / population) * 1000000;
+                qtyadj.setValue(num);
+                group.setMeasureScore(qtyadj);
+            }
 
             Extension hi = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/HI");
             if (hi != null) {
@@ -1464,6 +1576,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
     }
 
+    /*
     private void ProcessPHEDailyUAFile() throws Exception {
 
         Date today = new Date();
@@ -1483,6 +1596,8 @@ private void addGroup(MeasureReport report, String system, String code, String d
         UploadReports();
 
     }
+
+     */
 
     public class CaseHandler implements IRecordHandler
     {
