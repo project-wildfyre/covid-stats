@@ -12,6 +12,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.Charsets;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hl7.fhir.r4.model.*;
 import org.json.JSONArray;
 import org.slf4j.Logger;
@@ -26,8 +27,7 @@ import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+
 
 import java.util.*;
 import org.json.JSONObject;
@@ -384,6 +384,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     }
 
+ */
+
     private void ProcessBMDMortality() throws Exception {
 
         reports = new ArrayList<>();
@@ -543,6 +545,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
         }
     }
 
+    /*
     private void ProcessPHEMorbidity() throws Exception {
 
         reports = new ArrayList<>();
@@ -605,6 +608,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
     }
 
      */
+
 
     private void ProcessCCGPopulationEstimates() throws Exception {
 
@@ -1246,7 +1250,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
             log.error(ex.getMessage());
         }
     }
-
+/*
     private void ProcessPHEExcelFile() throws Exception {
 
         reports = new ArrayList<>();
@@ -1294,7 +1298,9 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
     }
 
+ */
 
+/*
     private void  CalculatePHERegions() {
         Map<String , Map<Date, BigDecimal>> pheMap = new HashMap<>();
         for (MeasureReport report : this.reports) {
@@ -1336,6 +1342,8 @@ private void addGroup(MeasureReport report, String system, String code, String d
             }
         }
     }
+
+ */
 
     private MeasureReport getPHEMeasureReport(Date reportDate, int cases, String onsCode) {
         MeasureReport report = new MeasureReport();
@@ -1734,7 +1742,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
 
     }
-
+/*
     private void ProcessPHEDailyUAFile() throws Exception {
 
         Date today = new Date();
@@ -1755,6 +1763,8 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
     }
 
+ */
+/*
     public class CaseHandler implements IRecordHandler
     {
 
@@ -1789,5 +1799,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
 
     }
+
+ */
 
 }
