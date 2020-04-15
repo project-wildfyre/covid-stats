@@ -25,6 +25,9 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import java.util.*;
 import org.json.JSONObject;
@@ -53,11 +56,18 @@ public class UKCovidExtractApp implements CommandLineRunner {
         Double nhsCostEstimate = Double.valueOf(0);
     }
 
+    private class BMD {
+        double covid = 0;
+        double allDeaths = 0;
+        double fiveYearAvg = 0;
+    }
+
 
 
     String phe;
     String uec;
     String morbidity;
+    String mortalityBMD;
 
     final String UUID_Prefix = "urn:uuid:";
 
@@ -79,6 +89,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     private Map<String, Map<Date, NHSStat>> nhs = new HashMap<>();
     private Map<String, Map<Date, NHSStat>> nhsParent = new HashMap<>();
+    private Map<String, Map<Instant,BMD>> bmdMap = new HashMap<>();
     private Map<String, Map<String, Integer>> ccgPopulation = new HashMap<>();
 
     ClassLoader classLoader = getClass().getClassLoader();
@@ -91,10 +102,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
   //  String PHE_DAILYINDICATORS_URL = "https://www.arcgis.com/sharing/rest/content/items/bc8ee90225644ef7a6f4dd1b13ea1d67/data";
   //  String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
 
+    String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales/2020/referencetablesweek142020.xlsx";
     String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004141544.json";
 
-    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/08/510910/NHS%20Pathways%20Covid-19%20data%202020-04-07.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/EA/9901C2/111%20Online%20Covid-19%20data_2020-04-07.csv";
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/E5/6CF262/NHS%20Pathways%20Covid-19%20data%202020-04-13.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/56/7004AE/111%20Online%20Covid-19%20data_2020-04-13.csv";
 
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -115,7 +127,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
         SetupMeasures();
 
 
-
         ProcessDeprivation();
         SetupPopulations();
 
@@ -123,6 +134,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
        // FixLocations();
 
         ProcessPHEJsonFile(PHE_JSON_URL);
+        ProcessBMDMortality();
 
         //ProcessPHEMorbidityDailyIndicators();
         // Getting narked with this data. So inconsistent need to remove
@@ -257,6 +269,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
         measure.setStatus(Enumerations.PublicationStatus.ACTIVE);
         outcome = client.create().resource(measure).conditionalByUrl("Measure?identifier=https://fhir.mayfield-is.co.uk/MEASURCODE|MORBIDITY_COVID").execute();
         morbidity= "Measure/"+outcome.getId().getIdPart();
+        measure = new Measure();
+        measure.addIdentifier().setSystem("https://fhir.mayfield-is.co.uk/MEASURCODE").setValue("MORTALITY_BMD");
+        measure.setStatus(Enumerations.PublicationStatus.ACTIVE);
+        outcome = client.create().resource(measure).conditionalByUrl("Measure?identifier=https://fhir.mayfield-is.co.uk/MEASURCODE|MORTALITY_BMD").execute();
+        mortalityBMD = "Measure/"+outcome.getId().getIdPart();
     }
 
     private void SetupPopulations() throws Exception {
@@ -367,9 +384,165 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     }
 
- */
+    private void ProcessBMDMortality() throws Exception {
 
-    /*
+        reports = new ArrayList<>();
+
+        BufferedInputStream zis = new BufferedInputStream(new URL(BMD_DEATHS_URL).openStream());
+        Workbook wb = new XSSFWorkbook(zis);
+        String[] sheets = {"Weekly figures 2020","Covid-19 - Weekly occurrences"};
+        for (int i = 0; i < sheets.length; i++) {
+
+            Sheet  sheet = wb.getSheet(sheets[i]);
+
+            //
+            if (sheet != null) {
+                Row header = sheet.getRow(5);
+
+                // UK Data
+
+                String onsCode = "E92000001";
+
+                Row row = sheet.getRow(8);
+                for (int d = 2; d < row.getLastCellNum(); d++) {
+                    if (row.getCell(d) != null && row.getCell(d).getNumericCellValue()>0) {
+                        Date columnDate = null;
+                        try {
+                            columnDate = header.getCell(d).getDateCellValue();
+                            if (this.bmdMap.get(onsCode) == null) {
+                                this.bmdMap.put(onsCode, new HashedMap());
+                            }
+                            Map<Instant, BMD> bands = this.bmdMap.get(onsCode);
+                            if (bands.get(columnDate.toInstant()) == null) {
+                                bands.put(columnDate.toInstant(),new BMD());
+                            }
+                            BMD bmd = bands.get(columnDate.toInstant());
+                            if (i ==0 ) {
+                                bmd.allDeaths = row.getCell(d).getNumericCellValue();
+                                Row fiveYr= sheet.getRow(10);
+                                if (fiveYr.getCell(d) != null) {
+                                    bmd.fiveYearAvg = fiveYr.getCell(d).getNumericCellValue();
+                                }
+                            } else {
+                                bmd.covid = row.getCell(d).getNumericCellValue();
+                            }
+
+                        } catch (Exception ex) {
+                            log.info("OnsCode {} Row Number {} Cell NUmber {}", onsCode, 1, 8);
+                            log.info("columnDate {}", columnDate);
+
+                            throw ex;
+                        }
+                    }
+                }
+
+                // Regional data
+
+                for (int f = 70; f < sheet.getLastRowNum(); f++) {
+
+                    row = sheet.getRow(f);
+                    if (row.getCell(0) != null) {
+                        onsCode = row.getCell(0).getStringCellValue();
+                        if (!onsCode.isEmpty() && onsCode.startsWith("E")) {
+                            for (int d = 2; d < row.getLastCellNum(); d++) {
+                                if (row.getCell(d) != null) {
+                                    Date columnDate = null;
+                                    try {
+                                        columnDate = header.getCell(d).getDateCellValue();
+
+
+                                        if (this.bmdMap.get(onsCode) == null) {
+                                            this.bmdMap.put(onsCode, new HashedMap());
+                                        }
+                                        Map<Instant, BMD> bands = this.bmdMap.get(onsCode);
+                                        if (bands.get(columnDate.toInstant()) == null) {
+                                            bands.put(columnDate.toInstant(),new BMD());
+                                        }
+                                        BMD bmd = bands.get(columnDate.toInstant());
+                                        if (i ==0 ) {
+                                            bmd.allDeaths = row.getCell(d).getNumericCellValue();
+                                        } else {
+                                            bmd.covid = row.getCell(d).getNumericCellValue();
+                                        }
+                                        bands.replace(columnDate.toInstant(),bmd);
+                                   /* MeasureReport report = getMorbidityMeasureReport(Date.from(columnDate.toInstant()),
+                                            (int) row.getCell(f).getNumericCellValue(),
+                                            onsCode);
+                                    if (report != null) this.reports.add(report);*/
+                                    } catch (Exception ex) {
+                                        log.info("OnsCode {} Row Number {} Cell NUmber {}", onsCode, 1, f);
+                                        log.info("columnDate {}", columnDate);
+
+                                        throw ex;
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+        CalculateBMD();
+        UploadReports();
+
+    }
+
+    private void CalculateBMD() {
+        for (Map.Entry<String, Map<Instant, BMD>> org : bmdMap.entrySet()) {
+
+            Map<Instant, BMD> treeMap = new TreeMap(org.getValue());
+
+            for (Map.Entry<Instant, BMD> dateentry : treeMap.entrySet()) {
+                //System.out.println("Key = " + dateentry.getKey());
+                BMD bmd = dateentry.getValue();
+
+                MeasureReport report = new MeasureReport();
+                report.addIdentifier()
+                        .setSystem("https://fhir.mayfield-is.co.uk/Measure/BMD")
+                        .setValue(org.getKey() + "-" + stamp.format(Date.from(dateentry.getKey())));
+
+                report.setDate(Date.from(dateentry.getKey()));
+                report.setPeriod(new Period().setStart(Date.from(dateentry.getKey())));
+                report.setStatus(MeasureReport.MeasureReportStatus.COMPLETE);
+                report.setType(MeasureReport.MeasureReportType.SUMMARY);
+                report.setReporter(new Reference().setIdentifier(new Identifier().setSystem(ONSSystem).setValue(org.getKey())));
+                report.setSubject(new Reference().setIdentifier(new Identifier().setSystem(ONSSystem).setValue(org.getKey())));
+
+                report.setMeasure(mortalityBMD);
+
+                Location location = locations.get(org.getKey());
+                if (location != null) {
+                    report.getSubject().setReference(location.getId());
+                    report.getSubject().setDisplay(location.getName());
+                    report.getReporter().setReference(location.getId());
+                    report.getReporter().setDisplay(location.getName());
+                } else {
+                    throw new InternalError("Missing Location Code");
+                }
+
+
+                BigDecimal population = this.population.get(report.getSubject().getIdentifier().getValue());
+
+
+                addGroup(report,"http://fhir.mayfield-is.co.uk/CodeSystem/BMD-COVID","covid-deaths","COVID Deaths", bmd.covid,null);
+                if (bmd.allDeaths > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-COVID", "all-deaths", "All Deaths", bmd.allDeaths, null);
+                }
+                if (bmd.fiveYearAvg > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-COVID", "5yr-avg-deaths", "Five year avg Deaths", bmd.fiveYearAvg, null);
+                }
+                //   log.info("{} count {} {}", report.getIdentifierFirstRep().getValue(), nhs.femaleTriage + nhs.maleTriage, femaleTriageTotal + maleTriageTotal);
+
+                reports.add(report);
+
+            }
+        }
+    }
+
     private void ProcessPHEMorbidity() throws Exception {
 
         reports = new ArrayList<>();
@@ -1074,7 +1247,6 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
     }
 
-    /*
     private void ProcessPHEExcelFile() throws Exception {
 
         reports = new ArrayList<>();
@@ -1122,9 +1294,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
     }
 
-     */
 
-/*
     private void  CalculatePHERegions() {
         Map<String , Map<Date, BigDecimal>> pheMap = new HashMap<>();
         for (MeasureReport report : this.reports) {
@@ -1167,8 +1337,6 @@ private void addGroup(MeasureReport report, String system, String code, String d
         }
     }
 
- */
-
     private MeasureReport getPHEMeasureReport(Date reportDate, int cases, String onsCode) {
         MeasureReport report = new MeasureReport();
 
@@ -1176,13 +1344,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
 
         if (location != null) {
-            Extension populationExt = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/Population");
-            int population = 0;
-            if (populationExt != null) {
-                population = ((IntegerType) populationExt.getValue()).getValue();
-            } else {
-                log.warn("Missing population for {}",onsCode);
-            }
+            int population = ((IntegerType) location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/Population").getValue()).getValue();
             report.addIdentifier()
                     .setSystem("https://www.arcgis.com/fhir/CountyUAs_cases")
                     .setValue(onsCode + "-" + stamp.format(reportDate));
@@ -1213,26 +1375,23 @@ private void addGroup(MeasureReport report, String system, String code, String d
                                     .setCode("840539006")
                                     .setDisplay("Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)")
                     )
-            );
-            if (population>0) {
-                    group.addPopulation().setCount(population);
-            }
+            )
+                    .addPopulation().setCount(population);
             group.setMeasureScore(qty);
-            if (population>0) {
-                group = report.addGroup();
-                group.setCode(
-                        new CodeableConcept().addCoding(
-                                new Coding().setSystem("http://fhir.mayfield-is.co.uk")
-                                        .setCode("CASES/MILLION")
-                                        .setDisplay("COVID-19 Cases Per million")
-                        )
-                )
-                        .addPopulation().setCount(1000000);
-                Quantity qtyadj = new Quantity();
-                Double num = (qty.getValue().doubleValue() / population) * 1000000;
-                qtyadj.setValue(num);
-                group.setMeasureScore(qtyadj);
-            }
+
+            group = report.addGroup();
+            group.setCode(
+                    new CodeableConcept().addCoding(
+                            new Coding().setSystem("http://fhir.mayfield-is.co.uk")
+                                    .setCode("CASES/MILLION")
+                                    .setDisplay("COVID-19 Cases Per million")
+                    )
+            )
+                    .addPopulation().setCount(1000000);
+            Quantity qtyadj = new Quantity();
+            Double num = (qty.getValue().doubleValue() / population) * 1000000;
+            qtyadj.setValue(num);
+            group.setMeasureScore(qtyadj);
 
             Extension hi = location.getExtensionByUrl("https://fhir.mayfield-is.co.uk/HI");
             if (hi != null) {
@@ -1576,7 +1735,6 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
     }
 
-    /*
     private void ProcessPHEDailyUAFile() throws Exception {
 
         Date today = new Date();
@@ -1596,8 +1754,6 @@ private void addGroup(MeasureReport report, String system, String code, String d
         UploadReports();
 
     }
-
-     */
 
     public class CaseHandler implements IRecordHandler
     {
