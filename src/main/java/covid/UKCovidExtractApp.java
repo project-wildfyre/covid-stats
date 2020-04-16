@@ -107,8 +107,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
     String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales/2020/referencetablesweek142020.xlsx";
     String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004141544.json";
 
-    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/A6/FFFE0E/NHS%20Pathways%20Covid-19%20data%202020-04-14.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/59/067AE3/111%20Online%20Covid-19%20data_2020-04-14.csv";
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/83/21FAC0/NHS%20Pathways%20Covid-19%20data%202020-04-15.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/30/86590D/111%20Online%20Covid-19%20data_2020-04-15.csv";
 
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
