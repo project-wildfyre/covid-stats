@@ -111,12 +111,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
         SpringApplication.run(UKCovidExtractApp.class, args);
     }
 
-
-
-  //  String PHE_UACASES_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
-  //  String PHE_DAILYINDICATORS_URL = "https://www.arcgis.com/sharing/rest/content/items/bc8ee90225644ef7a6f4dd1b13ea1d67/data";
-  //  String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
-
     String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales/2020/referencetablesweek142020.xlsx";
     String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004161444.json";
 
@@ -175,12 +169,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         ProcessPHEJsonFile(PHE_JSON_URL);
         ProcessBMDMortality();
-
-        //ProcessPHEMorbidityDailyIndicators();
-        // Getting narked with this data. So inconsistent need to remove
-        //ProcessPHEDailyUAFile();
-        //ProcessPHEMorbidity();
-        //ProcessPHEExcelFile();
 
         SetupNHSLocations();
         PopulateNHS();
