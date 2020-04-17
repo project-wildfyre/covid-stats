@@ -2,14 +2,27 @@ package covid;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
+import ca.uhn.fhir.rest.client.api.IClientInterceptor;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 
+import ca.uhn.fhir.rest.client.interceptor.BasicAuthInterceptor;
+import ca.uhn.fhir.rest.client.interceptor.BearerTokenAuthInterceptor;
 import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import com.opencsv.CSVIterator;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.Charsets;
+import org.apache.http.*;
+import org.apache.http.Header;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -117,14 +130,39 @@ public class UKCovidExtractApp implements CommandLineRunner {
     DateFormat stamp = new SimpleDateFormat("yyyyMMdd");
 
 
-    IGenericClient client = ctxFHIR.newRestfulGenericClient("https://fhir.test.xgenome.co.uk/R4");
-
+    IGenericClient client = null;
     @Override
     public void run(String... args) throws Exception {
         if (args.length > 0 && args[0].equals("exitcode")) {
             throw new Exception();
         }
-     ;
+        String token = null;
+
+        HttpPost post = new HttpPost("https://xgenome.auth.eu-west-2.amazoncognito.com/token");
+        post.setHeader(org.apache.http.HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded");
+        post.setHeader(HttpHeaders.AUTHORIZATION, "Basic N2drMHNjdXRuNzcwbWtkZTNsb3Vyaml1YXY6MWJpNDUwdXV2a3AwZms1cmV2NzlpY251MjRta2w1dDk2cDZlbWFya2s3aHNiaXIzMXUydg==");
+        List <NameValuePair
+                > nvps = new ArrayList <NameValuePair>();
+        nvps.add(new BasicNameValuePair("scope", "https://fhir.test.xgenome.co.uk/ehr-api"));
+
+        nvps.add(new BasicNameValuePair("grant_type", "client_credentials"));
+
+        post.setEntity(new UrlEncodedFormEntity
+                (nvps, HTTP.UTF_8));
+
+        HttpClient clientOAuth2 = getHttpClient();
+        HttpResponse response = clientOAuth2.execute(post);
+
+        String jsonResponse = EntityUtils.toString(response.getEntity());
+        JSONObject authObj = new JSONObject(jsonResponse);
+
+        token = authObj.getString("access_token");
+
+        log.debug(token);
+
+        BearerTokenAuthInterceptor authInterceptor = new BearerTokenAuthInterceptor(token);
+        client = ctxFHIR.newRestfulGenericClient("https://fhir.test.xgenome.co.uk/R4");
+        client.registerInterceptor(authInterceptor);
 
         SetupMeasures();
 
@@ -151,6 +189,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
 
 
+    }
+
+    private HttpClient getHttpClient(){
+        final HttpClient httpClient = HttpClientBuilder.create().build();
+        return httpClient;
     }
 
     private static String readAll(Reader rd) throws IOException {
