@@ -2,10 +2,7 @@ package covid;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
-import ca.uhn.fhir.rest.client.api.IClientInterceptor;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-
-import ca.uhn.fhir.rest.client.interceptor.BasicAuthInterceptor;
 import ca.uhn.fhir.rest.client.interceptor.BearerTokenAuthInterceptor;
 import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import com.opencsv.CSVIterator;
@@ -14,11 +11,9 @@ import com.opencsv.CSVWriter;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.Charsets;
 import org.apache.http.*;
-import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
@@ -114,8 +109,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
     String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales/2020/referencetablesweek142020.xlsx";
     String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004161444.json";
 
-    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/83/21FAC0/NHS%20Pathways%20Covid-19%20data%202020-04-15.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/30/86590D/111%20Online%20Covid-19%20data_2020-04-15.csv";
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/7B/F427B2/NHS%20Pathways%20Covid-19%20data%202020-04-16.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/F4/5E629D/111%20Online%20Covid-19%20data_2020-04-16.csv";
 
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
