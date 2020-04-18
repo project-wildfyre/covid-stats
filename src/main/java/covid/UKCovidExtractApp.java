@@ -617,22 +617,22 @@ public class UKCovidExtractApp implements CommandLineRunner {
                 }
                 //   log.info("{} count {} {}", report.getIdentifierFirstRep().getValue(), nhs.femaleTriage + nhs.maleTriage, femaleTriageTotal + maleTriageTotal);
                 if (bmd.home > 0) {
-                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "home", "Place of Death - Home", bmd.fiveYearAvg, null);
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "home", "Place of Death - Home", bmd.home, null);
                 }
                 if (bmd.hospital > 0) {
-                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "hospital", "Place of Death - Hospital", bmd.fiveYearAvg, null);
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "hospital", "Place of Death - Hospital", bmd.hospital, null);
                 }
                 if (bmd.hospice > 0) {
-                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "hospice", "Place of Death - Hospice", bmd.fiveYearAvg, null);
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "hospice", "Place of Death - Hospice", bmd.hospice, null);
                 }
                 if (bmd.careHome > 0) {
-                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "carehome", "Place of Death - Care Home", bmd.fiveYearAvg, null);
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "carehome", "Place of Death - Care Home", bmd.careHome, null);
                 }
                 if (bmd.other > 0) {
-                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "other", "Place of Death - Other", bmd.fiveYearAvg, null);
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "other", "Place of Death - Other", bmd.other, null);
                 }
                 if (bmd.elsewhere > 0) {
-                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "elsewhere", "Place of Death - Elsewhere", bmd.fiveYearAvg, null);
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "elsewhere", "Place of Death - Elsewhere", bmd.elsewhere, null);
                 }
                 reports.add(report);
 
