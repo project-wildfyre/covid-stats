@@ -2,10 +2,8 @@ package covid;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
-import ca.uhn.fhir.rest.client.api.IClientInterceptor;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 
-import ca.uhn.fhir.rest.client.interceptor.BasicAuthInterceptor;
 import ca.uhn.fhir.rest.client.interceptor.BearerTokenAuthInterceptor;
 import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import com.opencsv.CSVIterator;
@@ -14,11 +12,9 @@ import com.opencsv.CSVWriter;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.Charsets;
 import org.apache.http.*;
-import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
@@ -73,6 +69,12 @@ public class UKCovidExtractApp implements CommandLineRunner {
         double covid = 0;
         double allDeaths = 0;
         double fiveYearAvg = 0;
+        double home = 0;
+        double hospital = 0;
+        double hospice = 0;
+        double careHome = 0;
+        double other = 0;
+        double elsewhere = 0;
     }
 
 
@@ -176,16 +178,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessPHEJsonFile(PHE_JSON_URL);
         ProcessBMDMortality();
 
-        //ProcessPHEMorbidityDailyIndicators();
-        // Getting narked with this data. So inconsistent need to remove
-        //ProcessPHEDailyUAFile();
-        //ProcessPHEMorbidity();
-        //ProcessPHEExcelFile();
+
 
         SetupNHSLocations();
         PopulateNHS();
 
-      //  if (true) throw new InternalError("EOF");
 
 
 
@@ -533,6 +530,49 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
             }
         }
+        Sheet  sheet = wb.getSheet("Covid-19 - Place of occurrence ");
+
+        if (sheet != null) {
+            Row dateRow = sheet.getRow(4);
+            String onsCode = "E92000001";
+            if (this.bmdMap.get(onsCode) == null) {
+                this.bmdMap.put(onsCode, new HashedMap());
+            }
+            Map<Instant, BMD> bands = this.bmdMap.get(onsCode);
+            for (int d = 1; d < dateRow.getLastCellNum(); d = d + 6 ) {
+                Date columnDate = dateRow.getCell(d).getDateCellValue();
+                for (int f = 8; f<14; f++) {
+                    Row row = sheet.getRow(f);
+                    if (row.getCell(d+2) != null) {
+
+                        if (bands.get(columnDate.toInstant()) == null) {
+                            bands.put(columnDate.toInstant(),new BMD());
+                        }
+                        BMD bmd = bands.get(columnDate.toInstant());
+                        switch (f) {
+                            case 8:
+                                bmd.home= row.getCell(d+2).getNumericCellValue();
+                                break;
+                            case 9:
+                                bmd.hospital= row.getCell(d+2).getNumericCellValue();
+                                break;
+                            case 10:
+                                bmd.hospice= row.getCell(d+2).getNumericCellValue();
+                                break;
+                            case 11:
+                                bmd.careHome= row.getCell(d+2).getNumericCellValue();
+                                break;
+                            case 12:
+                                bmd.other= row.getCell(d+2).getNumericCellValue();
+                                break;
+                            case 13:
+                                bmd.elsewhere= row.getCell(d+2).getNumericCellValue();
+                                break;
+                        }
+                    }
+                }
+            }
+        }
         CalculateBMD();
         UploadReports();
 
@@ -583,7 +623,24 @@ public class UKCovidExtractApp implements CommandLineRunner {
                     addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-COVID", "5yr-avg-deaths", "Five year avg Deaths", bmd.fiveYearAvg, null);
                 }
                 //   log.info("{} count {} {}", report.getIdentifierFirstRep().getValue(), nhs.femaleTriage + nhs.maleTriage, femaleTriageTotal + maleTriageTotal);
-
+                if (bmd.home > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "home", "Place of Death - Home", bmd.fiveYearAvg, null);
+                }
+                if (bmd.hospital > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "hospital", "Place of Death - Hospital", bmd.fiveYearAvg, null);
+                }
+                if (bmd.hospice > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "hospice", "Place of Death - Hospice", bmd.fiveYearAvg, null);
+                }
+                if (bmd.careHome > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "carehome", "Place of Death - Care Home", bmd.fiveYearAvg, null);
+                }
+                if (bmd.other > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "other", "Place of Death - Other", bmd.fiveYearAvg, null);
+                }
+                if (bmd.elsewhere > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "elsewhere", "Place of Death - Elsewhere", bmd.fiveYearAvg, null);
+                }
                 reports.add(report);
 
             }
@@ -1645,24 +1702,20 @@ private void addGroup(MeasureReport report, String system, String code, String d
     }
 
     private void processLocations(Bundle bundle, int fileCount) throws Exception {
-        //Path path = Paths.get("Locations-"+fileCount+".json");
-        //Files.write(path,ctxFHIR.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle).getBytes() );
-
-
-
+        try {
             Bundle resp = client.transaction().withBundle(bundle).execute();
             int index = 0;
             for (Bundle.BundleEntryComponent entry : resp.getEntry()) {
                 if (entry.getResource() instanceof Bundle) {
                     if (entry.getResponse().getStatus().startsWith("200")) {
-                    for (Bundle.BundleEntryComponent entrySub : ((Bundle) entry.getResource()).getEntry()) {
-                        if (entrySub.getResource() instanceof Location) {
-                            Location found = (Location) entrySub.getResource();
-                            locations.replace(found.getIdentifierFirstRep().getValue(), found);
+                        for (Bundle.BundleEntryComponent entrySub : ((Bundle) entry.getResource()).getEntry()) {
+                            if (entrySub.getResource() instanceof Location) {
+                                Location found = (Location) entrySub.getResource();
+                                locations.replace(found.getIdentifierFirstRep().getValue(), found);
+                            }
                         }
                     }
-                }}
-                else {
+                } else {
                     if (entry.hasResponse() && entry.getResponse().hasLocation()) {
                         Location original = (Location) bundle.getEntry().get(index).getResource();
                         Location location = locations.get(original.getIdentifierFirstRep().getValue());
@@ -1672,6 +1725,9 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 index++;
             }
 
+        } catch (Exception ex) {
+            throw ex;
+        }
 
     }
 
