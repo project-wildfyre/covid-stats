@@ -114,16 +114,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
     }
 
 
-
-  //  String PHE_UACASES_URL = "https://www.arcgis.com/sharing/rest/content/items/b684319181f94875a6879bbc833ca3a6/data";
-  //  String PHE_DAILYINDICATORS_URL = "https://www.arcgis.com/sharing/rest/content/items/bc8ee90225644ef7a6f4dd1b13ea1d67/data";
-  //  String PHE_EXCEL = "https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx";
-
     String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales/2020/referencetablesweek142020.xlsx";
-    String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004161444.json";
+    String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004171502.json";
 
-    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/83/21FAC0/NHS%20Pathways%20Covid-19%20data%202020-04-15.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/30/86590D/111%20Online%20Covid-19%20data_2020-04-15.csv";
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/7B/F427B2/NHS%20Pathways%20Covid-19%20data%202020-04-16.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/F4/5E629D/111%20Online%20Covid-19%20data_2020-04-16.csv";
 
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -177,8 +172,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         ProcessPHEJsonFile(PHE_JSON_URL);
         ProcessBMDMortality();
-
-
 
         SetupNHSLocations();
         PopulateNHS();
@@ -1702,20 +1695,24 @@ private void addGroup(MeasureReport report, String system, String code, String d
     }
 
     private void processLocations(Bundle bundle, int fileCount) throws Exception {
-        try {
+        //Path path = Paths.get("Locations-"+fileCount+".json");
+        //Files.write(path,ctxFHIR.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle).getBytes() );
+
+
+
             Bundle resp = client.transaction().withBundle(bundle).execute();
             int index = 0;
             for (Bundle.BundleEntryComponent entry : resp.getEntry()) {
                 if (entry.getResource() instanceof Bundle) {
                     if (entry.getResponse().getStatus().startsWith("200")) {
-                        for (Bundle.BundleEntryComponent entrySub : ((Bundle) entry.getResource()).getEntry()) {
-                            if (entrySub.getResource() instanceof Location) {
-                                Location found = (Location) entrySub.getResource();
-                                locations.replace(found.getIdentifierFirstRep().getValue(), found);
-                            }
+                    for (Bundle.BundleEntryComponent entrySub : ((Bundle) entry.getResource()).getEntry()) {
+                        if (entrySub.getResource() instanceof Location) {
+                            Location found = (Location) entrySub.getResource();
+                            locations.replace(found.getIdentifierFirstRep().getValue(), found);
                         }
                     }
-                } else {
+                }}
+                else {
                     if (entry.hasResponse() && entry.getResponse().hasLocation()) {
                         Location original = (Location) bundle.getEntry().get(index).getResource();
                         Location location = locations.get(original.getIdentifierFirstRep().getValue());
@@ -1725,9 +1722,6 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 index++;
             }
 
-        } catch (Exception ex) {
-            throw ex;
-        }
 
     }
 
