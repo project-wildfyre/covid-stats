@@ -209,14 +209,14 @@ public class UKCovidExtractApp implements CommandLineRunner {
         JSONObject countries = (JSONObject) json.get("countries");
         ProcessPHEMortality(countries, "Home Country");
 
+        // UTLAs
+        JSONObject utlas = (JSONObject) json.get("utlas");
+         ProcessPHEJSONCases(utlas, "UTLAs");
+
         // Regions
         JSONObject regions = (JSONObject) json.get("regions");
         ProcessPHEJSONCases(regions, "Regions");
-
-        // UTLAs
-        JSONObject utlas = (JSONObject) json.get("utlas");
-        ProcessPHEJSONCases(utlas, "UTLAs");
-
+        //CalculatePHERegions();
 
 
     }
@@ -249,6 +249,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         UploadReports();
     }
+
     private void ProcessPHEJSONCases(JSONObject utlas, String name) throws Exception {
 
         log.info("Processing Cases {}",name);
@@ -271,6 +272,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         UploadReports();
     }
+
+
     private void FixLocations(){
 
         for(String location : locations.keySet()) {
@@ -1394,8 +1397,8 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
  */
 
-/*
-    private void  CalculatePHERegions() {
+
+    private void  CalculatePHERegions() throws Exception {
         Map<String , Map<Date, BigDecimal>> pheMap = new HashMap<>();
         for (MeasureReport report : this.reports) {
             String onsCode = report.getSubject().getIdentifier().getValue();
@@ -1418,7 +1421,12 @@ private void addGroup(MeasureReport report, String system, String code, String d
                         }
                     }
                 } else {
-                    if (!onsCode.equals("E92000001")) throw new InternalError("Missing Parent Location "+ onsCode);
+                    if (!onsCode.equals("E92000001")) {
+                        if (missinglocation.get(onsCode) == null) {
+                            missinglocation.put(onsCode,location.getPartOf().getDisplay());
+                        }
+                        //throw new InternalError("Missing Parent Location "+ onsCode);
+                    }
                 }
 
             } else {
@@ -1426,6 +1434,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
             }
 
         }
+        this.reports = new ArrayList<>();
 
         for (Map.Entry<String,Map<Date,BigDecimal>> parent : pheMap.entrySet()) {
             for(Map.Entry<Date,BigDecimal> dayEntry : parent.getValue().entrySet()) {
@@ -1435,9 +1444,10 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 this.reports.add(report);
             }
         }
+        UploadReports();
     }
 
- */
+
 
     private MeasureReport getPHEMeasureReport(Date reportDate, int cases, String onsCode) {
         MeasureReport report = new MeasureReport();
