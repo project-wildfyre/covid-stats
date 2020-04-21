@@ -3,6 +3,7 @@ package covid;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+
 import ca.uhn.fhir.rest.client.interceptor.BearerTokenAuthInterceptor;
 import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import com.opencsv.CSVIterator;
@@ -45,6 +46,13 @@ import org.json.JSONObject;
 @SpringBootApplication
 public class UKCovidExtractApp implements CommandLineRunner {
 
+    String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales/2020/referencetablesweek142020.xlsx";
+    String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004201559.json";
+
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/AE/63AB44/NHS%20Pathways%20Covid-19%20data%202020-04-19.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/1E/C251EA/111%20Online%20Covid-19%20data_2020-04-19.csv";
+
+
     private static final Logger log = LoggerFactory.getLogger(UKCovidExtractApp.class);
 
     private class NHSStat {
@@ -68,6 +76,12 @@ public class UKCovidExtractApp implements CommandLineRunner {
         double covid = 0;
         double allDeaths = 0;
         double fiveYearAvg = 0;
+        double home = 0;
+        double hospital = 0;
+        double hospice = 0;
+        double careHome = 0;
+        double other = 0;
+        double elsewhere = 0;
     }
 
 
@@ -102,22 +116,15 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     ClassLoader classLoader = getClass().getClassLoader();
 
-    public static void main(String[] args) {
-        SpringApplication.run(UKCovidExtractApp.class, args);
-    }
-
-    String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales/2020/referencetablesweek142020.xlsx";
-    String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004171502.json";
-
-    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/7B/F427B2/NHS%20Pathways%20Covid-19%20data%202020-04-16.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/F4/5E629D/111%20Online%20Covid-19%20data_2020-04-16.csv";
-
     DateFormat dateStamp = new SimpleDateFormat("yyyy-MM-dd");
 
     DateFormat hisFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     DateFormat stamp = new SimpleDateFormat("yyyyMMdd");
 
+    public static void main(String[] args) {
+        SpringApplication.run(UKCovidExtractApp.class, args);
+    }
 
     IGenericClient client = null;
     @Override
@@ -168,7 +175,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
         SetupNHSLocations();
         PopulateNHS();
 
-      //  if (true) throw new InternalError("EOF");
 
 
 
@@ -203,14 +209,14 @@ public class UKCovidExtractApp implements CommandLineRunner {
         JSONObject countries = (JSONObject) json.get("countries");
         ProcessPHEMortality(countries, "Home Country");
 
+        // UTLAs
+        JSONObject utlas = (JSONObject) json.get("utlas");
+         ProcessPHEJSONCases(utlas, "UTLAs");
+
         // Regions
         JSONObject regions = (JSONObject) json.get("regions");
         ProcessPHEJSONCases(regions, "Regions");
-
-        // UTLAs
-        JSONObject utlas = (JSONObject) json.get("utlas");
-        ProcessPHEJSONCases(utlas, "UTLAs");
-
+        //CalculatePHERegions();
 
 
     }
@@ -243,6 +249,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         UploadReports();
     }
+
     private void ProcessPHEJSONCases(JSONObject utlas, String name) throws Exception {
 
         log.info("Processing Cases {}",name);
@@ -265,6 +272,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         UploadReports();
     }
+
+
     private void FixLocations(){
 
         for(String location : locations.keySet()) {
@@ -516,6 +525,49 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
             }
         }
+        Sheet  sheet = wb.getSheet("Covid-19 - Place of occurrence ");
+
+        if (sheet != null) {
+            Row dateRow = sheet.getRow(4);
+            String onsCode = "E92000001";
+            if (this.bmdMap.get(onsCode) == null) {
+                this.bmdMap.put(onsCode, new HashedMap());
+            }
+            Map<Instant, BMD> bands = this.bmdMap.get(onsCode);
+            for (int d = 1; d < dateRow.getLastCellNum(); d = d + 6 ) {
+                Date columnDate = dateRow.getCell(d).getDateCellValue();
+                for (int f = 8; f<14; f++) {
+                    Row row = sheet.getRow(f);
+                    if (row.getCell(d+2) != null) {
+
+                        if (bands.get(columnDate.toInstant()) == null) {
+                            bands.put(columnDate.toInstant(),new BMD());
+                        }
+                        BMD bmd = bands.get(columnDate.toInstant());
+                        switch (f) {
+                            case 8:
+                                bmd.home= row.getCell(d+2).getNumericCellValue();
+                                break;
+                            case 9:
+                                bmd.hospital= row.getCell(d+2).getNumericCellValue();
+                                break;
+                            case 10:
+                                bmd.hospice= row.getCell(d+2).getNumericCellValue();
+                                break;
+                            case 11:
+                                bmd.careHome= row.getCell(d+2).getNumericCellValue();
+                                break;
+                            case 12:
+                                bmd.other= row.getCell(d+2).getNumericCellValue();
+                                break;
+                            case 13:
+                                bmd.elsewhere= row.getCell(d+2).getNumericCellValue();
+                                break;
+                        }
+                    }
+                }
+            }
+        }
         CalculateBMD();
         UploadReports();
 
@@ -566,7 +618,24 @@ public class UKCovidExtractApp implements CommandLineRunner {
                     addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-COVID", "5yr-avg-deaths", "Five year avg Deaths", bmd.fiveYearAvg, null);
                 }
                 //   log.info("{} count {} {}", report.getIdentifierFirstRep().getValue(), nhs.femaleTriage + nhs.maleTriage, femaleTriageTotal + maleTriageTotal);
-
+                if (bmd.home > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "home", "Place of Death - Home", bmd.home, null);
+                }
+                if (bmd.hospital > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "hospital", "Place of Death - Hospital", bmd.hospital, null);
+                }
+                if (bmd.hospice > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "hospice", "Place of Death - Hospice", bmd.hospice, null);
+                }
+                if (bmd.careHome > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "carehome", "Place of Death - Care Home", bmd.careHome, null);
+                }
+                if (bmd.other > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "other", "Place of Death - Other", bmd.other, null);
+                }
+                if (bmd.elsewhere > 0) {
+                    addGroup(report, "http://fhir.mayfield-is.co.uk/CodeSystem/BMD-POD", "elsewhere", "Place of Death - Elsewhere", bmd.elsewhere, null);
+                }
                 reports.add(report);
 
             }
@@ -1328,8 +1397,8 @@ private void addGroup(MeasureReport report, String system, String code, String d
 
  */
 
-/*
-    private void  CalculatePHERegions() {
+
+    private void  CalculatePHERegions() throws Exception {
         Map<String , Map<Date, BigDecimal>> pheMap = new HashMap<>();
         for (MeasureReport report : this.reports) {
             String onsCode = report.getSubject().getIdentifier().getValue();
@@ -1352,7 +1421,12 @@ private void addGroup(MeasureReport report, String system, String code, String d
                         }
                     }
                 } else {
-                    if (!onsCode.equals("E92000001")) throw new InternalError("Missing Parent Location "+ onsCode);
+                    if (!onsCode.equals("E92000001")) {
+                        if (missinglocation.get(onsCode) == null) {
+                            missinglocation.put(onsCode,location.getPartOf().getDisplay());
+                        }
+                        //throw new InternalError("Missing Parent Location "+ onsCode);
+                    }
                 }
 
             } else {
@@ -1360,6 +1434,7 @@ private void addGroup(MeasureReport report, String system, String code, String d
             }
 
         }
+        this.reports = new ArrayList<>();
 
         for (Map.Entry<String,Map<Date,BigDecimal>> parent : pheMap.entrySet()) {
             for(Map.Entry<Date,BigDecimal> dayEntry : parent.getValue().entrySet()) {
@@ -1369,9 +1444,10 @@ private void addGroup(MeasureReport report, String system, String code, String d
                 this.reports.add(report);
             }
         }
+        UploadReports();
     }
 
- */
+
 
     private MeasureReport getPHEMeasureReport(Date reportDate, int cases, String onsCode) {
         MeasureReport report = new MeasureReport();
