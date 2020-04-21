@@ -162,8 +162,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
         SetupPHELocations();
        // FixLocations();
 
-        ProcessPHEJsonFile(PHE_JSON_URL);
         ProcessBMDMortality();
+        ProcessPHEJsonFile(PHE_JSON_URL);
 
         SetupNHSLocations();
         PopulateNHS();
