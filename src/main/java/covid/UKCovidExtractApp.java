@@ -46,7 +46,7 @@ import org.json.JSONObject;
 @SpringBootApplication
 public class UKCovidExtractApp implements CommandLineRunner {
 
-    String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales/2020/referencetablesweek142020.xlsx";
+    String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=%2fpeoplepopulationandcommunity%2fbirthsdeathsandmarriages%2fdeaths%2fdatasets%2fweeklyprovisionalfiguresondeathsregisteredinenglandandwales%2f2020/publishedweek152020.xlsx";
     String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004201559.json";
 
     String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/AE/63AB44/NHS%20Pathways%20Covid-19%20data%202020-04-19.csv";
@@ -425,6 +425,7 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     private void ProcessBMDMortality() throws Exception {
 
+        log.info("Processing BDM Weekly Report");
         reports = new ArrayList<>();
 
         BufferedInputStream zis = new BufferedInputStream(new URL(BMD_DEATHS_URL).openStream());
