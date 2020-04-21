@@ -947,7 +947,9 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
         reports = new ArrayList<>();
         // https://digital.nhs.uk/data-and-information/publications/statistical/mi-potential-covid-19-symptoms-reported-through-nhs-pathways-and-111-online/latest
+        log.info("Processing NHS Pathway Triage");
         GetNHSTriageData( NHS_PATHWAYS_URL );
+        log.info("Processing NHS Online");
         GetNHSOnlineData(NHSONLINE_URL);
 
         CostEstimate();
