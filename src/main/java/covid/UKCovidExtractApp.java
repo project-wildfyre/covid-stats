@@ -47,10 +47,10 @@ import org.json.JSONObject;
 public class UKCovidExtractApp implements CommandLineRunner {
 
     String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales/2020/referencetablesweek142020.xlsx";
-    String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004191500.json";
+    String PHE_JSON_URL = "https://c19pub.azureedge.net/data_202004201559.json";
 
-    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/7B/F427B2/NHS%20Pathways%20Covid-19%20data%202020-04-16.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/F4/5E629D/111%20Online%20Covid-19%20data_2020-04-16.csv";
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/AE/63AB44/NHS%20Pathways%20Covid-19%20data%202020-04-19.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/1E/C251EA/111%20Online%20Covid-19%20data_2020-04-19.csv";
 
 
     private static final Logger log = LoggerFactory.getLogger(UKCovidExtractApp.class);
