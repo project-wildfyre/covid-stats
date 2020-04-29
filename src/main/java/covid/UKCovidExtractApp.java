@@ -46,11 +46,12 @@ import org.json.JSONObject;
 @SpringBootApplication
 public class UKCovidExtractApp implements CommandLineRunner {
 
-    String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=%2fpeoplepopulationandcommunity%2fbirthsdeathsandmarriages%2fdeaths%2fdatasets%2fweeklyprovisionalfiguresondeathsregisteredinenglandandwales%2f2020/publishedweek152020.xlsx";
+    String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=%2fpeoplepopulationandcommunity%2fbirthsdeathsandmarriages%2fdeaths%2fdatasets%2fweeklyprovisionalfiguresondeathsregisteredinenglandandwales%2f2020/publishedweek1620201.xlsx";
+
     String PHE_JSON_URL = "https://c19downloads.azureedge.net/downloads/data/data_latest.json";
 
-    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/F4/C14E7D/NHS%20Pathways%20Covid-19%20data%202020-04-26.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/B9/DB6FEB/111%20Online%20Covid-19%20data_2020-04-26.csv";
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/4F/DE4D37/NHS%20Pathways%20Covid-19%20data%202020-04-28.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/32/EA2537/111%20Online%20Covid-19%20data_2020-04-28.csv";
 
 
     private static final Logger log = LoggerFactory.getLogger(UKCovidExtractApp.class);
@@ -167,7 +168,9 @@ public class UKCovidExtractApp implements CommandLineRunner {
         SetupPopulations();
 
         SetupPHELocations();
-       // FixLocations();
+
+    //    FixLocations();
+        RemoveOrgReport("E92000001");
 
         ProcessBMDMortality();
         ProcessPHEJsonFile(PHE_JSON_URL);
@@ -361,67 +364,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
         ProcessLocationsFile("E12_RGN.csv","NHSRGN");
         ProcessLocationsFile("E06_UA.csv","NHSUA");
     }
-/*
-    private void ProcessPHEMorbidityDailyIndicators() throws Exception {
-
-        reports = new ArrayList<>();
-
-        BufferedInputStream zis = new BufferedInputStream(new URL(PHE_DAILYINDICATORS_URL).openStream());
-        Workbook wb = new XSSFWorkbook(zis);
-        Sheet  sheet = wb.getSheet("Sheet1");
-        if (sheet != null) {
-            Row header = sheet.getRow(0);
-
-                Row row = sheet.getRow(1);
-                for(int f=1;f < row.getLastCellNum();f++) {
-                    String onsCode = null;
-                    if (header.getCell(f) != null && header.getCell(f).getCellType() != null) {
-                        switch (header.getCell(f).getStringCellValue()) {
-                            case "TotalUKDeaths":
-                                onsCode = "Z92";
-                                break;
-                            case "EnglandDeaths":
-                                onsCode = "E92000001";
-                                break;
-                            case "ScotlandDeaths":
-                                onsCode = "S92000003";
-                                break;
-                            case "WalesDeaths":
-                                onsCode = "W92000004";
-                                break;
-                            case "NIDeaths":
-                                onsCode = "N92000002";
-                                break;
-                        }
-                        if (onsCode != null) {
-                            Date columnDate = null;
-                            try {
-                                columnDate = row.getCell(0).getDateCellValue();
-
-                                MeasureReport report = getMorbidityMeasureReport(Date.from(columnDate.toInstant()),
-                                        (int) row.getCell(f).getNumericCellValue(),
-                                        onsCode);
-                                if (report != null) this.reports.add(report);
-                            } catch (Exception ex) {
-                                log.info("OnsCode {} Row Number {} Cell NUmber {}", onsCode, 1, f);
-                                log.info("columnDate {}", columnDate);
-
-                                throw ex;
-                            }
-                        }
-                    }
-
-            }
-
-
-            UploadReports();
-
-        }
-
-
-    }
-
- */
 
     private void ProcessBMDMortality() throws Exception {
 
@@ -445,7 +387,11 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
                 Row row = sheet.getRow(8);
                 for (int d = 2; d < row.getLastCellNum(); d++) {
-                    if (row.getCell(d) != null && row.getCell(d).getNumericCellValue()>0) {
+                    if (row.getCell(d) != null
+                            && row.getCell(d).getCellType().equals(CellType.NUMERIC)
+                            && row.getCell(d).getNumericCellValue()>0
+                            && header.getCell(d) != null
+                            && header.getCell(d).getCellType().equals(CellType.NUMERIC)) {
                         Date columnDate = null;
                         try {
                             columnDate = header.getCell(d).getDateCellValue();
@@ -485,7 +431,12 @@ public class UKCovidExtractApp implements CommandLineRunner {
                         onsCode = row.getCell(0).getStringCellValue();
                         if (!onsCode.isEmpty() && onsCode.startsWith("E")) {
                             for (int d = 2; d < row.getLastCellNum(); d++) {
-                                if (row.getCell(d) != null) {
+                                log.trace("row {}",d);
+                                if (row.getCell(d) != null
+                                        && row.getCell(d).getCellType().equals(CellType.NUMERIC)
+                                        && row.getCell(d).getNumericCellValue() > 0
+                                        && header.getCell(d) != null
+                                        && header.getCell(d).getCellType().equals(CellType.NUMERIC)) {
                                     Date columnDate = null;
                                     try {
                                         columnDate = header.getCell(d).getDateCellValue();
@@ -643,69 +594,6 @@ public class UKCovidExtractApp implements CommandLineRunner {
         }
     }
 
-    /*
-    private void ProcessPHEMorbidity() throws Exception {
-
-        reports = new ArrayList<>();
-
-        BufferedInputStream zis = new BufferedInputStream(new URL(PHE_EXCEL).openStream());
-        Workbook wb = new XSSFWorkbook(zis);
-        Sheet  sheet = wb.getSheet("UK Deaths");
-        if (sheet != null) {
-            Row header = sheet.getRow(7);
-            for(int i =8;i < sheet.getLastRowNum(); i++ ) {
-                Row row = sheet.getRow(i);
-                for(int f=2;f < row.getLastCellNum();f++) {
-                    String onsCode;
-                    if (header.getCell(f) != null && header.getCell(f).getCellType() != null) {
-                        switch (header.getCell(f).getStringCellValue()) {
-                            case "UK":
-                                onsCode = "Z92";
-                                break;
-                            case "England":
-                                onsCode = "E92000001";
-                                break;
-                            case "Scotland":
-                                onsCode = "S92000003";
-                                break;
-                            case "Wales":
-                                onsCode = "W92000004";
-                                break;
-                            case "Northern Ireland":
-                                onsCode = "N92000002";
-                                break;
-                            default:
-                                throw new InternalError("Missing country code " + header.getCell(f).getStringCellValue());
-
-                        }
-
-                        Date columnDate = null;
-                        try {
-                            columnDate = row.getCell(0).getDateCellValue();
-
-                            MeasureReport report = getMorbidityMeasureReport(Date.from(columnDate.toInstant()),
-                                    (int) row.getCell(f).getNumericCellValue(),
-                                    onsCode);
-                            if (report != null) this.reports.add(report);
-                        } catch (Exception ex) {
-                            log.info("OnsCode {} Row Number {} Cell NUmber {}", onsCode, i, f);
-                            log.info("columnDate {}", columnDate);
-
-                            throw ex;
-                        }
-                    }
-                }
-            }
-
-
-            UploadReports();
-
-        }
-
-
-    }
-
-     */
 
 
     private void ProcessCCGPopulationEstimates() throws Exception {
@@ -1176,11 +1064,20 @@ private void addGroup(MeasureReport report, String system, String code, String d
 }
 
     private void RemoveOrgReport(String org) {
-        Bundle bundle = client.search().byUrl("MeasureReport?subject.identifier="+org).returnBundle(Bundle.class).execute();
+        Bundle bundle = client.search().byUrl("MeasureReport?measure=31531&subject.identifier="+org).returnBundle(Bundle.class).execute();
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
             if (entry.getResource() instanceof MeasureReport) {
                 log.debug("Delete {} " + ((MeasureReport) entry.getResource()).getIdElement() );
                 client.delete().resourceById(((MeasureReport) entry.getResource()).getIdElement()).execute();
+            }
+        }
+        if (bundle.getLink().size()>0) {
+            for(Bundle.BundleLinkComponent
+                    link : bundle.getLink()) {
+                if (link.getRelation().equals("next")) {
+                    // Rerun
+                    RemoveOrgReport(org);
+                }
             }
         }
 
@@ -1350,55 +1247,6 @@ private void addGroup(MeasureReport report, String system, String code, String d
             log.error(ex.getMessage());
         }
     }
-/*
-    private void ProcessPHEExcelFile() throws Exception {
-
-        reports = new ArrayList<>();
-
-            BufferedInputStream zis = new BufferedInputStream(new URL(PHE_EXCEL).openStream());
-            Workbook wb = new XSSFWorkbook(zis);
-            Sheet  sheet = wb.getSheet("UTLAs");
-            if (sheet != null) {
-                Row header = sheet.getRow(7);
-                for(int i =9;i < sheet.getLastRowNum(); i++ ) {
-                    Row row = sheet.getRow(i);
-                    if (row != null && row.getCell(0)!= null) {
-                        String onsCode = row.getCell(0).getStringCellValue();
-                        Date lastColumnDate = null;
-                        for (int f = 3; f < row.getLastCellNum(); f++) {
-                            Date columnDate = null;
-                            try {
-                                columnDate = header.getCell(f).getDateCellValue();
-                                if (lastColumnDate == null || !lastColumnDate.toInstant().equals(columnDate.toInstant())) {
-                                    MeasureReport report = getPHEMeasureReport(Date.from(columnDate.toInstant()),
-                                            (int) row.getCell(f).getNumericCellValue(),
-                                            onsCode);
-                                    if (report != null) this.reports.add(report);
-                                }
-                                if (lastColumnDate != null && lastColumnDate.toInstant().equals(columnDate.toInstant())) {
-                                    log.warn("Duplicate entry in PHE Historic file for {}", columnDate.toInstant());
-                                }
-                            } catch (Exception ex) {
-                                log.info("OnsCode {} Row Number {} Cell NUmber {}", onsCode, i, f);
-                                log.info("columnDate {}", columnDate);
-
-                                throw ex;
-                            }
-                            lastColumnDate = columnDate;
-                        }
-                    }
-                }
-
-                CalculatePHERegions();
-
-                UploadReports();
-
-            }
-
-
-    }
-
- */
 
 
     private void  CalculatePHERegions() throws Exception {
@@ -1707,9 +1555,6 @@ private void addGroup(MeasureReport report, String system, String code, String d
     }
 
     private void processLocations(Bundle bundle, int fileCount) throws Exception {
-        //Path path = Paths.get("Locations-"+fileCount+".json");
-        //Files.write(path,ctxFHIR.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle).getBytes() );
-
 
 
             Bundle resp = client.transaction().withBundle(bundle).execute();
