@@ -50,8 +50,8 @@ public class UKCovidExtractApp implements CommandLineRunner {
 
     String PHE_JSON_URL = "https://c19downloads.azureedge.net/downloads/data/data_latest.json";
 
-    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/66/6B3BC8/NHS%20Pathways%20Covid-19%20data%202020-05-05.csv";
-    String NHSONLINE_URL = "https://files.digital.nhs.uk/EE/E1BAFA/111%20Online%20Covid-19%20data_2020-05-05.csv";
+    String NHS_PATHWAYS_URL = "https://files.digital.nhs.uk/2F/A6394D/NHS%20Pathways%20Covid-19%20data%202020-05-06.csv";
+    String NHSONLINE_URL = "https://files.digital.nhs.uk/E2/257184/111%20Online%20Covid-19%20data_2020-05-06.csv";
 
 
     private static final Logger log = LoggerFactory.getLogger(UKCovidExtractApp.class);
