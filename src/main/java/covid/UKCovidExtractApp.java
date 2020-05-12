@@ -46,7 +46,7 @@ import org.json.JSONObject;
 @SpringBootApplication
 public class UKCovidExtractApp implements CommandLineRunner {
 
-    String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=%2fpeoplepopulationandcommunity%2fbirthsdeathsandmarriages%2fdeaths%2fdatasets%2fweeklyprovisionalfiguresondeathsregisteredinenglandandwales%2f2020/publishedweek172020.xlsx";
+    String BMD_DEATHS_URL = "https://www.ons.gov.uk/file?uri=%2fpeoplepopulationandcommunity%2fbirthsdeathsandmarriages%2fdeaths%2fdatasets%2fweeklyprovisionalfiguresondeathsregisteredinenglandandwales%2f2020/publishedweek182020.xlsx";
 
     String PHE_JSON_URL = "https://c19downloads.azureedge.net/downloads/data/data_latest.json";
 
